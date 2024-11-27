@@ -1,0 +1,54 @@
+@use "../../App.module.scss" as *;
+
+#loginForm {
+  display: grid;
+  grid-gap: 1rem;
+  padding: 20px;
+  border-radius: 15px;
+  border: solid black;
+  height: 400px;
+}
+
+input {
+  @include input;
+  text-align: center;
+  border-radius: 15px;
+  font-size: xx-large;
+}
+
+#btnLogin {
+  @include button;
+  width: 15vw;
+  background-color: rgb(110, 110, 110);
+  color: rgb(226, 226, 226);
+}
+#btnRegister {
+  @include button;
+  width: 15vw;
+  background-color: rgb(59, 59, 59);
+  color: rgb(226, 226, 226);
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* width < 600px */
+@media (max-width: 600px) {
+  #loginForm {
+    transform: scale(0.75);
+  }
+
+  input {
+    max-width: 65vw;
+  }
+
+  #btnLogin {
+    width: 30vw;
+  }
+
+  #btnRegister {
+    width: 30vw;
+  }
+}

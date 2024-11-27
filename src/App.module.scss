@@ -1,0 +1,42 @@
+@mixin button {
+  border: solid black;
+  border-width: 2px 5px 5px 2px;
+  padding: 10px 40px;
+  margin: 10px;
+  border-radius: 10px;
+  border-color: rgb(36, 36, 36) rgb(22, 22, 22) rgb(36, 36, 36) rgb(22, 22, 22);
+
+  &:hover {
+    cursor: pointer;
+    border-color: rgb(66, 66, 66) rgb(44, 44, 44) rgb(66, 66, 66)
+      rgb(44, 44, 44);
+    border-width: 1px 2.5px 2.5px 1px;
+    transform: scale(1.05);
+    transition: 0.15s;
+  }
+}
+
+@mixin input {
+  border: solid black;
+  border-width: 2px 3px 3px 2px;
+  padding: 10px 40px;
+  margin: 10px;
+  border-radius: 10px;
+  border-color: rgb(36, 36, 36) rgb(22, 22, 22) rgb(36, 36, 36) rgb(22, 22, 22);
+
+  &:hover {
+    background-color: rgb(206, 206, 206);
+    border-color: rgb(66, 66, 66) rgb(44, 44, 44) rgb(66, 66, 66)
+      rgb(44, 44, 44);
+    border-width: 1px 2.5px 2.5px 1px;
+  }
+}
+
+@mixin form {
+  display: grid;
+  grid-gap: 1rem;
+  padding: 20px;
+  border-radius: 15px;
+  border: solid black;
+  height: 400px;
+}

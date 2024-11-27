@@ -1,0 +1,14 @@
+@use "../../App.module.scss" as *;
+
+#registerForm {
+  @include form;
+  min-height: 600px;
+
+  input {
+    @include input;
+  }
+
+  button {
+    @include button;
+  }
+}
