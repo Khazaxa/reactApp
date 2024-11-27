@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  min-height: 30vw;
+  min-height: 40vw;
 
   input {
     @include input;

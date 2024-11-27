@@ -30,11 +30,6 @@ input {
   justify-content: space-around;
 }
 
-.errorMessage {
-  font-size: x-large;
-  color: rgb(121, 0, 0);
-}
-
 /* width < 600px */
 @media (max-width: 600px) {
   #loginForm {

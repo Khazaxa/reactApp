@@ -16,7 +16,11 @@ function App() {
           <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
         )
       ) : (
-        <Register />
+        <Register
+          setIsLogged={setIsLogged}
+          isRegister={isRegister}
+          setIsRegister={setIsRegister}
+        />
       )}
     </>
   );

@@ -1,4 +1,5 @@
 import styles from "./Login.module.scss";
+import appStyles from "../../App.module.scss";
 import { useState } from "react";
 
 const correctLogin = "admin@gmail.com";
@@ -67,7 +68,7 @@ export function Login({
           </button>
         </div>
         <div>
-          <strong className={styles.errorMessage}>{errorMessage}</strong>
+          <strong className={appStyles.errorMessage}>{errorMessage}</strong>
         </div>
       </form>
     </>
