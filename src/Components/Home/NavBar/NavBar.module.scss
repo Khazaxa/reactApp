@@ -1,0 +1,28 @@
+#navBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 15%;
+  padding: 10px;
+  padding-top: 1vh;
+  background-color: #2955ac;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+}
+
+#logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 8%;
+  width: 100%;
+  font-size: 2rem;
+  font-weight: bold;
+
+  img {
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+  }
+}

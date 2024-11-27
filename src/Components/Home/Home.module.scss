@@ -1,0 +1,18 @@
+#mainWindow {
+  display: flex;
+  flex-direction: row;
+  border-radius: 50px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 95vh;
+  width: 98vw;
+  background-color: #282c34;
+  overflow: hidden;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  height: 100%;
+}
