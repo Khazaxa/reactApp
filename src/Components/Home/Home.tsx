@@ -1,3 +1,4 @@
+import { Content } from "./Content/Content";
 import { FilterBar } from "./FilterBar/FilterBar";
 import styles from "./Home.module.scss";
 import { NavBar } from "./NavBar/NavBar";
@@ -10,6 +11,7 @@ export function Home() {
       <div id={styles.content}>
         <TopBar />
         <FilterBar />
+        <Content />
       </div>
     </div>
   );

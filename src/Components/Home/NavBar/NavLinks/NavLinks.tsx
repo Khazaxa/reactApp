@@ -1,16 +1,14 @@
+import { NavItem } from "./NavItem/NavItem";
 import styles from "./NavLinks.module.scss";
 
 export function NavLinks() {
   return (
     <div id={styles.navLinks}>
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-      <a href="#">Contact</a>
-      <a href="#">Contact</a>
-      <a href="#">Contact</a>
-      <a href="#">Contact</a>
-      <a href="#">Contact</a>
+      <NavItem>Home</NavItem>
+      <NavItem>Users</NavItem>
+      <NavItem>Gallery</NavItem>
+      <NavItem>Folders</NavItem>
+      <NavItem>Posts</NavItem>
     </div>
   );
 }
