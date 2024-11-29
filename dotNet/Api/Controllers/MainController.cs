@@ -1,7 +1,8 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers;
+namespace API.Controllers;
 
 [ApiController]
 [Route("")]
@@ -9,6 +10,7 @@ public class MainController(IMediator mediator)
 {
     [HttpGet]
     [Route("info")]
+    [Authorize(Roles = "Admin")]
     public Task getInfo()
     {
         return Task.CompletedTask;
