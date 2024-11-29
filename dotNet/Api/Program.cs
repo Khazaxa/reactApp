@@ -49,18 +49,20 @@ public class Program
             });
         });
 
-        var authenticationSettings = new AuthenticationSettings();
-        var azureConfig = new AzureConfig();
+       
         var env = builder.Environment;
-        builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
-        builder.Configuration.GetSection("Azure").Bind(azureConfig);
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
-
+        
+        var authenticationSettings = new AuthenticationSettings();
+        var azureConfig = new AzureConfig();
+        builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+        builder.Configuration.GetSection("Azure").Bind(azureConfig);
         builder.Services.AddSingleton<IAuthenticationSettings>(authenticationSettings);
+        builder.Services.AddSingleton<IAzureConfig>(azureConfig);
         builder.Services.AddAuthentication(o =>
         {
             o.DefaultAuthenticateScheme = "Bearer";
