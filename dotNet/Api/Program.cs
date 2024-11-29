@@ -3,6 +3,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Core.Configuration;
 using Core.Configuration.Config;
+using Core.Configuration.Config.Azure;
 using Core.Exceptions.Middleware;
 using Domain;
 using Microsoft.IdentityModel.Tokens;
@@ -49,7 +50,15 @@ public class Program
         });
 
         var authenticationSettings = new AuthenticationSettings();
+        var azureConfig = new AzureConfig();
+        var env = builder.Environment;
         builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
+        builder.Configuration.GetSection("Azure").Bind(azureConfig);
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
 
         builder.Services.AddSingleton<IAuthenticationSettings>(authenticationSettings);
         builder.Services.AddAuthentication(o =>
