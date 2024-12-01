@@ -1,3 +1,5 @@
+// POPRAWIC
+
 import { useState } from "react";
 import appStyles from "../../App.module.scss";
 import styles from "./Register.module.scss";

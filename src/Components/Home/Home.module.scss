@@ -1,0 +1,37 @@
+@use "../../App.module.scss" as *;
+
+#mainWindow {
+  display: flex;
+  flex-direction: row;
+  border-radius: 50px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 95vh;
+  width: 98vw;
+  background-color: #282c34;
+  overflow: hidden;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  height: 100%;
+}
+
+.navButton {
+  @include button;
+
+  color: rgb(206, 206, 206);
+  text-align: center;
+  background-color: #282c34;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-right: 1vw;
+  max-height: 4vh;
+  height: fit-content;
+  width: fit-content;
+  padding: 3%;
+  width: 30%;
+}
