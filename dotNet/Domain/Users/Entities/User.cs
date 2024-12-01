@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Core.Database;
+using Domain.Images.Entities;
 using Domain.Users.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ public class User : EntityBase
 
     private User() {}
 
-    public User(string name, string email, int age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
+    public User(string? name, string email, int? age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
     {
         Name = name;
         Email = email;
@@ -23,16 +24,22 @@ public class User : EntityBase
     }
     
     [MaxLength(NameMaxLength)]
-    public string Name { get; private set; }
+    public string? Name { get; private set; }
     [MaxLength(EmailMaxLength)]
     public string Email { get; private set; }
-    public int Age { get; private set; }
+    public int? Age { get; private set; }
     public byte[] PasswordHash { get; private set; } = null!;
     public byte[] PasswordSalt { get; private set; } = null!;
     public UserRole Role { get; private set; }
     
     public static void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<User>().HasIndex(x => x.Email).IsUnique();
+        builder.Entity<User>()
+            .HasIndex(x => x.Email)
+            .IsUnique();
+        builder.Entity<User>()
+            .HasMany<Image>()
+            .WithOne()
+            .HasForeignKey(x => x.UserId);
     }
 }
