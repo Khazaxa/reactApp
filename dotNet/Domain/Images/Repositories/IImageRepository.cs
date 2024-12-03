@@ -5,5 +5,5 @@ namespace Domain.Images.Repositories;
 
 public interface IImageRepository : IEntityRepository<Image>
 {
-    
+    IQueryable<Image> Query();
 }

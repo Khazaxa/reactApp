@@ -22,12 +22,13 @@ public class Image : EntityBase
     public decimal Size { get; private set; }
     public string Path { get; private set; }
     public int UserId { get; private set; }
+    public User User { get; private set; }
     
     public static void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Image>().HasIndex(x => x.Name).IsUnique();
         builder.Entity<Image>()
-            .HasOne<User>()
+            .HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId);
     }
