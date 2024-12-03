@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Item } from "../Item/Item";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
@@ -26,9 +26,12 @@ export function GalleryPage() {
     }
   };
 
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
   return (
     <div id={styles.galleryPage}>
-      <button onClick={fetchImages}>Click me</button>
       <div className={styles.imageContainer}>
         {images.map((image, id) => (
           <Item key={id} name={image.name} imageUrl={image.imageUrl} />
