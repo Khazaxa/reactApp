@@ -85,14 +85,13 @@ public class Program
 
         app.UseMiddleware<ExceptionMiddleware>();
         
-        if (app.Environment.IsDevelopment())
+        
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1");
-            });
-        }
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1");
+        });
+        
         
         app.UseCors("AllowLocalhost");
         app.UseAuthentication();
