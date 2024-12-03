@@ -11,7 +11,7 @@ function App() {
     <>
       {isRegister ? (
         isLogged ? (
-          <Home />
+          <Home setIsLogged={setIsLogged} />
         ) : (
           <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
         )

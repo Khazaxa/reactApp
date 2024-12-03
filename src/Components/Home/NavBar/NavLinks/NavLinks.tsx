@@ -1,3 +1,4 @@
+import { SetProps } from "../../Home";
 import { NavItem } from "./NavItem/NavItem";
 import styles from "./NavLinks.module.scss";
 
@@ -7,13 +8,7 @@ export function NavLinks({
   setIsGalleryPage,
   setIsFoldersPage,
   setIsPostsPage,
-}: {
-  setIsHomePage: (isHomePage: boolean) => void;
-  setIsUsersPage: (isUsersPage: boolean) => void;
-  setIsGalleryPage: (isGalleryPage: boolean) => void;
-  setIsFoldersPage: (isFoldersPage: boolean) => void;
-  setIsPostsPage: (isPostsPage: boolean) => void;
-}) {
+}: SetProps) {
   const resetPages = () => {
     setIsHomePage(false);
     setIsUsersPage(false);

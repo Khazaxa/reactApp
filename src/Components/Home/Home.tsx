@@ -6,7 +6,27 @@ import { FilterBar } from "./FilterBar/FilterBar";
 import { NavBar } from "./NavBar/NavBar";
 import { TopBar } from "./TopBar/TopBar";
 
-export function Home() {
+export interface IsProps {
+  isHomePage: boolean;
+  isUsersPage: boolean;
+  isGalleryPage: boolean;
+  isFoldersPage: boolean;
+  isPostsPage: boolean;
+}
+
+export interface SetProps {
+  setIsHomePage: (isHomePage: boolean) => void;
+  setIsUsersPage: (isUsersPage: boolean) => void;
+  setIsGalleryPage: (isGalleryPage: boolean) => void;
+  setIsFoldersPage: (isFoldersPage: boolean) => void;
+  setIsPostsPage: (isPostsPage: boolean) => void;
+}
+
+export function Home({
+  setIsLogged,
+}: {
+  setIsLogged: (isLogged: boolean) => void;
+}) {
   const [isHomePage, setIsHomePage] = useState(true);
   const [isUsersPage, setIsUserPage] = useState(false);
   const [isGalleryPage, setIsGalleryPage] = useState(false);
@@ -16,6 +36,7 @@ export function Home() {
   return (
     <div id={styles.mainWindow}>
       <NavBar
+        setIsLogged={setIsLogged}
         setIsHomePage={setIsHomePage}
         setIsUsersPage={setIsUserPage}
         setIsGalleryPage={setIsGalleryPage}
@@ -23,7 +44,13 @@ export function Home() {
         setIsPostsPage={setIsPostsPage}
       />
       <div id={styles.content}>
-        <TopBar />
+        <TopBar
+          isHomePage={isHomePage}
+          isUsersPage={isUsersPage}
+          isGalleryPage={isGalleryPage}
+          isFoldersPage={isFoldersPage}
+          isPostsPage={isPostsPage}
+        />
         <FilterBar />
         <Content
           isHomePage={isHomePage}
