@@ -33,11 +33,10 @@ export function Login({
         localStorage.setItem("accessToken", accessToken);
         setIsLogged(true);
       } else {
-        setErrorMessage("Authentication failed. No token received.");
         setIsLogged(false);
       }
-    } catch (error: unknown) {
-      setErrorMessage("Authentication failed. Please try again." + error);
+    } catch {
+      setErrorMessage("Authentication failed. Please try again.");
       setIsLogged(false);
     }
   };
