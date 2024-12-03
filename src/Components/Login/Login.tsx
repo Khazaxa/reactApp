@@ -1,9 +1,7 @@
 import styles from "./Login.module.scss";
 import appStyles from "../../App.module.scss";
 import { useState } from "react";
-
-const correctLogin = "admin@gmail.com";
-const correctPassword = "admin";
+import api from "../../ApiConfig/ApiConfig";
 
 export function Login({
   setIsLogged,
@@ -16,30 +14,32 @@ export function Login({
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const validate = () => {
-    if (login === "" && password === "") {
-      setErrorMessage("Provide correct username and password");
-    } else if (login === "" || login !== correctLogin) {
-      setErrorMessage("Username is incorrect");
-    } else if (password === "" || password !== correctPassword) {
-      setErrorMessage("Password is incorrect");
-    }
-  };
-
-  function handleSubmit(event: React.FormEvent) {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    validate();
+    const loginData = {
+      email: login,
+      password: password,
+    };
 
-    if (login === correctLogin && password === correctPassword) {
-      setIsLogged(true);
-    } else {
+    try {
+      const response = await api.post("/auth/login", loginData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { accessToken } = response.data;
+
+      if (accessToken) {
+        localStorage.setItem("accessToken", accessToken);
+        setIsLogged(true);
+      } else {
+        setErrorMessage("Authentication failed. No token received.");
+        setIsLogged(false);
+      }
+    } catch (error: unknown) {
+      setErrorMessage("Authentication failed. Please try again." + error);
       setIsLogged(false);
     }
-  }
-
-  const handleRegisterButtonClick = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsRegister(false);
   };
 
   return (
@@ -64,7 +64,13 @@ export function Login({
           <button id={styles.btnLogin} type="submit">
             Login
           </button>
-          <button id={styles.btnRegister} onClick={handleRegisterButtonClick}>
+          <button
+            id={styles.btnRegister}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsRegister(false);
+            }}
+          >
             Register
           </button>
         </div>

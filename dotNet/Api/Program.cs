@@ -80,7 +80,7 @@ public class Program
             };
         });
         
-        builder.Services.AddControllers();
+        ConfigureServices(builder.Services);
         var app = builder.Build();
 
         app.UseMiddleware<ExceptionMiddleware>();
@@ -94,6 +94,7 @@ public class Program
             });
         }
         
+        app.UseCors("AllowLocalhost");
         app.UseAuthentication();
         app.UseHttpsRedirection();
         app.UseAuthorization();
@@ -116,5 +117,21 @@ public class Program
             containerBuilder.RegisterInstance(new AppConfiguration(appBuilder.Configuration))
                 .As<IAppConfiguration>().SingleInstance();
         });
+    }
+    
+    public static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowLocalhost",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
+
+        services.AddControllers();
     }
 }

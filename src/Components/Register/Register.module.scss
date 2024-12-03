@@ -5,7 +5,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  min-height: 40vw;
+  min-height: 45vw;
+  position: relative;
 
   input {
     @include input;
@@ -19,6 +20,17 @@
     width: fit-content;
     height: fit-content;
     margin: auto;
+  }
+
+  #header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    transform: scale(0.5);
   }
 }
 
