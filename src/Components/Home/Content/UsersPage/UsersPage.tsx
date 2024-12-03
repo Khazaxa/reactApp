@@ -1,4 +1,4 @@
-import styles from "./UsersPage.module.css";
+import styles from "./UsersPage.module.scss";
 
 export function UsersPage() {
   return (

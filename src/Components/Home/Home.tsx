@@ -15,18 +15,23 @@ export function Home() {
 
   return (
     <div id={styles.mainWindow}>
-      <NavBar />
+      <NavBar
+        setIsHomePage={setIsHomePage}
+        setIsUsersPage={setIsUserPage}
+        setIsGalleryPage={setIsGalleryPage}
+        setIsFoldersPage={setIsFoldersPage}
+        setIsPostsPage={setIsPostsPage}
+      />
       <div id={styles.content}>
         <TopBar />
         <FilterBar />
         <Content
-          setIsHomePage={setIsHomePage}
-          setIsUsersPage={setIsUserPage}
-          setIsGalleryPage={setIsGalleryPage}
-          settIsFoldersPage={setIsFoldersPage}
-          setIsPostsPage={setIsPostsPage}
+          isHomePage={isHomePage}
+          isUsersPage={isUsersPage}
+          isGalleryPage={isGalleryPage}
+          isFoldersPage={isFoldersPage}
+          isPostsPage={isPostsPage}
         />
-        {[isHomePage, isUsersPage, isGalleryPage, isFoldersPage, isPostsPage]}
       </div>
     </div>
   );
