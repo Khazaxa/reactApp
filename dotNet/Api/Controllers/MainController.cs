@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("")]
+[Route("system")]
 public class MainController(IMediator mediator)
 {
     [HttpGet]
