@@ -20,12 +20,11 @@ export function AddBtn({
       formData.append("file", file);
 
       try {
-        const response = await api.post("/images/upload", formData, {
+        await api.post("/images/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log("Image uploaded:", response.data);
       } catch (error) {
         console.error("Error uploading image:", error);
       }

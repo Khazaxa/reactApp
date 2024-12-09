@@ -10,25 +10,25 @@ interface ImageData {
 
 export function GalleryPage() {
   const [images, setImages] = useState<ImageData[]>([]);
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   const fetchImages = async () => {
     try {
-      const response = await api.get("/images");
-      const imageData = response.data.map(
-        (img: { name: string; path: string }) => ({
-          name: img.name,
-          imageUrl: img.path,
-        })
-      );
-      setImages(imageData);
+      await api.get("/images").then((res) => {
+        const imageData = res.data.map(
+          (img: { name: string; path: string }) => ({
+            name: img.name,
+            imageUrl: img.path,
+          })
+        );
+        setImages(imageData);
+      });
     } catch (error) {
       console.error("Error fetching images:", error);
     }
   };
-
-  useEffect(() => {
-    fetchImages();
-  }, []);
 
   return (
     <div id={styles.galleryPage}>
