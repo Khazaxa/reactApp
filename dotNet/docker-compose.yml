@@ -3,12 +3,12 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: MySQL
+    container_name: MySQL_DB
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: newpassword
       MYSQL_DATABASE: Database
-      MYSQL_USER: root
+      MYSQL_USER: user
       MYSQL_PASSWORD: newpassword
     ports:
       - "3306:3306"
