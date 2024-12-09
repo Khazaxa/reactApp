@@ -80,20 +80,20 @@ public class Program
             };
         });
         
-        builder.Services.AddControllers();
+        ConfigureServices(builder.Services);
         var app = builder.Build();
 
         app.UseMiddleware<ExceptionMiddleware>();
         
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1");
-            });
-        }
         
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1");
+        });
+        
+        
+        app.UseCors("AllowLocalhost");
         app.UseAuthentication();
         app.UseHttpsRedirection();
         app.UseAuthorization();
@@ -116,5 +116,21 @@ public class Program
             containerBuilder.RegisterInstance(new AppConfiguration(appBuilder.Configuration))
                 .As<IAppConfiguration>().SingleInstance();
         });
+    }
+    
+    public static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowLocalhost",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
+
+        services.AddControllers();
     }
 }
