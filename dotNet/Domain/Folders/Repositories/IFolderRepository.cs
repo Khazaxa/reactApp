@@ -5,5 +5,5 @@ namespace Domain.Folders.Repositories;
 
 public interface IFolderRepository : IEntityRepository<Folder>
 {
-    
+    IQueryable<Folder> Query();
 }

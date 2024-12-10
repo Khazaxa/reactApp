@@ -18,7 +18,7 @@ public class Folder : EntityBase
     public string Name { get; private set; }
     public Image? Logo { get; private set; }
     public List<int>? ImageId { get; private set; }
-    public List<Image>? Image { get; private set; }
+    public List<Image>? Images { get; private set; }
     public int UserId { get; private set; }
     public User User { get; private set; }
     

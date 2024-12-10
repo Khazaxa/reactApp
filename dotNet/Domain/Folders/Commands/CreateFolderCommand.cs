@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Domain.Folders.Commands;
 
-public record CreateFolderCommand(FolderDto Folder) : ICommand<Unit>;
+public record CreateFolderCommand(FolderParams Folder) : ICommand<Unit>;
 
 internal class CreateFolderCommandHandler(
     IFolderRepository folderRepository,
