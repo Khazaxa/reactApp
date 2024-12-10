@@ -21,6 +21,7 @@ public class DomainModule(IConfigurationRoot _configuration) : Module
         builder.RegisterModule<Users.UsersModule>();
         builder.RegisterModule<Authentication.AuthModule>();
         builder.RegisterModule<Images.ImagesModule>();
+        builder.RegisterModule<Folders.FoldersModule>();
        
         builder.RegisterType<Core.Database.UnitOfWork>().As<Core.Database.IUnitOfWork>().InstancePerLifetimeScope();
         

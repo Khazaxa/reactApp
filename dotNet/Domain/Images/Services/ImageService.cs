@@ -1,6 +1,6 @@
 namespace Domain.Images.Services;
 
-public class ImageService
+public class ImageService : IImageService
 {
     
 }
