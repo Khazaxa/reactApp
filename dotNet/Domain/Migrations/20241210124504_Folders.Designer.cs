@@ -4,6 +4,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(ImgAppDbContext))]
-    partial class ImgAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241210124504_Folders")]
+    partial class Folders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,10 @@ namespace Domain.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ImageId")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("LogoId")
+                    b.Property<int>("LogoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -139,7 +143,9 @@ namespace Domain.Migrations
                 {
                     b.HasOne("Domain.Images.Entities.Image", "Logo")
                         .WithMany()
-                        .HasForeignKey("LogoId");
+                        .HasForeignKey("LogoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Users.Entities.User", "User")
                         .WithMany()
