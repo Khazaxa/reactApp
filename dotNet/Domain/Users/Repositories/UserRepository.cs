@@ -10,7 +10,7 @@ internal class UserRepository(
 ) : EntityRepositoryBase<User>(unitOfWork), IUserRepository
 {
     public IQueryable<User> Query()
-        => dbContext.Users.AsQueryable();
+        => dbContext.Users;
     
     public async Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken)
     {
@@ -20,6 +20,6 @@ internal class UserRepository(
     
     protected override IQueryable<User> GetQuery()
     {
-        return Query();
+        return Query().AsQueryable();
     }
 }
