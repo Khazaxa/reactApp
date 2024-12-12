@@ -1,9 +1,57 @@
-#usersPage {
+.userList {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.userCard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(50px, auto);
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.userAvatar {
+  background-color: #f9f9f9;
+  height: 100%;
+  border-radius: 5px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+}
+
+.userAvatar img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.userName {
+  background-color: #f9f9f9;
   height: 100%;
-  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userAge {
+  height: 100%;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userEmail {
+  height: 100%;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
