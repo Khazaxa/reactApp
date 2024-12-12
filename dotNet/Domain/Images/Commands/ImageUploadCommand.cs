@@ -6,6 +6,7 @@ using Core.Exceptions;
 using Domain.Images.Entities;
 using Domain.Images.Enums;
 using Domain.Images.Repositories;
+using Domain.Users.Enums;
 using Domain.Users.Services;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -28,19 +29,19 @@ internal class ImageUploadCommandHandler(
         var containerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
         await containerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
-        
+
         var blobClient = containerClient.GetBlobClient(input.File.FileName);
         if (await blobClient.ExistsAsync(cancellationToken))
             throw new DomainException("Provided image already exists", (int)ImagesErrorCode.ImageAlreadyExists);
-        
+
         await blobClient.UploadAsync(input.File.OpenReadStream(), cancellationToken);
 
         var image = new Image(
             input.File.FileName,
-            ext: input.File.ContentType.Split('/')[1],
-            size: input.File.Length,
-            path: blobClient.Uri.ToString(),
-            userId: userContext.GetUserId()
+            input.File.ContentType.Split('/')[1],
+            input.File.Length,
+            blobClient.Uri.ToString(),
+            userContext.GetUserId() ?? throw new DomainException("User not found", (int)UserErrorCode.UserNotFound)
         );
 
         imageRepository.Add(image);

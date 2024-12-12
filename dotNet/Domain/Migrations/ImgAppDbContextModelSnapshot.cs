@@ -133,6 +133,17 @@ namespace Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "user@example.com",
+                            Name = "User",
+                            PasswordHash = new byte[] { 84, 73, 230, 89, 63, 63, 237, 57, 99, 218, 37, 152, 159, 248, 60, 238, 13, 29, 221, 104, 140, 152, 206, 159, 211, 164, 165, 254, 69, 185, 255, 215, 225, 175, 179, 209, 127, 96, 169, 136, 57, 194, 200, 185, 174, 235, 203, 224, 198, 118, 133, 167, 211, 160, 69, 13, 74, 250, 126, 147, 21, 106, 198, 73 },
+                            PasswordSalt = new byte[] { 211, 238, 43, 246, 165, 238, 45, 253, 191, 224, 139, 150, 113, 165, 208, 64, 183, 51, 36, 2, 251, 244, 114, 26, 41, 63, 0, 153, 45, 102, 35, 159, 192, 130, 81, 204, 4, 60, 65, 174, 57, 52, 210, 125, 231, 242, 173, 255, 166, 106, 168, 182, 36, 159, 227, 31, 220, 236, 134, 87, 102, 141, 83, 121, 235, 70, 180, 253, 212, 157, 32, 91, 236, 54, 60, 194, 245, 216, 192, 249, 112, 159, 86, 195, 174, 22, 140, 165, 166, 74, 241, 147, 226, 35, 74, 161, 32, 64, 253, 31, 91, 59, 59, 188, 19, 84, 160, 175, 203, 56, 101, 18, 238, 47, 18, 120, 153, 164, 177, 61, 36, 71, 175, 40, 206, 191, 143, 128 },
+                            Role = 1
+                        });
                 });
 
             modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
@@ -155,7 +166,7 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Images.Entities.Image", b =>
                 {
                     b.HasOne("Domain.Folders.Entities.Folder", null)
-                        .WithMany("Image")
+                        .WithMany("Images")
                         .HasForeignKey("FolderId");
 
                     b.HasOne("Domain.Users.Entities.User", "User")
@@ -169,7 +180,7 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
                 {
-                    b.Navigation("Image");
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }
