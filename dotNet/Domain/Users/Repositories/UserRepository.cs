@@ -10,26 +10,16 @@ internal class UserRepository(
 ) : EntityRepositoryBase<User>(unitOfWork), IUserRepository
 {
     public IQueryable<User> Query()
-        => dbContext.Users.AsQueryable();
+        => dbContext.Users;
     
     public async Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken)
     {
         var user = await dbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
         return user ?? null;
     }
-
-    // protected override IQueryable<User> GetQuery()
-    // {
-    //     var query = _dbSet.Where(x => x.Id != systemUserContext.UserId);
-    //
-    //     var currentUser = userContextProvider.HasValue ? userContextProvider.Get() : null;
-    //     if (currentUser != null && !currentUser.IsAdmin)
-    //         query = query.Where(x => x.Id == currentUser.UserId);
-    //
-    //     return query;
-    // }
+    
     protected override IQueryable<User> GetQuery()
     {
-        throw new NotImplementedException();
+        return Query().AsQueryable();
     }
 }

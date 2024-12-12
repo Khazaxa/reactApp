@@ -8,7 +8,7 @@ public record UsersGetQuery : IQuery<IQueryable<UserDto>>;
 
 internal class UsersGetQueryHandler(IUserRepository userRepository) : IQueryHandler<UsersGetQuery, IQueryable<UserDto>>
 {
-    public Task<IQueryable<UserDto>> Handle(UsersGetQuery query, CancellationToken cancellationToken)
+    public async Task<IQueryable<UserDto>> Handle(UsersGetQuery query, CancellationToken cancellationToken)
     {
         var users = userRepository.Query()
             .Select(x => new UserDto(
@@ -18,6 +18,6 @@ internal class UsersGetQueryHandler(IUserRepository userRepository) : IQueryHand
                 x.Role
             ));
 
-        return Task.FromResult(users);
+        return await Task.FromResult(users);
     }
 }

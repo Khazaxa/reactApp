@@ -19,4 +19,9 @@ public class ImagesController(IMediator mediator) : ControllerBase
     [Route("")]
     public async Task<IEnumerable<ImageDto>> GetImages(CancellationToken cancellationToken)
         => await mediator.Send(new ImagesGetQuery(), cancellationToken);
+    
+    [HttpDelete]
+    [Route("{id}")]
+    public async Task<Unit> DeleteImage(int id, CancellationToken cancellationToken)
+        => await mediator.Send(new ImageDeleteCommand(id), cancellationToken);
 }
