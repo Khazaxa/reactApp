@@ -29,26 +29,24 @@ export function UsersPage() {
 
   return (
     <div className={styles.usersPage}>
-      <div className={styles.usersHeader}>
-        <h3>User:</h3>
-        <h3>Age:</h3>
-        <h3>Email:</h3>
-      </div>
       <div className={styles.userList}>
         {error && <p>{error}</p>}
         {users.map((user) => (
           <div className={styles.userCard}>
-            <img
-              src={user.avatar}
-              alt={`avatar`}
-              className={styles.userAvatar}
-            />
-            <div className={styles.userInfo}>
-              <p>
-                <strong>{user.name}</strong>
-              </p>
-              <p>{user.age}</p>
-              <p>{user.email}</p>
+            <div className={styles.userAvatar}>
+              <img
+                src={user.avatar}
+                alt={`avatar`}
+              />
+            </div>
+            <div className={styles.userName}>
+              <strong>{user.name}</strong>
+            </div>
+            <div className={styles.userAge}>
+              <strong>{user.age}</strong>
+            </div>
+            <div className={styles.userEmail}>
+              <strong>{user.email}</strong>
             </div>
           </div>
         ))}
