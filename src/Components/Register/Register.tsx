@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import appStyles from "../../App.module.scss";
 import styles from "./Register.module.scss";
-import { Login } from "../Login/Login";
 import api from "../../ApiConfig/ApiConfig";
+import { Login } from "../Login/Login";
 
 export function Register({
   setIsLogged,
@@ -19,6 +20,7 @@ export function Register({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const navigate = useNavigate();
 
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
@@ -39,21 +41,27 @@ export function Register({
       );
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");
-    }
-
-    const response = await api.post("/auth/register", {
-      email: email,
-      name: name,
-      age: age,
-      password: password,
-      confirmPassword: password2,
-    });
-
-    if (response.status === 200) {
-      setIsRegister(true);
     } else {
-      setErrorMessage("Registration failed. Please try again.");
-      setIsRegister(false);
+      try {
+        const response = await api.post("/auth/register", {
+          email: email,
+          name: name,
+          age: age,
+          password: password,
+          confirmPassword: password2,
+        });
+
+        if (response.status === 200) {
+          setIsLogged(true);
+          navigate("/home");
+        } else {
+          setErrorMessage("Registration failed. Please try again.");
+          setIsRegister(false);
+        }
+      } catch {
+        setErrorMessage("Registration failed. Please try again.");
+        setIsRegister(false);
+      }
     }
   };
 

@@ -3,28 +3,18 @@ import styles from "./NavBar.module.scss";
 
 import { NavLinks } from "./NavLinks/NavLinks";
 import { LogOut } from "../LogOut/LogOut";
-import { SetProps } from "../Home";
 
 export function NavBar({
   setIsLogged,
-  setIsHomePage,
-  setIsUsersPage,
-  setIsGalleryPage,
-  setIsFoldersPage,
-  setIsPostsPage,
-}: SetProps & { setIsLogged: (isLogged: boolean) => void }): JSX.Element {
+}: {
+  setIsLogged: (isLogged: boolean) => void;
+}) {
   return (
     <div id={styles.navBar}>
       <div id={styles.logo}>
         <img src={logo} alt="siteLogo" />
       </div>
-      <NavLinks
-        setIsHomePage={setIsHomePage}
-        setIsUsersPage={setIsUsersPage}
-        setIsGalleryPage={setIsGalleryPage}
-        setIsFoldersPage={setIsFoldersPage}
-        setIsPostsPage={setIsPostsPage}
-      />
+      <NavLinks />
       <LogOut setIsLogged={setIsLogged} />
     </div>
   );

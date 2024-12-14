@@ -1,6 +1,7 @@
 import styles from "./Login.module.scss";
 import appStyles from "../../App.module.scss";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../ApiConfig/ApiConfig";
 
 export function Login({
@@ -13,6 +14,7 @@ export function Login({
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,6 +34,7 @@ export function Login({
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
         setIsLogged(true);
+        navigate("/home");
       } else {
         setIsLogged(false);
       }
@@ -68,6 +71,7 @@ export function Login({
             onClick={(e) => {
               e.preventDefault();
               setIsRegister(false);
+              navigate("/register");
             }}
           >
             Register

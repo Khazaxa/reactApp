@@ -1,60 +1,43 @@
-import { SetProps } from "../../Home";
+import { useNavigate } from "react-router-dom";
 import { NavItem } from "./NavItem/NavItem";
 import styles from "./NavLinks.module.scss";
 
-export function NavLinks({
-  setIsHomePage,
-  setIsUsersPage,
-  setIsGalleryPage,
-  setIsFoldersPage,
-  setIsPostsPage,
-}: SetProps) {
-  const resetPages = () => {
-    setIsHomePage(false);
-    setIsUsersPage(false);
-    setIsGalleryPage(false);
-    setIsFoldersPage(false);
-    setIsPostsPage(false);
-  };
+export function NavLinks() {
+  const navigate = useNavigate();
 
   return (
     <div id={styles.navLinks}>
       <NavItem
         onClick={() => {
-          resetPages();
-          setIsHomePage(true);
+          navigate("/");
         }}
       >
         Home
       </NavItem>
       <NavItem
         onClick={() => {
-          resetPages();
-          setIsUsersPage(true);
+          navigate("/users");
         }}
       >
         Users
       </NavItem>
       <NavItem
         onClick={() => {
-          resetPages();
-          setIsGalleryPage(true);
+          navigate("/gallery");
         }}
       >
         Gallery
       </NavItem>
       <NavItem
         onClick={() => {
-          resetPages();
-          setIsFoldersPage(true);
+          navigate("/folders");
         }}
       >
         Folders
       </NavItem>
       <NavItem
         onClick={() => {
-          resetPages();
-          setIsPostsPage(true);
+          navigate("/posts");
         }}
       >
         Posts
