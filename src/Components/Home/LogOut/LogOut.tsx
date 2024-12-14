@@ -7,12 +7,7 @@ export function LogOut({
   setIsLogged: (isLogged: boolean) => void;
 }) {
   return (
-    <div
-      id={styles.logOut}
-      onClick={() => {
-        setIsLogged(false);
-      }}
-    >
+    <div id={styles.logOut} onClick={() => { setIsLogged(false); }}>
       <img src={logOut} alt="logOut" />
       Log Out
     </div>

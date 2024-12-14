@@ -2,7 +2,7 @@ import styles from "./FilterBar.module.scss";
 import search from "../../../Assets/search.png";
 import homeStyles from "../Home.module.scss";
 
-export function FilterBar() {
+const FilterBar = () => {
   return (
     <div id={styles.filterBar}>
       <h1>
@@ -15,3 +15,5 @@ export function FilterBar() {
     </div>
   );
 }
+
+export default FilterBar;
