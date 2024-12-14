@@ -1,6 +1,10 @@
-#foldersPage {
+.foldersPage {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 0 -10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #4c2fa2;
+  color: white;
 }

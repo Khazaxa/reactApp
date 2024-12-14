@@ -1,11 +1,10 @@
 #navBar {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 10px;
   height: 100%;
   width: 15%;
   padding: 10px;
-  padding-top: 1vh;
   background-color: #2955ac;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
