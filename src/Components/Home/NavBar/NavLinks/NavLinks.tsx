@@ -5,7 +5,7 @@ const NavLinks = () => {
   return (
     <div id={styles.navLinks}>
       <ul>
-        <NavLink to="/" className={styles.navLink}>
+        <NavLink to="/home" className={styles.navLink}>
           <li className={styles.navItem}>Home</li>
         </NavLink>
         <NavLink to="/users" className={styles.navLink}>

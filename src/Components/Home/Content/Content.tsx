@@ -10,7 +10,7 @@ const Content = () => {
   return (
     <div id={styles.content}>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/users" element={<UsersPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/folders" element={<FoldersPage />} />

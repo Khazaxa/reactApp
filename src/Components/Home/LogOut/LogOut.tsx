@@ -10,7 +10,6 @@ export function LogOut({
     <div
       id={styles.logOut}
       onClick={() => {
-        console.log("Log Out");
         setIsLogged(false);
       }}
     >
