@@ -4,10 +4,14 @@ import Content from "./Content/Content";
 import FilterBar from "./FilterBar/FilterBar";
 import TopBar from "./TopBar/TopBar";
 
-const Home = () => {
+export function Home({
+  setIsLogged,
+}: {
+  setIsLogged: (isLogged: boolean) => void;
+}) {
   return (
     <div id={styles.mainWindow}>
-      <NavBar />
+      <NavBar setIsLogged={setIsLogged} />
       <div id={styles.content}>
         <TopBar />
         <FilterBar />
@@ -15,6 +19,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Home;

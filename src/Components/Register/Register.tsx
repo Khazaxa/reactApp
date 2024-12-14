@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import appStyles from "../../App.module.scss";
 import styles from "./Register.module.scss";
 import api from "../../ApiConfig/ApiConfig";
@@ -20,7 +19,6 @@ export function Register({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const navigate = useNavigate();
 
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
@@ -53,7 +51,6 @@ export function Register({
 
         if (response.status === 200) {
           setIsLogged(true);
-          navigate("/home");
         } else {
           setErrorMessage("Registration failed. Please try again.");
           setIsRegister(false);
