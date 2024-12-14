@@ -1,7 +1,7 @@
 import Home from "./Components/Home/Home";
 import { Login } from "./Components/Login/Login";
-import { useState } from "react";
 import { Register } from "./Components/Register/Register";
+import { useState } from "react";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
@@ -11,7 +11,7 @@ function App() {
     <>
       {isRegister ? (
         isLogged ? (
-          <Home/>
+          <Home setIsLogged={setIsLogged} />
         ) : (
           <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
         )

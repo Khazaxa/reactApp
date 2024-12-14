@@ -14,6 +14,6 @@ const FilterBar = () => {
       </div>
     </div>
   );
-}
+};
 
 export default FilterBar;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import appStyles from "../../App.module.scss";
 import styles from "./Register.module.scss";
-import { Login } from "../Login/Login";
 import api from "../../ApiConfig/ApiConfig";
+import { Login } from "../Login/Login";
 
 export function Register({
   setIsLogged,
@@ -33,28 +33,44 @@ export function Register({
 
     if (!emailRegex.test(email)) {
       setErrorMessage("Invalid email address");
+      clearErrorAfterDelay();
     } else if (validatePassword(password) === false) {
       setErrorMessage(
         "Password must contain at least 6 characters, including uppercase, lowercase, number and special character"
       );
+      clearErrorAfterDelay();
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");
-    }
-
-    const response = await api.post("/auth/register", {
-      email: email,
-      name: name,
-      age: age,
-      password: password,
-      confirmPassword: password2,
-    });
-
-    if (response.status === 200) {
-      setIsRegister(true);
+      clearErrorAfterDelay();
     } else {
-      setErrorMessage("Registration failed. Please try again.");
-      setIsRegister(false);
+      try {
+        const response = await api.post("/auth/register", {
+          email: email,
+          name: name,
+          age: age,
+          password: password,
+          confirmPassword: password2,
+        });
+
+        if (response.status === 200) {
+          setIsRegister(true);
+        } else {
+          setErrorMessage("Registration failed. Please try again.");
+          setIsRegister(false);
+          clearErrorAfterDelay();
+        }
+      } catch {
+        setErrorMessage("Registration failed. Please try again.");
+        setIsRegister(false);
+        clearErrorAfterDelay();
+      }
     }
+  };
+
+  const clearErrorAfterDelay = () => {
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 3000);
   };
 
   return (

@@ -37,7 +37,7 @@ export function UsersPage() {
               <img src={user.avatar} alt={`avatar`} />
             </div>
             <div className={styles.userName}>
-              <strong>{user.name}</strong>
+              <strong>{user.name ? user.name : "---"}</strong>
             </div>
             <div className={styles.userAge}>
               <strong>{user.age ? user.age : "---"}</strong>

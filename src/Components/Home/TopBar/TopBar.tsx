@@ -4,14 +4,14 @@ import RemoveBtn from "../../Button/RemoveBtn/RemoveBtn";
 
 import styles from "./TopBar.module.scss";
 
-const TopBar = () => { 
+const TopBar = () => {
   return (
     <div id={styles.topBar}>
-      <RemoveBtn/>
-      <AddBtn/>
+      <RemoveBtn />
+      <AddBtn />
       <AccountBtn />
     </div>
   );
-}
+};
 
 export default TopBar;
