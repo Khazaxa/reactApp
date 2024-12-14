@@ -1,8 +1,8 @@
 import styles from "./Home.module.scss";
 import NavBar from "./NavBar/NavBar";
+import Content from "./Content/Content";
 import FilterBar from "./FilterBar/FilterBar";
 import TopBar from "./TopBar/TopBar";
-import Content from "./Content/Content";
 
 const Home = () => {
   return (
@@ -11,9 +11,7 @@ const Home = () => {
       <div id={styles.content}>
         <TopBar />
         <FilterBar />
-        <div id={styles.innerContent}>
-          <Content />
-        </div>
+        <Content />
       </div>
     </div>
   );

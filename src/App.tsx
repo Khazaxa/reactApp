@@ -1,9 +1,3 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
 import Home from "./Components/Home/Home";
 import { Login } from "./Components/Login/Login";
 import { Register } from "./Components/Register/Register";
@@ -14,33 +8,21 @@ function App() {
   const [isRegister, setIsRegister] = useState(true);
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            isLogged ? <Navigate to="/home" /> : <Navigate to="/login" />
-          }
+    <>
+      {isRegister ? (
+        isLogged ? (
+          <Home />
+        ) : (
+          <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
+        )
+      ) : (
+        <Register
+          setIsLogged={setIsLogged}
+          isRegister={isRegister}
+          setIsRegister={setIsRegister}
         />
-        <Route
-          path="/login"
-          element={
-            <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <Register
-              setIsLogged={setIsLogged}
-              isRegister={isRegister}
-              setIsRegister={setIsRegister}
-            />
-          }
-        />
-        <Route path="/home/*" element={<Home />} />
-      </Routes>
-    </Router>
+      )}
+    </>
   );
 }
 
