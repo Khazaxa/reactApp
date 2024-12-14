@@ -1,47 +1,28 @@
-import { useNavigate } from "react-router-dom";
-import { NavItem } from "./NavItem/NavItem";
 import styles from "./NavLinks.module.scss";
+import { NavLink } from "react-router-dom";
 
-export function NavLinks() {
-  const navigate = useNavigate();
-
+const NavLinks = () => {
   return (
     <div id={styles.navLinks}>
-      <NavItem
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        Home
-      </NavItem>
-      <NavItem
-        onClick={() => {
-          navigate("/users");
-        }}
-      >
-        Users
-      </NavItem>
-      <NavItem
-        onClick={() => {
-          navigate("/gallery");
-        }}
-      >
-        Gallery
-      </NavItem>
-      <NavItem
-        onClick={() => {
-          navigate("/folders");
-        }}
-      >
-        Folders
-      </NavItem>
-      <NavItem
-        onClick={() => {
-          navigate("/posts");
-        }}
-      >
-        Posts
-      </NavItem>
+      <ul>
+        <NavLink to="/" className={styles.navLink}>
+          <li className={styles.navItem}>Home</li>
+        </NavLink>
+        <NavLink to="/users" className={styles.navLink}>
+          <li className={styles.navItem}>Users</li>
+        </NavLink>
+        <NavLink to="/gallery" className={styles.navLink}>
+          <li className={styles.navItem}>Gallery</li>
+        </NavLink>
+        <NavLink to="/folders" className={styles.navLink}>
+          <li className={styles.navItem}>Folders</li>
+        </NavLink>
+        <NavLink to="/posts" className={styles.navLink}>
+          <li className={styles.navItem}>Posts</li>
+        </NavLink>
+      </ul>
     </div>
   );
-}
+};
+
+export default NavLinks;

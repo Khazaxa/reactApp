@@ -1,33 +1,22 @@
-import { Routes, Route } from "react-router-dom";
 import styles from "./Home.module.scss";
-import { FilterBar } from "./FilterBar/FilterBar";
-import { NavBar } from "./NavBar/NavBar";
-import { TopBar } from "./TopBar/TopBar";
-import { HomePage } from "./Content/HomePage/HomePage";
-import { UsersPage } from "./Content/UsersPage/UsersPage";
-import { GalleryPage } from "./Content/GalleryPage/GalleryPage";
-import { FoldersPage } from "./Content/FoldersPage/FoldersPage";
-import { PostsPage } from "./Content/PostsPage/PostsPage";
+import NavBar from "./NavBar/NavBar";
+import FilterBar from "./FilterBar/FilterBar";
+import TopBar from "./TopBar/TopBar";
+import Content from "./Content/Content";
 
-export function Home({
-  setIsLogged,
-}: {
-  setIsLogged: (isLogged: boolean) => void;
-}) {
+const Home = () => {
   return (
     <div id={styles.mainWindow}>
-      <NavBar setIsLogged={setIsLogged} />
+      <NavBar />
       <div id={styles.content}>
         <TopBar />
         <FilterBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/users" element={<UsersPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/folders" element={<FoldersPage />} />
-          <Route path="/posts" element={<PostsPage />} />
-        </Routes>
+        <div id={styles.innerContent}>
+          <Content />
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Home;

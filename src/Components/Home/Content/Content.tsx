@@ -1,25 +1,23 @@
-import { IsProps } from "../Home";
 import styles from "./Content.module.scss";
 import { FoldersPage } from "./FoldersPage/FoldersPage";
 import { GalleryPage } from "./GalleryPage/GalleryPage";
 import { HomePage } from "./HomePage/HomePage";
 import { PostsPage } from "./PostsPage/PostsPage";
 import { UsersPage } from "./UsersPage/UsersPage";
+import { Routes, Route } from "react-router-dom";
 
-export function Content({
-  isHomePage,
-  isUsersPage,
-  isGalleryPage,
-  isFoldersPage,
-  isPostsPage,
-}: IsProps) {
+const Content = () => {
   return (
-    <div id={styles.content}>
-      {isHomePage && <HomePage />}
-      {isUsersPage && <UsersPage />}
-      {isGalleryPage && <GalleryPage />}
-      {isFoldersPage && <FoldersPage />}
-      {isPostsPage && <PostsPage />}
+    <div id={styles.innerContent}>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="users" element={<UsersPage />} />
+        <Route path="gallery" element={<GalleryPage />} />
+        <Route path="folders" element={<FoldersPage />} />
+        <Route path="posts" element={<PostsPage />} />
+      </Routes>
     </div>
   );
-}
+};
+
+export default Content;

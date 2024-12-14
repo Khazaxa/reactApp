@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { Home } from "./Components/Home/Home";
+import Home from "./Components/Home/Home";
 import { Login } from "./Components/Login/Login";
 import { Register } from "./Components/Register/Register";
 import { useState } from "react";
@@ -38,7 +38,7 @@ function App() {
             />
           }
         />
-        <Route path="/home" element={<Home setIsLogged={setIsLogged} />} />
+        <Route path="/home/*" element={<Home />} />
       </Routes>
     </Router>
   );

@@ -1,16 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import logOut from "../../../assets/logout.png";
 import styles from "./LogOut.module.scss";
 
-export function LogOut({
-  setIsLogged,
-}: {
-  setIsLogged: (isLogged: boolean) => void;
-}) {
+export function LogOut() {
+  const navigate = useNavigate();
   return (
     <div
       id={styles.logOut}
       onClick={() => {
-        setIsLogged(false);
+        navigate("/login");
       }}
     >
       <img src={logOut} alt="logOut" />
