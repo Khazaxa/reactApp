@@ -3,8 +3,58 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-color: #4c2fa2;
   color: white;
+  margin: 10px;
+}
+
+.foldersPage form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.foldersPage form input {
+  width: 50%;
+  height: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.foldersPage form button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.foldersPage h1 {
+  color: yellow;
+}
+
+.foldersPage ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.foldersPage ul li {
+  list-style: none;
+  font-size: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.foldersPage ul li img {
+  width: 30px;
+  height: 30px;
 }
