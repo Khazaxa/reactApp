@@ -1,4 +1,5 @@
 using Core.Database;
+using Domain.Folders.Entities;
 using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,8 +22,11 @@ public class Image : EntityBase
     public string Extension { get; private set; }
     public decimal Size { get; private set; }
     public string Path { get; private set; }
+    public int? FolderId { get; private set; }
+    public Folder? Folder { get; private set; }
     public int UserId { get; private set; }
     public User User { get; private set; }
+    
     
     public static void OnModelCreating(ModelBuilder builder)
     {
@@ -31,5 +35,9 @@ public class Image : EntityBase
             .HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId);
+        builder.Entity<Image>()
+            .HasOne(x => x.Folder)
+            .WithMany(x => x.Images)
+            .HasForeignKey(x => x.FolderId);
     }
 }
