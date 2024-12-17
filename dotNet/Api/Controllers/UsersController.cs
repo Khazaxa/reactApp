@@ -18,9 +18,9 @@ public class UsersController(IMediator mediator) : ControllerBase
     }
 
     [HttpPut]
-    [Route("user/{id}")]
-    public async Task<Unit> UpdateUser(int id, UserParams user, CancellationToken cancellationToken)
+    [Route("user")]
+    public async Task<Unit> UpdateUser(UserParams user, CancellationToken cancellationToken)
     {
-        return await mediator.Send(new UserUpdateCommand(id, user), cancellationToken);
+        return await mediator.Send(new UserUpdateCommand(user), cancellationToken);
     }
 }

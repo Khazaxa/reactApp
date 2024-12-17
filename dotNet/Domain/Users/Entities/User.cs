@@ -18,7 +18,8 @@ public class User : EntityBase
 
     public User(string? name, string email, int? age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
     {
-        Update(name, email, age);
+        Update(name, age);
+        Email = email;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
         Role = role;
@@ -31,10 +32,9 @@ public class User : EntityBase
     public byte[] PasswordSalt { get; private set; } = null!;
     public UserRole Role { get; private set; }
 
-    public void Update(string? name, string? email, int? age)
+    public void Update(string? name, int? age)
     {
         Name = name;
-        Email = email;
         Age = age;
     }
 
