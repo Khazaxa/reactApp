@@ -1,5 +1,4 @@
 using Core.Cqrs;
-using Core.Database;
 using Core.Exceptions;
 using Domain.Users.Dtos;
 using Domain.Users.Enums;

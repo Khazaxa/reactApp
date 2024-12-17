@@ -22,7 +22,7 @@ internal class ImageDeleteCommandHandler(
         var img = await imgRepository.FindAsync(command.Id, cancellationToken);
         
         if (img.UserId != userId)
-            throw new DomainException("You are not allowed to delete this image", (int)ImagesErrorCode.NotAllowed);
+            throw new DomainException("You are not allowed to delete this image", (int)ImageErrorCode.NotAllowed);
         
         imgRepository.Delete(img);
         await unitOfWork.SaveChangesAsync(cancellationToken);

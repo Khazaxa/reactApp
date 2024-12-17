@@ -32,7 +32,7 @@ internal class ImageUploadCommandHandler(
 
         var blobClient = containerClient.GetBlobClient(input.File.FileName);
         if (await blobClient.ExistsAsync(cancellationToken))
-            throw new DomainException("Provided image already exists", (int)ImagesErrorCode.ImageAlreadyExists);
+            throw new DomainException("Provided image already exists", (int)ImageErrorCode.ImageAlreadyExists);
 
         await blobClient.UploadAsync(input.File.OpenReadStream(), cancellationToken);
 

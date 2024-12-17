@@ -9,13 +9,15 @@ public class Folder : EntityBase
 {
     private Folder() { }
     
-    public Folder(string name, int userId)
+    public Folder(string name, int? logoId, int userId)
     {
         Name = name;
+        LogoId = logoId;
         UserId = userId;
     }
     
     public string Name { get; private set; }
+    public int? LogoId { get; private set; }
     public Image? Logo { get; private set; }
     public List<int>? ImageId { get; private set; }
     public List<Image>? Images { get; private set; }
