@@ -1,5 +1,6 @@
 using Domain.Folders.Entities;
 using Domain.Images.Entities;
+using Domain.Posts.Entities;
 using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ internal class ImgAppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Image> Images { get; set; }
     public DbSet<Folder> Folders { get; set; }
+    public DbSet<Post> Posts { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -19,5 +22,7 @@ internal class ImgAppDbContext : DbContext
         User.OnModelCreating(modelBuilder);
         Image.OnModelCreating(modelBuilder);
         Folder.OnModelCreating(modelBuilder);
+        Post.OnModelCreating(modelBuilder);
+        Comment.OnModelCreating(modelBuilder);
     }
 }
