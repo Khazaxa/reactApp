@@ -17,7 +17,13 @@ internal class UserRepository(
         var user = await dbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
         return user ?? null;
     }
-    
+
+    public async Task<User?> FindByNameAsync(string name, CancellationToken cancellationToken)
+    {
+        var user = await dbContext.Users.SingleOrDefaultAsync(u => u.Name == name, cancellationToken);
+        return user ?? null;
+    }
+
     protected override IQueryable<User> GetQuery()
     {
         return Query().AsQueryable();
