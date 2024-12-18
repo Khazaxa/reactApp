@@ -1,17 +1,13 @@
 import { useRef } from "react";
 import styles from "./AddBtn.module.scss";
 import plus from "../../../assets/add.png";
-import { IsProps } from "../../Home/Home";
 import api from "../../../ApiConfig/ApiConfig";
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export function AddBtn({
-  isHomePage,
-  isUsersPage,
-  isGalleryPage,
-  isFoldersPage,
-  isPostsPage,
-}: IsProps) {
+export function AddBtn() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   const handleGalleryAdd = async () => {
     if (fileInputRef.current && fileInputRef.current.files) {
@@ -25,29 +21,30 @@ export function AddBtn({
             "Content-Type": "multipart/form-data",
           },
         });
+        alert("Image uploaded successfully");
       } catch (error) {
         console.error("Error uploading image:", error);
       }
     }
   };
 
-  const handleButtonClick = () => {
-    if (isHomePage) {
-      alert("Add to Home Page");
-    } else if (isUsersPage) {
-      handleUsersAdd();
-    } else if (isGalleryPage) {
+  const location = useLocation();
+
+  const handleAddClick = () => {
+    if (location.pathname === '/home') {
+      alert('Add clicked on HomePage');
+    } else if (location.pathname === '/users') {
+      alert('Add clicked on UsersPage');
+    } else if (location.pathname === '/gallery') {
       fileInputRef.current?.click();
-    } else if (isFoldersPage) {
-      handleFoldersAdd();
-    } else if (isPostsPage) {
-      handlePostsAdd();
+    } else if (location.pathname === '/folders') {
+      navigate("/folders", { state: { formView: location.state?.formView !== true } });
     }
   };
 
   return (
-    <>
-      <button id={styles.add} onClick={handleButtonClick}>
+    <div className={styles.addBtn}>
+      <button id={styles.add} onClick={handleAddClick}>
         <img src={plus} alt="Add Button" />
       </button>
       <input
@@ -56,18 +53,6 @@ export function AddBtn({
         style={{ display: "none" }}
         onChange={handleGalleryAdd}
       />
-    </>
+    </div>
   );
-}
-
-function handleUsersAdd() {
-  alert("Add to Users Page");
-}
-
-function handlePostsAdd() {
-  alert("Add to Posts Page");
-}
-
-function handleFoldersAdd() {
-  alert("Add to Folders Page");
 }
