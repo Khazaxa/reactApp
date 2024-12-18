@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using Core.Database;
 using Domain.Images.Entities;
+using Domain.Posts.Entities;
 using Domain.Users.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,8 @@ public class User : EntityBase
 
     public User(string? name, string email, int? age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
     {
-        Update(name, email, age);
+        Update(name, age);
+        Email = email;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
         Role = role;
@@ -30,11 +32,12 @@ public class User : EntityBase
     public byte[] PasswordHash { get; private set; } = null!;
     public byte[] PasswordSalt { get; private set; } = null!;
     public UserRole Role { get; private set; }
+    public List<Post> Posts { get; private set; } = new();
+    public List<Comment> Comments { get; private set; } = new();
 
-    public void Update(string? name, string? email, int? age)
+    public void Update(string? name, int? age)
     {
         Name = name;
-        Email = email;
         Age = age;
     }
 
@@ -60,5 +63,15 @@ public class User : EntityBase
         };
 
         builder.Entity<User>().HasData(user);
+
+        builder.Entity<User>()
+            .HasMany<Post>()
+            .WithOne()
+            .HasForeignKey(x => x.AuthorId);
+
+        builder.Entity<User>()
+            .HasMany<Comment>()
+            .WithOne()
+            .HasForeignKey(x => x.AuthorId);
     }
 }

@@ -5,6 +5,8 @@ using Domain.Folders.Dtos;
 using Domain.Folders.Entities;
 using Domain.Folders.Enums;
 using Domain.Folders.Repositories;
+using Domain.Images.Enums;
+using Domain.Images.Repositories;
 using Domain.Users.Enums;
 using Domain.Users.Services;
 using MediatR;
@@ -15,6 +17,7 @@ public record CreateFolderCommand(FolderParams Folder) : ICommand<Unit>;
 
 internal class CreateFolderCommandHandler(
     IFolderRepository folderRepository,
+    IImageRepository imageRepository,
     IUserContextService userContext,
     IUnitOfWork unitOfWork
 ) : ICommandHandler<CreateFolderCommand, Unit>
@@ -24,8 +27,12 @@ internal class CreateFolderCommandHandler(
         if (await folderRepository.AnyAsync(f => f.Name == command.Folder.Name, cancellationToken))
             throw new DomainException("Folder already exists", (int)FolderErrorCode.FolderExists);
 
+        var logoImage = await imageRepository.FindAsync(command.Folder.LogoId!.Value, cancellationToken)
+            ?? throw new DomainException("Logo not found", (int)ImageErrorCode.ImageNotFound);
+        
         var folder = new Folder(
-            command.Folder.Name,
+            command.Folder.Name ?? throw new DomainException("Name is required", (int)FolderErrorCode.NameIsRequired),
+            logoImage.Id,
             userContext.GetUserId() ?? throw new DomainException("User not found", (int)UserErrorCode.UserNotFound)
         );
 

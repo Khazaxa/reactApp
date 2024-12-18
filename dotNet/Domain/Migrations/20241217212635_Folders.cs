@@ -53,8 +53,6 @@ namespace Domain.Migrations
                     Name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LogoId = table.Column<int>(type: "int", nullable: true),
-                    ImageId = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -64,7 +62,8 @@ namespace Domain.Migrations
                         name: "FK_Folders_Images_LogoId",
                         column: x => x.LogoId,
                         principalTable: "Images",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Folders_Users_UserId",
                         column: x => x.UserId,
@@ -77,7 +76,7 @@ namespace Domain.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Age", "Email", "Name", "PasswordHash", "PasswordSalt", "Role" },
-                values: new object[] { 1, null, "user@example.com", "User", new byte[] { 84, 73, 230, 89, 63, 63, 237, 57, 99, 218, 37, 152, 159, 248, 60, 238, 13, 29, 221, 104, 140, 152, 206, 159, 211, 164, 165, 254, 69, 185, 255, 215, 225, 175, 179, 209, 127, 96, 169, 136, 57, 194, 200, 185, 174, 235, 203, 224, 198, 118, 133, 167, 211, 160, 69, 13, 74, 250, 126, 147, 21, 106, 198, 73 }, new byte[] { 211, 238, 43, 246, 165, 238, 45, 253, 191, 224, 139, 150, 113, 165, 208, 64, 183, 51, 36, 2, 251, 244, 114, 26, 41, 63, 0, 153, 45, 102, 35, 159, 192, 130, 81, 204, 4, 60, 65, 174, 57, 52, 210, 125, 231, 242, 173, 255, 166, 106, 168, 182, 36, 159, 227, 31, 220, 236, 134, 87, 102, 141, 83, 121, 235, 70, 180, 253, 212, 157, 32, 91, 236, 54, 60, 194, 245, 216, 192, 249, 112, 159, 86, 195, 174, 22, 140, 165, 166, 74, 241, 147, 226, 35, 74, 161, 32, 64, 253, 31, 91, 59, 59, 188, 19, 84, 160, 175, 203, 56, 101, 18, 238, 47, 18, 120, 153, 164, 177, 61, 36, 71, 175, 40, 206, 191, 143, 128 }, 1 });
+                values: new object[] { 1, null, "user@example.com", "User", new byte[] { 169, 162, 187, 64, 244, 129, 66, 189, 243, 17, 225, 183, 130, 65, 237, 247, 88, 27, 19, 207, 33, 40, 77, 97, 161, 35, 229, 227, 56, 243, 189, 164, 88, 75, 185, 7, 55, 45, 69, 102, 84, 235, 120, 93, 230, 104, 149, 224, 55, 107, 104, 87, 67, 121, 95, 33, 82, 8, 227, 63, 173, 97, 29, 68 }, new byte[] { 167, 187, 95, 229, 167, 166, 87, 138, 144, 9, 188, 184, 252, 178, 163, 229, 200, 7, 27, 209, 255, 245, 54, 51, 115, 211, 217, 11, 64, 178, 80, 170, 188, 27, 255, 121, 218, 12, 49, 194, 155, 57, 160, 216, 114, 235, 206, 212, 205, 45, 29, 94, 55, 81, 161, 229, 105, 13, 126, 243, 159, 100, 204, 15, 102, 95, 213, 217, 24, 34, 177, 164, 238, 238, 48, 107, 132, 205, 98, 192, 244, 87, 57, 113, 172, 73, 14, 163, 95, 245, 20, 44, 117, 121, 199, 68, 114, 78, 39, 24, 249, 196, 210, 245, 106, 163, 215, 212, 212, 104, 7, 1, 82, 196, 138, 231, 73, 229, 30, 59, 78, 85, 138, 225, 37, 54, 78, 64 }, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_FolderId",
