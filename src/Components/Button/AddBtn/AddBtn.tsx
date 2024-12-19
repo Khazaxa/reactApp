@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 export function AddBtn() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleGalleryAdd = async () => {
@@ -15,30 +15,21 @@ export function AddBtn() {
       const formData = new FormData();
       formData.append("file", file);
 
-      try {
-        await api.post("/images/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        alert("Image uploaded successfully");
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      await api.post("/images/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     }
   };
-
-  const location = useLocation();
-
+  
   const handleAddClick = () => {
-    if (location.pathname === '/home') {
-      alert('Add clicked on HomePage');
-    } else if (location.pathname === '/users') {
-      alert('Add clicked on UsersPage');
+    if (location.pathname === '/posts') {
+      navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });;
     } else if (location.pathname === '/gallery') {
       fileInputRef.current?.click();
     } else if (location.pathname === '/folders') {
-      navigate("/folders", { state: { formView: location.state?.formView !== true } });
+      navigate("/folders", { state: { addFolderFormView: location.state?.addFolderFormView !== true } });
     }
   };
 

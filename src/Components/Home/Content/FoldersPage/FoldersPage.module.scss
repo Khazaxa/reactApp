@@ -10,18 +10,32 @@
 .foldersPage form {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   width: 100%;
   margin-bottom: 20px;
 }
 
+.foldersPage form select{
+  width: 50%;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  margin: 0px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
 .foldersPage form input {
   width: 50%;
-  height: 15px;
+  height: 10px;
   padding: 10px;
   border-radius: 5px;
   border: none;
+  margin: 0px;
+  font-size: 24px;
 }
 
 .foldersPage form button {
