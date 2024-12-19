@@ -19,7 +19,6 @@ export function FoldersPage() {
   const [logos, setLogos] = useState<Logo[]>([]);
   const [folderName, setFolderName] = useState("");
   const [logoId, setLogoId] = useState(0);
-  const [refreshKey, setRefreshKey] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -59,11 +58,11 @@ export function FoldersPage() {
     setFolderName("");
     setLogoId(0);
     navigate("/folders", { state: { formView: false } });
-    setRefreshKey((prevKey) => prevKey + 1);
+    fetchFolders();
   };
 
   return (
-    <div className={styles.foldersPage} key={refreshKey}>
+    <div className={styles.foldersPage}>
       {addFolderFormView ? (
         <form onSubmit={handleAddFolder}>
           <p>Select folder logo:</p>

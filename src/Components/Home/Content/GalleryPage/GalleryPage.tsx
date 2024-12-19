@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { Item } from "../Item/Item";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
@@ -9,7 +10,9 @@ interface ImageData {
 }
 
 export function GalleryPage() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<ImageData[]>([]);
+  const location = useLocation();
   useEffect(() => {
     fetchImages();
   }, []);
@@ -30,6 +33,30 @@ export function GalleryPage() {
     }
   };
 
+  const handleGalleryAdd = async () => {
+
+    fileInputRef.current?.click();
+
+    if (fileInputRef.current && fileInputRef.current.files) {
+      const file = fileInputRef.current.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      await api.post("/images/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      fetchImages();
+    }
+  };
+
+  if (location.state?.triggerAddGallery) {
+    handleGalleryAdd();
+    location.state.triggerAddGallery = false;
+  }
+
   return (
     <div id={styles.galleryPage}>
       <div className={styles.imageContainer}>
@@ -37,6 +64,12 @@ export function GalleryPage() {
           <Item key={id} name={image.name} imageUrl={image.imageUrl} />
         ))}
       </div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleGalleryAdd}
+        style={{ display: "none" }}
+      />
     </div>
   );
 }
