@@ -14,6 +14,7 @@ internal class ImagesGetByFolderQueryHandler(
         var images = await imageRepository.FindAsync(i => i.FolderId == request.FolderId, cancellationToken);
 
         return images.Select(image => new ImageDto(
+            image.Id,
             image.Name,
             image.Extension,
             image.Size,
