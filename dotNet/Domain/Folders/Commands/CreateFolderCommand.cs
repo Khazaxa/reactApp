@@ -5,6 +5,7 @@ using Domain.Folders.Dtos;
 using Domain.Folders.Entities;
 using Domain.Folders.Enums;
 using Domain.Folders.Repositories;
+using Domain.Images.Entities;
 using Domain.Images.Enums;
 using Domain.Images.Repositories;
 using Domain.Users.Enums;
@@ -27,12 +28,14 @@ internal class CreateFolderCommandHandler(
         if (await folderRepository.AnyAsync(f => f.Name == command.Folder.Name, cancellationToken))
             throw new DomainException("Folder already exists", (int)FolderErrorCode.FolderExists);
 
-        var logoImage = await imageRepository.FindAsync(command.Folder.LogoId!.Value, cancellationToken)
-            ?? throw new DomainException("Logo not found", (int)ImageErrorCode.ImageNotFound);
-        
+        Image? logoImage = null;
+        if (command.Folder.LogoId.HasValue)
+            logoImage = await imageRepository.FindAsync(command.Folder.LogoId.Value, cancellationToken)
+                        ?? throw new DomainException("Logo not found", (int)ImageErrorCode.ImageNotFound);
+
         var folder = new Folder(
             command.Folder.Name ?? throw new DomainException("Name is required", (int)FolderErrorCode.NameIsRequired),
-            logoImage.Id,
+            logoImage?.Id,
             userContext.GetUserId() ?? throw new DomainException("User not found", (int)UserErrorCode.UserNotFound)
         );
 
