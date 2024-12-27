@@ -5,10 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 export function AddBtn() {
   const location = useLocation();
   const navigate = useNavigate();
-
   
-  
-  const handleAddClick = () => {
+  const AddClick = () => {
     if (location.pathname === '/posts') {
       navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });;
     } else if (location.pathname === '/gallery') {
@@ -20,7 +18,7 @@ export function AddBtn() {
 
   return (
     <div className={styles.addBtn}>
-      <button id={styles.add} onClick={handleAddClick}>
+      <button id={styles.add} onClick={AddClick}>
         <img src={plus} alt="Add Button" />
       </button>
     </div>

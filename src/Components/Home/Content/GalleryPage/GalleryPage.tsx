@@ -13,9 +13,21 @@ export function GalleryPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<ImageData[]>([]);
   const location = useLocation();
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+  const removeCheckboxesGallery =
+    location.state?.removeCheckboxesGallery || false;
+
   useEffect(() => {
     fetchImages();
   }, []);
+
+  useEffect(() => {
+    if (!removeCheckboxesGallery) {
+      setCheckedItems({});
+    }
+  }, [removeCheckboxesGallery]);
 
   const fetchImages = async () => {
     try {
@@ -34,7 +46,6 @@ export function GalleryPage() {
   };
 
   const handleGalleryAdd = async () => {
-
     fileInputRef.current?.click();
 
     if (fileInputRef.current && fileInputRef.current.files) {
@@ -52,18 +63,42 @@ export function GalleryPage() {
     }
   };
 
+  const handleRemoveItemClick = (id: string) => {
+    if (!removeCheckboxesGallery) return;
+
+    setCheckedItems((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
   if (location.state?.triggerAddGallery) {
     handleGalleryAdd();
     location.state.triggerAddGallery = false;
   }
 
   return (
-    <div id={styles.galleryPage}>
-      <div className={styles.imageContainer}>
+    <div className={styles.galleryPage}>
+      <h1>Gallery:</h1>
+        <ul>
         {images.map((image, id) => (
-          <Item key={id} name={image.name} imageUrl={image.imageUrl} />
+          <li
+            key={id}
+            onClick={() => handleRemoveItemClick(id.toString())}
+          >
+            {removeCheckboxesGallery ? (
+              <input
+                className={styles.checkboxes}
+                checked={checkedItems[id] || false}
+                type="checkbox"
+              />
+            ) : (
+              true
+            )}
+            <Item name={image.name} imageUrl={image.imageUrl} />
+          </li>
         ))}
-      </div>
+        </ul>
       <input
         type="file"
         ref={fileInputRef}

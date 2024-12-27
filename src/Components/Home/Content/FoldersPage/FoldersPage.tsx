@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./FoldersPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
-import folderImage from "../../../../assets/folder.png";
 
 interface Folder {
   name: string;
   logoId: number;
+  logoPath: string;
 }
 
 interface Logo {
@@ -21,27 +21,30 @@ export function FoldersPage() {
   const [logoId, setLogoId] = useState(0);
   const location = useLocation();
   const navigate = useNavigate();
-
   const addFolderFormView = location.state?.addFolderFormView || false;
+  const removeCheckboxesFolders =
+    location.state?.removeCheckboxesFolders || false;
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
+    {}
+  );
 
   const fetchFolders = async () => {
     const res = await api.get("/folders");
     const folderData = res.data.map(
-      (folder: { name: string }) => ({
+      (folder: { name: string; logo: { path: string } }) => ({
         name: folder.name,
+        logoPath: folder.logo.path,
       })
     );
-    setFolders(folderData);   
+    setFolders(folderData);
   };
 
   const fetchLogos = async () => {
-    const res = await api.get('/images');
-    const logoData = res.data.map(
-      (logo: { id: number, name: string }) => ({
-        id: logo.id,
-        name: logo.name,
-      })
-    );
+    const res = await api.get("/images");
+    const logoData = res.data.map((logo: { id: number; name: string }) => ({
+      id: logo.id,
+      name: logo.name,
+    }));
     setLogos(logoData);
   };
 
@@ -50,15 +53,31 @@ export function FoldersPage() {
     fetchLogos();
   }, []);
 
+  useEffect(() => {
+    if (!removeCheckboxesFolders) {
+      setCheckedItems({});
+    } 
+  }, [removeCheckboxesFolders]);
+
   const handleAddFolder = async (e: React.FormEvent) => {
     e.preventDefault();
-    await api.post("/folder", { name: folderName, logoId: logoId });
-    const newFolder: Folder = { name: folderName, logoId: logoId };
-    setFolders([...folders, newFolder]);
+    setFolders([
+      ...folders,
+      await api.post("/folder", { name: folderName, logoId: logoId }),
+    ]);
     setFolderName("");
     setLogoId(0);
     navigate("/folders", { state: { formView: false } });
     fetchFolders();
+  };
+
+  const handleRemoveItemClick = (name: string) => {
+    if (!removeCheckboxesFolders) return;
+
+    setCheckedItems((prevState) => ({
+      ...prevState,
+      [name]: !prevState[name],
+    }));
   };
 
   return (
@@ -67,7 +86,6 @@ export function FoldersPage() {
         <form onSubmit={handleAddFolder}>
           <p>Select folder logo:</p>
           <select onChange={(e) => setLogoId(Number(e.target.value))}>
-            <option value=""></option>
             {logos.map((logo) => (
               <option key={logo.id} value={logo.id}>
                 {logo.name}
@@ -91,8 +109,21 @@ export function FoldersPage() {
       <h1>Folders:</h1>
       <ul>
         {folders.map((folder) => (
-          <li key={folder.name}>
-            <img src={folderImage} alt="folder"/> {folder.name}
+          <li
+            className="folders"
+            key={folder.name}
+            onClick={() => handleRemoveItemClick(folder.name)}
+            style={{ backgroundImage: `url(${folder.logoPath})` }}
+          >
+            {removeCheckboxesFolders ? (
+              <input
+                className={styles.checkboxes}
+                type="checkbox"
+                checked={checkedItems[folder.name] || false}
+              />
+            ) : false}
+
+            {folder.name}
           </li>
         ))}
       </ul>

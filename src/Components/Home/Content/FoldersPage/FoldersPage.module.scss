@@ -4,7 +4,9 @@
   align-items: center;
   justify-content: center;
   color: white;
-  margin: 10px;
+  width: auto;
+  margin: 10px 0px;
+
 }
 
 .foldersPage form {
@@ -13,11 +15,11 @@
   gap: 10px;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 20%;
   margin-bottom: 20px;
 }
 
-.foldersPage form select{
+.foldersPage form select {
   width: 50%;
   height: 30px;
   border-radius: 5px;
@@ -42,7 +44,7 @@
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   font-size: 20px;
   cursor: pointer;
@@ -57,18 +59,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
 }
 
 .foldersPage ul li {
+  position: relative;
   list-style: none;
   font-size: 30px;
   display: flex;
   flex-direction: row;
-  align-items: center;
   cursor: pointer;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 150px;
+  border: 2px solid white;
+  background-color: gray;
+  border-radius: 10px;
 }
 
-.foldersPage ul li img {
-  width: 30px;
-  height: 30px;
+.checkboxes {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }

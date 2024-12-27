@@ -1,14 +1,9 @@
-@mixin block {
-  margin-top: 1vh;
-  padding-left: 2vw;
-  padding-right: 2vw;
-}
-
 .userList {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%;
+  width: auto;
+  margin: 10px;
 }
 
 .userCard {
@@ -18,7 +13,6 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  @include block;
 }
 
 .userAvatar {
@@ -28,7 +22,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @include block;
 }
 
 .userAvatar img {
@@ -44,7 +37,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @include block;
 }
 
 .userAge {
@@ -54,7 +46,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @include block;
 }
 
 .userEmail {
@@ -64,5 +55,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @include block;
 }
