@@ -1,23 +1,22 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Item } from "../Item/Item";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
 
 interface ImageData {
+  id: number;
   name: string;
   imageUrl: string;
 }
 
 export function GalleryPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<ImageData[]>([]);
-  const location = useLocation();
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    {}
-  );
-  const removeCheckboxesGallery =
-    location.state?.removeCheckboxesGallery || false;
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const removeCheckboxesGallery = location.state?.removeCheckboxesGallery || false;
 
   useEffect(() => {
     fetchImages();
@@ -25,7 +24,7 @@ export function GalleryPage() {
 
   useEffect(() => {
     if (!removeCheckboxesGallery) {
-      setCheckedItems({});
+      setCheckedItems([]);
     }
   }, [removeCheckboxesGallery]);
 
@@ -33,9 +32,10 @@ export function GalleryPage() {
     try {
       await api.get("/images").then((res) => {
         const imageData = res.data.map(
-          (img: { name: string; path: string }) => ({
-            name: img.name,
-            imageUrl: img.path,
+          (image: { id: number; name: string; path: string }) => ({
+            id: image.id,
+            name: image.name,
+            imageUrl: image.path,
           })
         );
         setImages(imageData);
@@ -63,13 +63,24 @@ export function GalleryPage() {
     }
   };
 
-  const handleRemoveItemClick = (id: string) => {
-    if (!removeCheckboxesGallery) return;
+  const handleRemoveItemClick = (id: number) => {
+    if (!removeCheckboxesGallery) {
+      return;
+    }
 
-    setCheckedItems((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
+    setCheckedItems(prevCheckedItems =>
+      prevCheckedItems.includes(id)
+        ? prevCheckedItems.filter(item => item !== id)
+        : [...prevCheckedItems, id]
+    );
+  };
+
+  const removeImage = async () => {
+    for (const id of checkedItems) {
+      await api.delete(`/image/${id}`);
+      navigate("/gallery", { state: { removeCheckboxesGallery: false } });
+      fetchImages();
+    }
   };
 
   if (location.state?.triggerAddGallery) {
@@ -79,18 +90,23 @@ export function GalleryPage() {
 
   return (
     <div className={styles.galleryPage}>
+
+      {removeCheckboxesGallery ? (
+        <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button> 
+      ) : ( true )}
+
       <h1>Gallery:</h1>
         <ul>
-        {images.map((image, id) => (
+        {images.map((image) => (
           <li
-            key={id}
-            onClick={() => handleRemoveItemClick(id.toString())}
+            key={image.id}
+            onClick={() => handleRemoveItemClick(Number(image.id))}
           >
             {removeCheckboxesGallery ? (
               <input
                 className={styles.checkboxes}
-                checked={checkedItems[id] || false}
                 type="checkbox"
+                checked={checkedItems.includes(image.id)}
               />
             ) : (
               true
@@ -105,6 +121,7 @@ export function GalleryPage() {
         onChange={handleGalleryAdd}
         style={{ display: "none" }}
       />
+
     </div>
   );
 }

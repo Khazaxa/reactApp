@@ -16,15 +16,15 @@ interface Logo {
 }
 
 export function FoldersPage() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [folders, setFolders] = useState<Folder[]>([]);
   const [logos, setLogos] = useState<Logo[]>([]);
   const [folderName, setFolderName] = useState("");
   const [logoId, setLogoId] = useState<number | null>(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const addFolderFormView = location.state?.addFolderFormView || false;
   const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
   const fetchFolders = async () => {
     const res = await api.get("/folders");

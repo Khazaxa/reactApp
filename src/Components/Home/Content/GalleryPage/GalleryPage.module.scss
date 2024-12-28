@@ -3,6 +3,22 @@
   width: auto;
 }
 
+.removeImageBtn {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: red;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.removeImageBtn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
 .galleryPage h1 {
   color: yellow;
 }
@@ -15,7 +31,7 @@
   gap: 10px;
 }
 
-.galleryPage ul li{
+.galleryPage ul li {
   position: relative;
   list-style: none;
   display: flex;
@@ -23,7 +39,7 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  width: 150px; 
+  width: 150px;
   height: 150px;
   border: 2px solid white;
   border-radius: 10px;
@@ -32,8 +48,8 @@
 
 .galleryPage ul li img {
   width: auto;
-  height: auto;
-  background-color: gray;
+  height: 100%;
+  object-fit: cover;
 }
 
 .checkboxes {
@@ -45,4 +61,3 @@
   height: 20px;
   cursor: pointer;
 }
-
