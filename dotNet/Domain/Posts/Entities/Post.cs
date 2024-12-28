@@ -1,4 +1,5 @@
 using Core.Database;
+using Domain.Comments.Entities;
 using Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,11 @@ public class Post : EntityBase
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasMany(p => p.Comments)
+                .WithOne(c => c.Post)
+                .HasForeignKey(c => c.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

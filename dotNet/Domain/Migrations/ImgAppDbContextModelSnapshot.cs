@@ -22,6 +22,36 @@ namespace Domain.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Comments.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
                 {
                     b.Property<int>("Id")
@@ -91,39 +121,6 @@ namespace Domain.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("Domain.Posts.Entities.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Domain.Posts.Entities.Post", b =>
@@ -202,10 +199,29 @@ namespace Domain.Migrations
                             Id = 1,
                             Email = "user@example.com",
                             Name = "User",
-                            PasswordHash = new byte[] { 120, 211, 87, 215, 40, 8, 25, 74, 18, 214, 2, 234, 62, 242, 87, 23, 33, 161, 62, 205, 218, 69, 107, 187, 208, 229, 148, 193, 156, 254, 17, 232, 104, 16, 180, 129, 14, 213, 242, 79, 85, 155, 218, 0, 211, 251, 160, 71, 37, 79, 126, 20, 188, 149, 28, 61, 56, 193, 43, 93, 65, 120, 24, 217 },
-                            PasswordSalt = new byte[] { 158, 66, 142, 206, 239, 92, 94, 127, 62, 154, 22, 95, 109, 232, 15, 13, 46, 61, 94, 160, 141, 138, 222, 136, 242, 151, 59, 167, 248, 184, 72, 18, 89, 197, 202, 31, 134, 117, 16, 151, 29, 172, 89, 82, 88, 113, 145, 159, 203, 197, 44, 113, 118, 215, 110, 255, 37, 102, 38, 169, 5, 150, 158, 127, 177, 108, 68, 181, 114, 130, 220, 12, 24, 26, 214, 36, 109, 232, 138, 180, 41, 68, 22, 56, 12, 14, 219, 246, 200, 80, 178, 253, 219, 1, 114, 71, 33, 70, 124, 194, 255, 107, 11, 138, 90, 75, 179, 16, 150, 131, 44, 226, 209, 104, 95, 36, 10, 141, 149, 68, 177, 32, 117, 206, 219, 191, 177, 129 },
+                            PasswordHash = new byte[] { 67, 42, 34, 10, 197, 241, 107, 179, 41, 81, 214, 29, 246, 203, 207, 69, 158, 24, 77, 155, 12, 115, 197, 162, 228, 231, 224, 253, 224, 36, 205, 213, 225, 90, 74, 199, 108, 165, 104, 143, 117, 163, 49, 219, 133, 143, 47, 223, 149, 14, 194, 7, 180, 248, 111, 184, 83, 86, 76, 181, 223, 248, 88, 130 },
+                            PasswordSalt = new byte[] { 187, 46, 135, 76, 30, 134, 31, 48, 33, 227, 105, 114, 67, 80, 173, 55, 210, 26, 192, 19, 7, 202, 136, 248, 106, 168, 13, 73, 190, 171, 135, 53, 22, 77, 35, 98, 83, 252, 131, 28, 244, 161, 207, 51, 41, 220, 20, 208, 246, 77, 77, 92, 36, 164, 107, 223, 112, 203, 19, 147, 208, 180, 113, 141, 134, 88, 13, 175, 88, 48, 7, 143, 55, 246, 134, 90, 19, 36, 89, 37, 151, 159, 25, 68, 26, 187, 254, 14, 139, 185, 4, 251, 93, 250, 151, 162, 151, 105, 110, 128, 214, 139, 148, 101, 63, 7, 75, 19, 172, 214, 226, 187, 68, 94, 209, 116, 142, 228, 62, 165, 244, 69, 140, 252, 211, 155, 212, 46 },
                             Role = 1
                         });
+                });
+
+            modelBuilder.Entity("Domain.Comments.Entities.Comment", b =>
+                {
+                    b.HasOne("Domain.Users.Entities.User", "Author")
+                        .WithMany("Comments")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Posts.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
@@ -241,21 +257,6 @@ namespace Domain.Migrations
                     b.Navigation("Folder");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Posts.Entities.Comment", b =>
-                {
-                    b.HasOne("Domain.Users.Entities.User", "Author")
-                        .WithMany("Comments")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Posts.Entities.Post", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Domain.Posts.Entities.Post", b =>
