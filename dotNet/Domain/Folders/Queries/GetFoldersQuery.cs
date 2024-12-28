@@ -18,6 +18,7 @@ internal class GetFoldersQueryHandler(
             .Include(x => x.Images)
             .Include(x => x.User)
             .Select(f => new FolderDto(
+                f.Id,
                 f.Name,
                 f.Logo,
                 f.Images
