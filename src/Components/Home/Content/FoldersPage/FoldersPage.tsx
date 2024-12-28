@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./FoldersPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
+import folderDefaultLogo from "../../../../assets/folder.png";
 
 interface Folder {
   name: string;
-  logoId: number;
   logoPath: string;
 }
 
@@ -18,22 +18,19 @@ export function FoldersPage() {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [logos, setLogos] = useState<Logo[]>([]);
   const [folderName, setFolderName] = useState("");
-  const [logoId, setLogoId] = useState(0);
+  const [logoId, setLogoId] = useState<number | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const addFolderFormView = location.state?.addFolderFormView || false;
-  const removeCheckboxesFolders =
-    location.state?.removeCheckboxesFolders || false;
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
-    {}
-  );
+  const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
+  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
 
   const fetchFolders = async () => {
     const res = await api.get("/folders");
     const folderData = res.data.map(
       (folder: { name: string; logo: { path: string } }) => ({
         name: folder.name,
-        logoPath: folder.logo.path,
+        logoPath: folder?.logo?.path || folderDefaultLogo,
       })
     );
     setFolders(folderData);
@@ -85,7 +82,11 @@ export function FoldersPage() {
       {addFolderFormView ? (
         <form onSubmit={handleAddFolder}>
           <p>Select folder logo:</p>
-          <select onChange={(e) => setLogoId(Number(e.target.value))}>
+          <select onChange={(e) => {
+              const value = Number(e.target.value);
+              setLogoId(value === 0 ? null : value);
+          }}>
+            <option value={0}>default</option>
             {logos.map((logo) => (
               <option key={logo.id} value={logo.id}>
                 {logo.name}
