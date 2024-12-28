@@ -5,5 +5,5 @@ namespace Domain.Posts.Repositories;
 
 public interface IPostRepository : IEntityRepository<Post>
 {
-    
+    IQueryable<Post> Query();
 }
