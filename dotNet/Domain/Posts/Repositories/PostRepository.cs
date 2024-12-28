@@ -8,4 +8,7 @@ internal class PostRepository(IUnitOfWork unitOfWork,
 {
     protected override IQueryable<Post> GetQuery()
     => dbContext.Posts.AsQueryable();
+
+    public IQueryable<Post> Query()
+        => dbContext.Posts.AsQueryable();
 }

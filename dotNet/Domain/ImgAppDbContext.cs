@@ -1,3 +1,4 @@
+using Domain.Comments.Entities;
 using Domain.Folders.Entities;
 using Domain.Images.Entities;
 using Domain.Posts.Entities;
