@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using Core.Database;
+using Domain.Comments.Entities;
 using Domain.Images.Entities;
 using Domain.Posts.Entities;
 using Domain.Users.Enums;
