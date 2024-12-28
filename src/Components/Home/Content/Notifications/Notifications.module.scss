@@ -1,0 +1,26 @@
+.notifications {
+  display: flex;
+  justify-content: center;
+}
+
+.message {
+  color: #fff;
+  font-size: 20px;
+  padding: 10px 50px;
+  border-radius: 50px;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+}
+
+.success {
+  background-color: #4caf50;
+}
+
+.error {
+  background-color: red;
+}
+
+.warning {
+  background-color: #ff9800;
+}
