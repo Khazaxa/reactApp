@@ -19,5 +19,10 @@ public class FoldersController(IMediator mediator) : ControllerBase
     [Route("folders")]
     public async Task<IEnumerable<FolderDto>> GetFolders(CancellationToken cancellationToken)
         => await mediator.Send(new GetFoldersQuery(), cancellationToken);
+    
+    [HttpDelete]
+    [Route("folder/{id}")]
+    public async Task<Unit> DeleteFolder(int id, CancellationToken cancellationToken)
+        => await mediator.Send(new DeleteFolderCommand(id), cancellationToken);
 
 }
