@@ -6,8 +6,10 @@ namespace Domain.Posts.Entities;
 
 public class Post : EntityBase
 {
-    private Post() {}
-    
+    private Post()
+    {
+    }
+
     public Post(string title, string content, int authorId)
     {
         Title = title;
@@ -16,16 +18,15 @@ public class Post : EntityBase
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
-    
-    public string Title { get; set; }
-    public string Content { get; set; }
-    public int AuthorId { get; set; }
-    public User Author { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; }
-    public List<Comment> Comments { get; set; }
-    
+
+    public string Title { get; private set; }
+    public string Content { get; private set; }
+    public int AuthorId { get; private set; }
+    public User Author { get; private set; }
+    public DateTime CreatedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+    public List<Comment> Comments { get; private set; }
+
     public static void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Post>(entity =>
