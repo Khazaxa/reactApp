@@ -9,7 +9,7 @@ const FilterBar = () => {
         <strong>Explore</strong>
       </h1>
       <div id={styles.search}>
-        <button className={homeStyles.navButton}> Filters </button>
+        <button className={homeStyles.navButton}>Filters</button>
         <img src={search} id={styles.loupe} />
       </div>
     </div>

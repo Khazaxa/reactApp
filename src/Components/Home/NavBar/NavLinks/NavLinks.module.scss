@@ -10,6 +10,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  list-style: none;
+  padding: 10px;
+  width: 100%;
 }
 
 .navItem {
@@ -20,7 +23,7 @@
   transition: all 0.3s ease;
   border-radius: 10px;
   background-color: violet;
-  padding: 10px 60px;
+  height: 50px;
 }
 
 .navLink{

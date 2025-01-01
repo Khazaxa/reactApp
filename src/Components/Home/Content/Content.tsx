@@ -4,13 +4,14 @@ import { GalleryPage } from "./GalleryPage/GalleryPage";
 import { HomePage } from "./HomePage/HomePage";
 import { PostsPage } from "./PostsPage/PostsPage";
 import { UsersPage } from "./UsersPage/UsersPage";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const Content = () => {
   return (
     <div id={styles.content}>
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/home" element={<HomePage />}/>
         <Route path="/users" element={<UsersPage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/folders" element={<FoldersPage />} />

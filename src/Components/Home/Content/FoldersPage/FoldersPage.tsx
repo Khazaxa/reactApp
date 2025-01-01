@@ -1,7 +1,7 @@
+import api from "../../../../ApiConfig/ApiConfig";
+import styles from "./FoldersPage.module.scss";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./FoldersPage.module.scss";
-import api from "../../../../ApiConfig/ApiConfig";
 import folderDefaultLogo from "../../../../assets/folder.png";
 import Notifications from '../Notifications/Notifications';
 
