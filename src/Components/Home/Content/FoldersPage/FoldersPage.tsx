@@ -1,8 +1,9 @@
+import api from "../../../../ApiConfig/ApiConfig";
+import styles from "./FoldersPage.module.scss";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./FoldersPage.module.scss";
-import api from "../../../../ApiConfig/ApiConfig";
 import folderDefaultLogo from "../../../../assets/folder.png";
+import Notifications from '../../../Notifications/Notifications';
 
 interface Folder {
   id: number;
@@ -25,6 +26,14 @@ export function FoldersPage() {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const addFolderFormView = location.state?.addFolderFormView || false;
   const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
+  const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  }
 
   const fetchFolders = async () => {
     const res = await api.get("/folders");
@@ -59,12 +68,24 @@ export function FoldersPage() {
   }, [removeCheckboxesFolders]);
 
   const handleAddFolder = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await api.post("/folder", { name: folderName, logoId: logoId });
-    setFolderName("");
-    setLogoId(null);
-    navigate("/folders", { state: { addFolderFormView: false } });
-    fetchFolders();
+    try {
+      e.preventDefault();
+      await api.post("/folder", { name: folderName, logoId: logoId });
+      setFolderName("");
+      setLogoId(null);
+      navigate("/folders", { state: { addFolderFormView: false } });
+      fetchFolders();
+
+      setMessage("Folder added successfully!");
+      setMessageType("success");
+      notificationDelay();
+
+    }
+    catch (error) {
+      setMessage("Error adding folder: " + error);
+      setMessageType("error");
+      notificationDelay();
+    }
   };
 
   const handleRemoveItemClick = (id: number) => {
@@ -81,19 +102,38 @@ export function FoldersPage() {
 
 
   const removeFolder = async () => {
-    for (const id of checkedItems) {
-      await api.delete(`/folder/${id}`);
-      navigate("/folders", { state: { removeCheckboxesFolders: false } });
-      fetchFolders();
+    try {
+      for (const id of checkedItems) {
+        await api.delete(`/folder/${id}`);
+        navigate("/folders", { state: { removeCheckboxesFolders: false } });
+        fetchFolders();
+      }
+
+      setMessage("Folder(s) removed successfully!");
+      setMessageType("success");
+      setTimeout(() => {
+        setMessage("");
+        setMessageType(null);
+      }, 3000);
+    } catch (error) {
+      setMessage("Error removing folder(s)!\n\n" + error);
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage("");
+        setMessageType(null);
+      }, 3000);
     }
   };
-  
+
 
   return (
     <div className={styles.foldersPage}>
+
+      <Notifications messageType={messageType} message={message} />
+
       {removeCheckboxesFolders ? (
-        <button className={styles.removeFolderBtn} onClick={removeFolder} disabled={checkedItems.length === 0}>Remove</button> 
-      ) : ( true )}
+        <button className={styles.removeFolderBtn} onClick={removeFolder} disabled={checkedItems.length === 0}>Remove</button>
+      ) : (true)}
 
       {addFolderFormView ? (
         <form onSubmit={handleAddFolder}>

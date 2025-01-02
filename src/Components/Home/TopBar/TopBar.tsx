@@ -1,6 +1,6 @@
 import { AccountBtn } from "../../Button/AccountBtn/AccountBtn";
 import { AddBtn } from "../../Button/AddBtn/AddBtn";
-import RemoveBtn from "../../Button/RemoveBtn/RemoveBtn";
+import { RemoveBtn } from "../../Button/RemoveBtn/RemoveBtn";
 
 import styles from "./TopBar.module.scss";
 

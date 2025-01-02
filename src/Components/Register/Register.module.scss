@@ -1,55 +1,52 @@
 @use "../../App.module.scss" as *;
 
+
+#registerPage{
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 #registerForm {
   @include form;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  min-height: 45vw;
   position: relative;
 
   input {
     @include input;
   }
+}
 
-  button {
-    @include button;
-    color: rgb(180, 180, 180);
-    background-color: rgb(82, 82, 82);
-    font-size: xx-large;
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
-  }
+#btnSubmit {
+  @include button;
+}
 
-  #header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1rem;
-    transform: scale(0.5);
+#closeFormBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  margin: 5px;
+  color: #fff;
+  background-color: #A78D78;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #BEB5A9;
+    color: #6E473B;
+
   }
 }
 
-/* width < 600px */
 @media (max-width: 600px) {
   #registerForm {
-    height: 80%;
-    transform: scale(0.75);
+    width: 80vw;
   }
-
   input {
-    max-width: 65vw;
-    font-size: x-large;
-  }
-
-  button {
-    @include button;
-    font-size: xx-large;
-    width: 15vw;
-    margin: auto;
+    width: 50vw;
+    font-size: large;
   }
 }

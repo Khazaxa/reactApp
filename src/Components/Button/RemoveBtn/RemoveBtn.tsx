@@ -2,7 +2,7 @@ import styles from "./RemoveBtn.module.scss";
 import remove from "../../../assets/del.png";
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function RemoveBtn() {
+export function RemoveBtn() {
   const location = useLocation();
   const navigate = useNavigate();
 

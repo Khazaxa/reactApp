@@ -1,15 +1,16 @@
 #navLinks {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #93a3c4;
-  height: 100%;
+  flex-direction: column;
+  background-color: #6E473B;
 }
 
 #navLinks ul {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  list-style: none;
+  padding: 20px 10px;
+  border-top: 2px solid #A78D78;
 }
 
 .navItem {
@@ -19,12 +20,32 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 10px;
-  background-color: violet;
-  padding: 10px 60px;
+  background-color: #A78D78;
+  height: 50px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.navLink{
+.navItem:hover {
+  background-color: #BEB5A9;
+}
+
+.navLink {
   text-decoration: none;
-  color: #000;
+  color: #E1D4C2;
   font-size: 1.2rem;
+}
+
+.navLink:hover {
+  color: #6E473B;
+}
+
+@media (max-width: 768px) {
+  #navBar {
+    width: 250px;
+  }
+  .navBarBtn {
+    padding: 8px 16px;
+    font-size: medium;
+  }
 }

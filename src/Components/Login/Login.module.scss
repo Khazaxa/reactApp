@@ -1,52 +1,54 @@
 @use "../../App.module.scss" as *;
 
+#loginPage {
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 #loginForm {
   @include form;
+
+  p{
+    color: #E1D4C2;
+  }
 }
 
 input {
   @include input;
-  text-align: center;
-  border-radius: 15px;
-  font-size: xx-large;
-}
-
-#btnLogin {
-  @include button;
-  width: 15vw;
-  background-color: rgb(110, 110, 110);
-  color: rgb(226, 226, 226);
-}
-
-#btnRegister {
-  @include button;
-  width: 15vw;
-  background-color: rgb(59, 59, 59);
-  color: rgb(226, 226, 226);
 }
 
 #buttons {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
-/* width < 600px */
+#btnLogin {
+  @include button;
+}
+
+#btnRegister {
+  all: unset;
+  color: #3399ff;
+  font-size: x-large;
+  transition: all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
 @media (max-width: 600px) {
   #loginForm {
-    transform: scale(0.75);
+    width: 80vw;
   }
-
   input {
-    max-width: 65vw;
-  }
-  #buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-
-    button {
-      width: 65vw;
-    }
+    width: 50vw;
+    font-size: large;
   }
 }

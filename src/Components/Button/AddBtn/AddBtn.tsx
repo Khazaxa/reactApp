@@ -8,7 +8,7 @@ export function AddBtn() {
   
   const AddClick = () => {
     if (location.pathname === '/posts') {
-      navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });;
+      navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });
     } else if (location.pathname === '/gallery') {
       navigate("/gallery", { state: { triggerAddGallery: true } });
     } else if (location.pathname === '/folders') {

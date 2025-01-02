@@ -14,10 +14,3 @@
   background-color: rgb(71, 71, 71);
   color: rgb(22, 22, 22);
 }
-
-/* width < 600px */
-@media (max-width: 600px) {
-  #root {
-    display: block;
-  }
-}

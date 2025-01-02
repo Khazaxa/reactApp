@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Item } from "../Item/Item";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
+import Notifications from '../../../Notifications/Notifications';
 
 interface ImageData {
   id: number;
@@ -17,6 +18,14 @@ export function GalleryPage() {
   const [images, setImages] = useState<ImageData[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const removeCheckboxesGallery = location.state?.removeCheckboxesGallery || false;
+  const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  }
 
   useEffect(() => {
     fetchImages();
@@ -45,21 +54,28 @@ export function GalleryPage() {
     }
   };
 
-  const handleGalleryAdd = async () => {
-    fileInputRef.current?.click();
+  const handleImageAdd = async () => {
+    await fileInputRef.current?.click();
 
-    if (fileInputRef.current && fileInputRef.current.files) {
+    if (!fileInputRef.current || !fileInputRef.current.files?.length) return;
+
+    try {
       const file = fileInputRef.current.files[0];
       const formData = new FormData();
       formData.append("file", file);
 
       await api.post("/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
-
+      setMessage("Image added successfully!");
+      setMessageType("success");
       fetchImages();
+      notificationDelay();
+    }
+    catch (error) {
+      setMessage("Error adding image(s)! " + error);
+      setMessageType("error");
+      notificationDelay();
     }
   };
 
@@ -76,27 +92,40 @@ export function GalleryPage() {
   };
 
   const removeImage = async () => {
-    for (const id of checkedItems) {
-      await api.delete(`/image/${id}`);
-      navigate("/gallery", { state: { removeCheckboxesGallery: false } });
-      fetchImages();
+    try {
+      for (const id of checkedItems) {
+        await api.delete(`/image/${id}`);
+        navigate("/gallery", { state: { removeCheckboxesGallery: false } });
+        fetchImages();
+      }
+
+      setMessage("Image(s) removed successfully!");
+      setMessageType("success");
+      notificationDelay();
+    }
+    catch (error) {
+      setMessage("Error removing image(s): " + error);
+      setMessageType("error");
+      notificationDelay();
     }
   };
 
   if (location.state?.triggerAddGallery) {
-    handleGalleryAdd();
+    handleImageAdd();
     location.state.triggerAddGallery = false;
   }
 
   return (
     <div className={styles.galleryPage}>
 
+      <Notifications messageType={messageType} message={message} />
+
       {removeCheckboxesGallery ? (
-        <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button> 
-      ) : ( true )}
+        <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button>
+      ) : (true)}
 
       <h1>Gallery:</h1>
-        <ul>
+      <ul>
         {images.map((image) => (
           <li
             key={image.id}
@@ -114,11 +143,11 @@ export function GalleryPage() {
             <Item name={image.name} imageUrl={image.imageUrl} />
           </li>
         ))}
-        </ul>
+      </ul>
       <input
         type="file"
         ref={fileInputRef}
-        onChange={handleGalleryAdd}
+        onChange={handleImageAdd}
         style={{ display: "none" }}
       />
 
