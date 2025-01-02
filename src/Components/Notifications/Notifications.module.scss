@@ -1,4 +1,4 @@
-.notifications {
+.notification {
   display: flex;
   justify-content: center;
 }
@@ -8,9 +8,10 @@
   font-size: 20px;
   padding: 10px 50px;
   border-radius: 50px;
+  margin-top: 5px;
   position: absolute;
   top: 0;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .success {

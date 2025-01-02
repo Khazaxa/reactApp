@@ -3,6 +3,7 @@ import appStyles from "../../App.module.scss";
 import styles from "./Register.module.scss";
 import api from "../../ApiConfig/ApiConfig";
 import { Login } from "../Login/Login";
+import Notifications from '../Notifications/Notifications';
 
 export function Register({
   setIsLogged,
@@ -24,6 +25,15 @@ export function Register({
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+  const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  }
+
   const validatePassword = (password: string) => {
     return passwordRegex.test(password);
   };
@@ -32,16 +42,17 @@ export function Register({
     event.preventDefault();
 
     if (!emailRegex.test(email)) {
-      setErrorMessage("Invalid email address");
-      clearErrorAfterDelay();
+      setMessage("Invalid email address");
+      setMessageType("error");
+      notificationDelay();
     } else if (validatePassword(password) === false) {
-      setErrorMessage(
-        "Password must contain at least 6 characters, including uppercase, lowercase, number and special character"
-      );
-      clearErrorAfterDelay();
+      setMessage("Password must contain at least 6 characters, including uppercase, lowercase, number and special character");
+      setMessageType("error");
+      notificationDelay();
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");
-      clearErrorAfterDelay();
+      setMessageType("error");
+      notificationDelay();
     } else {
       try {
         const response = await api.post("/auth/register", {
@@ -55,33 +66,28 @@ export function Register({
         if (response.status === 200) {
           setIsRegister(true);
         } else {
-          setErrorMessage("Registration failed. Please try again.");
+          setMessage("Registration failed. Please try again.");
+          setMessageType("error");
+          notificationDelay();
           setIsRegister(false);
-          clearErrorAfterDelay();
         }
       } catch {
-        setErrorMessage("Registration failed. Please try again.");
+        setMessage("Registration failed. Please try again.");
+        setMessageType("error");
+        notificationDelay();
         setIsRegister(false);
-        clearErrorAfterDelay();
       }
     }
   };
 
-  const clearErrorAfterDelay = () => {
-    setTimeout(() => {
-      setErrorMessage("");
-    }, 3000);
-  };
-
   return (
-    <>
+    <div id={styles.registerPage}>
+      <Notifications messageType={messageType} message={message} />
       {isRegister ? (
         <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
       ) : (
         <form id={styles.registerForm} onSubmit={handleSubmit}>
-          <div id={styles.header}>
-            <button onClick={() => setIsRegister(true)}>X</button>
-          </div>
+          <button id={styles.closeFormBtn} onClick={() => setIsRegister(true)}>X</button>
           <h1>Register</h1>
 
           <input
@@ -99,25 +105,22 @@ export function Register({
             placeholder="Enter your age"
             onChange={(e) => setAge(Number(e.target.value))}
           />
-
-          <div>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              id="password2"
-              placeholder="Enter password again"
-              onChange={(e) => setPassword2(e.target.value)}
-            />
-          </div>
-          <button type="submit">Submit</button>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            id="password2"
+            placeholder="Enter password again"
+            onChange={(e) => setPassword2(e.target.value)}
+          />
+          <button id={styles.btnSubmit} type="submit">Submit</button>
           <strong className={appStyles.errorMessage}>{errorMessage}</strong>
         </form>
       )}
-    </>
+    </div>
   );
 }

@@ -3,7 +3,7 @@ import styles from "./FoldersPage.module.scss";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import folderDefaultLogo from "../../../../assets/folder.png";
-import Notifications from '../Notifications/Notifications';
+import Notifications from '../../../Notifications/Notifications';
 
 interface Folder {
   id: number;
@@ -28,6 +28,12 @@ export function FoldersPage() {
   const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  }
 
   const fetchFolders = async () => {
     const res = await api.get("/folders");
@@ -72,19 +78,13 @@ export function FoldersPage() {
 
       setMessage("Folder added successfully!");
       setMessageType("success");
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
-      
+      notificationDelay();
+
     }
     catch (error) {
-      setMessage("Error adding folder!\n\n" + error);
+      setMessage("Error adding folder: " + error);
       setMessageType("error");
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
+      notificationDelay();
     }
   };
 
@@ -115,16 +115,16 @@ export function FoldersPage() {
         setMessage("");
         setMessageType(null);
       }, 3000);
-      } catch (error) {
-        setMessage("Error removing folder(s)!\n\n" + error);
-        setMessageType("error");
-        setTimeout(() => {
-          setMessage("");
-          setMessageType(null);
-        }, 3000);
-      }
-    };
-  
+    } catch (error) {
+      setMessage("Error removing folder(s)!\n\n" + error);
+      setMessageType("error");
+      setTimeout(() => {
+        setMessage("");
+        setMessageType(null);
+      }, 3000);
+    }
+  };
+
 
   return (
     <div className={styles.foldersPage}>
@@ -132,8 +132,8 @@ export function FoldersPage() {
       <Notifications messageType={messageType} message={message} />
 
       {removeCheckboxesFolders ? (
-        <button className={styles.removeFolderBtn} onClick={removeFolder} disabled={checkedItems.length === 0}>Remove</button> 
-      ) : ( true )}
+        <button className={styles.removeFolderBtn} onClick={removeFolder} disabled={checkedItems.length === 0}>Remove</button>
+      ) : (true)}
 
       {addFolderFormView ? (
         <form onSubmit={handleAddFolder}>

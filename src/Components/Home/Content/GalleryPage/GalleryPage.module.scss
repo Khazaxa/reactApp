@@ -7,8 +7,8 @@
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: red;
-  color: white;
+  background-color: #e02a1d;
+  color: #E1D4C2;
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 20px;
@@ -21,6 +21,7 @@
 
 .galleryPage h1 {
   color: yellow;
+  margin-bottom: 10px;
 }
 
 .galleryPage ul {
@@ -41,9 +42,9 @@
   justify-content: center;
   width: 150px;
   height: 150px;
-  border: 2px solid white;
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .galleryPage ul li img {

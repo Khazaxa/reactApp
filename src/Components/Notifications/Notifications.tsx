@@ -9,7 +9,7 @@ interface NotificationsProps {
 const Notifications: React.FC<NotificationsProps> = ({ messageType, message }) => {
 
   return (
-    <div className={styles.notifications}>
+    <div className={styles.notification}>
       {message && (
         <div className={`${styles.message} ${messageType ? styles[messageType] : ""}`}>
           {message}

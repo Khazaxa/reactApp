@@ -1,5 +1,5 @@
 .foldersPage {
-  color: white;
+  color: #ffffff;
   width: auto;
   margin: 10px 0px;
   display: flex;
@@ -7,34 +7,12 @@
   align-items: center;
 }
 
-.message{
-  color: #fff;
-  font-size: 30px;
-  padding: 10px 50px;
-  border-radius: 50px;
-  position: absolute;
-  top: 0;
-  z-index: 1000;
-}
-
-.success{
-  background-color: #4caf50;
-}
-
-.error{
-  background-color: red;
-}
-
-.warning{
-  background-color: #ff9800;
-}
-
-.removeFolderBtn{
+.removeFolderBtn {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: red;
-  color: white;
+  background-color: #e02a1d;
+  color: #E1D4C2;
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 20px;
@@ -81,13 +59,14 @@
   border-radius: 5px;
   border: none;
   background-color: #4caf50;
-  color: white;
+  color: #E1D4C2;
   font-size: 20px;
   cursor: pointer;
 }
 
 .foldersPage h1 {
   color: yellow;
+  margin-bottom: 10px;
 }
 
 .foldersPage ul {
@@ -113,9 +92,9 @@
   background-repeat: no-repeat;
   width: 150px;
   height: 150px;
-  border: 2px solid white;
   background-color: gray;
   border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .checkboxes {

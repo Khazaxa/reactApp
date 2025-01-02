@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Item } from "../Item/Item";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
-import Notifications from '../Notifications/Notifications';
+import Notifications from '../../../Notifications/Notifications';
 
 interface ImageData {
   id: number;
@@ -20,6 +20,12 @@ export function GalleryPage() {
   const removeCheckboxesGallery = location.state?.removeCheckboxesGallery || false;
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  }
 
   useEffect(() => {
     fetchImages();
@@ -50,9 +56,9 @@ export function GalleryPage() {
 
   const handleImageAdd = async () => {
     await fileInputRef.current?.click();
-    
+
     if (!fileInputRef.current || !fileInputRef.current.files?.length) return;
-  
+
     try {
       const file = fileInputRef.current.files[0];
       const formData = new FormData();
@@ -64,18 +70,12 @@ export function GalleryPage() {
       setMessage("Image added successfully!");
       setMessageType("success");
       fetchImages();
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
+      notificationDelay();
     }
     catch (error) {
       setMessage("Error adding image(s)! " + error);
       setMessageType("error");
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
+      notificationDelay();
     }
   };
 
@@ -86,7 +86,7 @@ export function GalleryPage() {
 
     setCheckedItems(prevCheckedItems =>
       prevCheckedItems.includes(id)
-         ? prevCheckedItems.filter(item => item !== id)
+        ? prevCheckedItems.filter(item => item !== id)
         : [...prevCheckedItems, id]
     );
   };
@@ -100,19 +100,13 @@ export function GalleryPage() {
       }
 
       setMessage("Image(s) removed successfully!");
-        setMessageType("success");
-        setTimeout(() => {
-          setMessage("");
-          setMessageType(null);
-        }, 3000);
+      setMessageType("success");
+      notificationDelay();
     }
     catch (error) {
-      setMessage("Error removing image(s)! " + error);
+      setMessage("Error removing image(s): " + error);
       setMessageType("error");
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
+      notificationDelay();
     }
   };
 
@@ -127,11 +121,11 @@ export function GalleryPage() {
       <Notifications messageType={messageType} message={message} />
 
       {removeCheckboxesGallery ? (
-        <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button> 
-      ) : ( true )}
+        <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button>
+      ) : (true)}
 
       <h1>Gallery:</h1>
-        <ul>
+      <ul>
         {images.map((image) => (
           <li
             key={image.id}
@@ -149,7 +143,7 @@ export function GalleryPage() {
             <Item name={image.name} imageUrl={image.imageUrl} />
           </li>
         ))}
-        </ul>
+      </ul>
       <input
         type="file"
         ref={fileInputRef}
