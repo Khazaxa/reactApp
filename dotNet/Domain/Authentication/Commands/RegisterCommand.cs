@@ -21,7 +21,10 @@ internal class RegisterCommandHandler(
     public async Task<int> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         var input = command.Input;
+        var nameExists = await userRepository.AnyAsync(x => x.Name == input.Name, cancellationToken);
         
+        if(nameExists)
+            throw new DomainException("Provided name is unavailable", (int)UserErrorCode.NameExists);
         if(input.Password != input.ConfirmPassword)
             throw new DomainException("Passwords do not match.", (int)AuthErrorCode.InvalidPassword);
 
@@ -36,7 +39,7 @@ internal class RegisterCommandHandler(
         );
 
         userRepository.Add(user);
-        await unitOfWork.SaveChangesAsync();
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         
         return user.Id;
     }
