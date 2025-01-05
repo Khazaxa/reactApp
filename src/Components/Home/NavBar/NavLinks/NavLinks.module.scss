@@ -24,21 +24,23 @@
   height: 50px;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  
+  &:hover {
+    background-color: #BEB5A9;
+  }
 }
 
-.navItem:hover {
-  background-color: #BEB5A9;
-}
 
 .navLink {
   text-decoration: none;
   color: #E1D4C2;
   font-size: 1.2rem;
+  
+  &:hover {
+    color: #6E473B;
+  }
 }
 
-.navLink:hover {
-  color: #6E473B;
-}
 
 @media (max-width: 768px) {
   #navBar {
