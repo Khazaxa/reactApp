@@ -18,7 +18,7 @@ public class User : EntityBase
     {
     }
 
-    public User(string? name, string email, int? age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
+    public User(string name, string email, int? age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
     {
         Update(name, age);
         Email = email;
@@ -27,7 +27,7 @@ public class User : EntityBase
         Role = role;
     }
 
-    [MaxLength(NameMaxLength)] public string? Name { get; private set; }
+    [MaxLength(NameMaxLength)] public string Name { get; private set; }
     [MaxLength(EmailMaxLength)] public string Email { get; private set; }
     public int? Age { get; private set; }
     public byte[] PasswordHash { get; private set; } = null!;
@@ -36,7 +36,7 @@ public class User : EntityBase
     public List<Post> Posts { get; private set; } = new();
     public List<Comment> Comments { get; private set; } = new();
 
-    public void Update(string? name, int? age)
+    public void Update(string name, int? age)
     {
         Name = name;
         Age = age;
@@ -46,6 +46,9 @@ public class User : EntityBase
     {
         builder.Entity<User>()
             .HasIndex(x => x.Email)
+            .IsUnique();
+        builder.Entity<User>()
+            .HasIndex(x => x.Name)
             .IsUnique();
         builder.Entity<User>()
             .HasMany<Image>()
