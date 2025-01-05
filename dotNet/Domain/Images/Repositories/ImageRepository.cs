@@ -12,6 +12,6 @@ internal class ImageRepository(
     
     protected override IQueryable<Image> GetQuery()
     {
-        throw new NotImplementedException();
+        return Query();
     }
 }

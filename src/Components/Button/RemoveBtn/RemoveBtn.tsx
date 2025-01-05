@@ -1,31 +1,23 @@
 import styles from "./RemoveBtn.module.scss";
 import remove from "../../../assets/del.png";
-import { IsProps } from "../../Home/Home";
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function RemoveBtn({
-  isHomePage,
-  isUsersPage,
-  isGalleryPage,
-  isFoldersPage,
-  isPostsPage,
-}: IsProps) {
+export function RemoveBtn() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const RemoveClick = () => {
+    if (location.pathname === '/posts') {
+      navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });;
+    } else if (location.pathname === '/gallery') {
+      navigate("/gallery", { state: { removeCheckboxesGallery: location.state?.removeCheckboxesGallery !== true } });;
+    } else if (location.pathname === '/folders') {
+      navigate("/folders", { state: { removeCheckboxesFolders: location.state?.removeCheckboxesFolders !== true } });
+    }
+  };
+
   return (
-    <button
-      id={styles.remove}
-      onClick={() => {
-        if (isHomePage) {
-          alert("Remove from Home Page");
-        } else if (isUsersPage) {
-          alert("Remove from Users Page");
-        } else if (isGalleryPage) {
-          alert("Remove from Gallery Page");
-        } else if (isFoldersPage) {
-          alert("Remove from Folders Page");
-        } else if (isPostsPage) {
-          alert("Remove from Posts Page");
-        }
-      }}
-    >
+    <button id={styles.removeBtn} onClick={RemoveClick}>
       <img src={remove} alt="Remove Button" />
     </button>
   );

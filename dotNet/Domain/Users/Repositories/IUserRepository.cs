@@ -8,4 +8,6 @@ public interface IUserRepository : IEntityRepository<User>
     IQueryable<User> Query();
    
     Task<User?> FindByEmailAsync(string email, CancellationToken cancellationToken);
+    
+    Task<User?> FindByNameAsync(string name, CancellationToken cancellationToken);
 }

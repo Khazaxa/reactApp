@@ -22,6 +22,66 @@ namespace Domain.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Comments.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("LogoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LogoId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Folders");
+                });
+
             modelBuilder.Entity("Domain.Images.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -33,6 +93,9 @@ namespace Domain.Migrations
                     b.Property<string>("Extension")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("FolderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -50,12 +113,46 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FolderId");
+
                     b.HasIndex("Name")
                         .IsUnique();
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("Domain.Posts.Entities.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Domain.Users.Entities.User", b =>
@@ -95,17 +192,99 @@ namespace Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "user@example.com",
+                            Name = "User",
+                            PasswordHash = new byte[] { 67, 42, 34, 10, 197, 241, 107, 179, 41, 81, 214, 29, 246, 203, 207, 69, 158, 24, 77, 155, 12, 115, 197, 162, 228, 231, 224, 253, 224, 36, 205, 213, 225, 90, 74, 199, 108, 165, 104, 143, 117, 163, 49, 219, 133, 143, 47, 223, 149, 14, 194, 7, 180, 248, 111, 184, 83, 86, 76, 181, 223, 248, 88, 130 },
+                            PasswordSalt = new byte[] { 187, 46, 135, 76, 30, 134, 31, 48, 33, 227, 105, 114, 67, 80, 173, 55, 210, 26, 192, 19, 7, 202, 136, 248, 106, 168, 13, 73, 190, 171, 135, 53, 22, 77, 35, 98, 83, 252, 131, 28, 244, 161, 207, 51, 41, 220, 20, 208, 246, 77, 77, 92, 36, 164, 107, 223, 112, 203, 19, 147, 208, 180, 113, 141, 134, 88, 13, 175, 88, 48, 7, 143, 55, 246, 134, 90, 19, 36, 89, 37, 151, 159, 25, 68, 26, 187, 254, 14, 139, 185, 4, 251, 93, 250, 151, 162, 151, 105, 110, 128, 214, 139, 148, 101, 63, 7, 75, 19, 172, 214, 226, 187, 68, 94, 209, 116, 142, 228, 62, 165, 244, 69, 140, 252, 211, 155, 212, 46 },
+                            Role = 1
+                        });
                 });
 
-            modelBuilder.Entity("Domain.Images.Entities.Image", b =>
+            modelBuilder.Entity("Domain.Comments.Entities.Comment", b =>
                 {
+                    b.HasOne("Domain.Users.Entities.User", "Author")
+                        .WithMany("Comments")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Posts.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
+                {
+                    b.HasOne("Domain.Images.Entities.Image", "Logo")
+                        .WithMany()
+                        .HasForeignKey("LogoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Domain.Users.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Logo");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Images.Entities.Image", b =>
+                {
+                    b.HasOne("Domain.Folders.Entities.Folder", "Folder")
+                        .WithMany("Images")
+                        .HasForeignKey("FolderId");
+
+                    b.HasOne("Domain.Users.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Folder");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Posts.Entities.Post", b =>
+                {
+                    b.HasOne("Domain.Users.Entities.User", "Author")
+                        .WithMany("Posts")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("Domain.Posts.Entities.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Users.Entities.User", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618
         }

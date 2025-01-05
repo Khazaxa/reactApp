@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(ImgAppDbContext))]
-    [Migration("20241201081028_RelationUserImage")]
-    partial class RelationUserImage
+    [Migration("20241217212635_Folders")]
+    partial class Folders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace Domain.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("LogoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LogoId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Folders");
+                });
 
             modelBuilder.Entity("Domain.Images.Entities.Image", b =>
                 {
@@ -36,6 +66,9 @@ namespace Domain.Migrations
                     b.Property<string>("Extension")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int?>("FolderId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -52,6 +85,8 @@ namespace Domain.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FolderId");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -98,15 +133,57 @@ namespace Domain.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "user@example.com",
+                            Name = "User",
+                            PasswordHash = new byte[] { 169, 162, 187, 64, 244, 129, 66, 189, 243, 17, 225, 183, 130, 65, 237, 247, 88, 27, 19, 207, 33, 40, 77, 97, 161, 35, 229, 227, 56, 243, 189, 164, 88, 75, 185, 7, 55, 45, 69, 102, 84, 235, 120, 93, 230, 104, 149, 224, 55, 107, 104, 87, 67, 121, 95, 33, 82, 8, 227, 63, 173, 97, 29, 68 },
+                            PasswordSalt = new byte[] { 167, 187, 95, 229, 167, 166, 87, 138, 144, 9, 188, 184, 252, 178, 163, 229, 200, 7, 27, 209, 255, 245, 54, 51, 115, 211, 217, 11, 64, 178, 80, 170, 188, 27, 255, 121, 218, 12, 49, 194, 155, 57, 160, 216, 114, 235, 206, 212, 205, 45, 29, 94, 55, 81, 161, 229, 105, 13, 126, 243, 159, 100, 204, 15, 102, 95, 213, 217, 24, 34, 177, 164, 238, 238, 48, 107, 132, 205, 98, 192, 244, 87, 57, 113, 172, 73, 14, 163, 95, 245, 20, 44, 117, 121, 199, 68, 114, 78, 39, 24, 249, 196, 210, 245, 106, 163, 215, 212, 212, 104, 7, 1, 82, 196, 138, 231, 73, 229, 30, 59, 78, 85, 138, 225, 37, 54, 78, 64 },
+                            Role = 1
+                        });
                 });
 
-            modelBuilder.Entity("Domain.Images.Entities.Image", b =>
+            modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
                 {
-                    b.HasOne("Domain.Users.Entities.User", null)
+                    b.HasOne("Domain.Images.Entities.Image", "Logo")
+                        .WithMany()
+                        .HasForeignKey("LogoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Users.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Logo");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Images.Entities.Image", b =>
+                {
+                    b.HasOne("Domain.Folders.Entities.Folder", "Folder")
+                        .WithMany("Images")
+                        .HasForeignKey("FolderId");
+
+                    b.HasOne("Domain.Users.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Folder");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>
+                {
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

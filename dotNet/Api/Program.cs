@@ -19,7 +19,7 @@ public class Program
 
         builder.Services.AddHttpContextAccessor();
         ConfigureDependencyInjection(builder);
-        
+
         builder.Services.AddAuthorization();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
@@ -42,21 +42,20 @@ public class Program
                         {
                             Type = ReferenceType.SecurityScheme,
                             Id = "Bearer"
-                        },
+                        }
                     },
                     new string[] { }
                 }
             });
         });
 
-       
         var env = builder.Environment;
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
-        
+
         var authenticationSettings = new AuthenticationSettings();
         var azureConfig = new AzureConfig();
         builder.Configuration.GetSection("Authentication").Bind(authenticationSettings);
@@ -79,26 +78,21 @@ public class Program
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey))
             };
         });
-        
+
         ConfigureServices(builder.Services);
         var app = builder.Build();
 
         app.UseMiddleware<ExceptionMiddleware>();
-        
-        
+
         app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1");
-        });
-        
-        
-        app.UseCors("AllowLocalhost");
+        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1"); });
+
+        app.UseCors("AllowAll");
         app.UseAuthentication();
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();
-        
+
         using (var scope = app.Services.CreateScope())
         {
             DomainModule.MigrateDatabase(scope);
@@ -117,15 +111,15 @@ public class Program
                 .As<IAppConfiguration>().SingleInstance();
         });
     }
-    
+
     public static void ConfigureServices(IServiceCollection services)
     {
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowLocalhost",
+            options.AddPolicy("AllowAll",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:5173")
+                    builder.AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });

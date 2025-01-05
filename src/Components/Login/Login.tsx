@@ -1,7 +1,7 @@
 import styles from "./Login.module.scss";
-import appStyles from "../../App.module.scss";
 import { useState } from "react";
 import api from "../../ApiConfig/ApiConfig";
+import Notifications from '../Notifications/Notifications';
 
 export function Login({
   setIsLogged,
@@ -12,7 +12,14 @@ export function Login({
 }) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,17 +39,20 @@ export function Login({
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
         setIsLogged(true);
+
       } else {
         setIsLogged(false);
       }
     } catch {
-      setErrorMessage("Authentication failed. Please try again.");
-      setIsLogged(false);
+      setMessage("Authentication failed. Please try again.");
+      setMessageType("error");
+      notificationDelay();
     }
   };
 
   return (
-    <>
+    <div id={styles.loginPage}>
+      <Notifications messageType={messageType} message={message} />
       <form id={styles.loginForm} onSubmit={handleSubmit}>
         <h1>Login</h1>
         <input
@@ -63,20 +73,20 @@ export function Login({
           <button id={styles.btnLogin} type="submit">
             Login
           </button>
-          <button
-            id={styles.btnRegister}
-            onClick={(e) => {
-              e.preventDefault();
-              setIsRegister(false);
-            }}
-          >
-            Register
-          </button>
-        </div>
-        <div>
-          <strong className={appStyles.errorMessage}>{errorMessage}</strong>
+          <div>
+            <p>Don't have an account?</p>
+            <button
+              id={styles.btnRegister}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsRegister(false);
+              }}
+              >
+              Register
+            </button>
+          </div>
         </div>
       </form>
-    </>
+    </div>
   );
 }

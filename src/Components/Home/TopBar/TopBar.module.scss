@@ -2,18 +2,28 @@
 
 #topBar {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  gap: 50px;
+  justify-content: center;
   align-items: center;
   padding: 0 20px;
   width: 100%;
   height: 8vh;
-  background-color: #641313;
-  z-index: 100;
+  background-color: #9e9e9d;
   overflow: hidden;
-
+  
   button {
-    @include button;
-    background-color: #641313;
-    color: white;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 10px;
+    background-color: #A78D78;
+    color: #E1D4C2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #BEB5A9;
+      cursor: pointer;
+    }
   }
 }
