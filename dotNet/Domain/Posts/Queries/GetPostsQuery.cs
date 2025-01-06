@@ -15,7 +15,7 @@ internal class GetPostsQueryHandler(
     {
         var posts = await postRepository.Query()
             .Include(x => x.Author)
-            .Select((i) => new PostDto(i.Id, i.Title, i.Content, i.Author.Email!))
+            .Select((i) => new PostDto(i.Title, i.Content, i.Author.Email!))
             .ToListAsync(cancellationToken);
         return posts; 
     }
