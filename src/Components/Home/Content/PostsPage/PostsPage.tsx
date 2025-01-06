@@ -7,9 +7,10 @@ interface Post {
   id: number;
   title: string;
   content: string;
+  author: string;
 }
 
-export function UsersPage() {
+export function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
@@ -32,17 +33,29 @@ export function UsersPage() {
     fetchPosts();
   }, []);
 
+  const readMorePost = () => {
+    console.log("Read more post");
+  };
+
   return (
     <div className={styles.usersPage}>
       <Notifications messageType={messageType} message={message} />
-      <div className={styles.userList}>
+      <div className={styles.postsList}>
         {posts.map((post) => (
-          <div className={styles.userCard}>
-            <div className={styles.userName}>
-              <strong>{post.title}</strong>
+          <div className={styles.postCard}>
+            <div className={styles.postTitle}>
+              <strong>{post.title}</strong><p> by {post.author}</p>
             </div>
-            <div className={styles.userEmail}>
-              <strong>{post.content}</strong>
+            <div className={styles.postContent}>
+            {post.content ? (
+                post.content.length > 130 ? (
+                  <>
+                    {post.content.slice(0, 130)} ... <a onClick={readMorePost}>Show more</a>
+                  </>
+                ) : (
+                  post.content
+                )
+              ) : ("")}
             </div>
           </div>
         ))}

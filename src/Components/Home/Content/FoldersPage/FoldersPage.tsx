@@ -8,12 +8,13 @@ import Notifications from '../../../Notifications/Notifications';
 interface Folder {
   id: number;
   name: string;
-  logoPath: string;
+  logo: Logo;
 }
 
 interface Logo {
   id: number;
   name: string;
+  path: string;
 }
 
 export function FoldersPage() {
@@ -36,24 +37,13 @@ export function FoldersPage() {
   }
 
   const fetchFolders = async () => {
-    const res = await api.get("/folders");
-    const folderData = res.data.map(
-      (folder: { id: number; name: string; logo: { path: string } }) => ({
-        id: folder.id,
-        name: folder.name,
-        logoPath: folder?.logo?.path || folderDefaultLogo,
-      })
-    );
-    setFolders(folderData);
+    const response = await api.get("/folders");
+    setFolders(response.data);
   };
 
   const fetchLogos = async () => {
-    const res = await api.get("/images");
-    const logoData = res.data.map((logo: { id: number; name: string }) => ({
-      id: logo.id,
-      name: logo.name,
-    }));
-    setLogos(logoData);
+    const response = await api.get("/images");
+    setLogos(response.data);
   };
 
   useEffect(() => {
@@ -172,7 +162,7 @@ export function FoldersPage() {
             className="folders"
             key={folder.id}
             onClick={() => handleRemoveItemClick(folder.id)}
-            style={{ backgroundImage: `url(${folder.logoPath})` }}
+            style={{ backgroundImage: `url(${folder.logo?.path || folderDefaultLogo})` }}
           >
             {removeCheckboxesFolders ? (
               <input
