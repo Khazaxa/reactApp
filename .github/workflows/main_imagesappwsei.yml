@@ -6,7 +6,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - imagesappwsei
 on:
   push:
     branches:
-      - main
+      - kobbe
   workflow_dispatch:
 
 jobs:
