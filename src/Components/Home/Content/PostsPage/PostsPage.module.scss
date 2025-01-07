@@ -8,7 +8,7 @@
   margin-bottom: 10px;
 }
 
-.postsPage form {
+.addPostForm {
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -39,7 +39,7 @@
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #4caf50;
+    background-color: #5a5;
     color: #ffffff;
     font-size: 20px;
     cursor: pointer;
@@ -55,24 +55,25 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   width: 50%;
 
-  hr {
-    margin-top: 10px;
+  hr{
+    width: 100%;
+    margin: 10px 0;
   }
 
-  button {
-    background-color: #555;
+  .addCommentBtn {
+    background-color: #A78D78;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     border: none;
     color: #ffffff;
     border-radius: 5px;
     height: 30px;
-    margin-top: 10px;
     padding: 5px 10px;
     width: 20%;
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #666;
+      background-color: #BEB5A9;
+      color: #6E473B;
       cursor: pointer;
     }
   }
@@ -88,7 +89,7 @@
 
   p {
     font-size: small;
-    margin-left: 10px;
+    margin-left: 7px;
   }
 }
 
@@ -112,31 +113,92 @@
       text-decoration: underline;
     }
   }
-}
 
+}
 .commentsList {
   list-style: none;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 
-  .commentsListTitle {
+  .commentsCounter {
     display: flex;
+    flex-direction: column;
     background-color: #444;
     color: #fff;
     border-radius: 5px;
     border: none;
     box-shadow: none;
     padding: 0px;
+
+    span{
+      color: #3399ff;
+      cursor: pointer;
+      font-size: large;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+    }
   }
 
   li {
     display: flex;
-    background-color: #555;
+    background-color: #9e9e9d;
     color: #fff;
-    margin-top: 10px;
     border-radius: 5px;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    align-items: baseline;
+
+    span {
+      margin-left: 3px;
+      font-size: small;
+    }
+  }
+}
+
+.addCommentForm {
+  margin: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  input {
+    border-radius: 5px;
+    padding: 0px;
+    border: none;
+    margin: 0px;
+    width: 100%;
+    font-size: small;
+    height: 30px;
+    text-align: left;
+  }
+  
+  .commentFormBtns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    
+    button{
+      background-color: #A78D78;;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #ffffff;
+      border-radius: 5px;
+      height: 30px;
+      padding: 5px 10px;
+      width: 20%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #BEB5A9;
+        color: #6E473B;
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -145,7 +207,7 @@
     width: 80%;
     grid-template-columns: 1fr;
     gap: 10px;
-
+    
     button {
       width: 40%;
     }
@@ -157,7 +219,7 @@
     width: 80%;
     grid-template-columns: 1fr;
     gap: 20px;
-
+    
     button {
       width: 40%;
     }

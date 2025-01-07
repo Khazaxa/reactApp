@@ -23,10 +23,14 @@ export function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
   const [readMore, setReadMore] = useState<{ [key: number]: boolean }>({});
+  const [visibleComments, setVisibleComments] = useState<{ [key: number]: boolean }>({});
   const [message, setMessage] = useState<string>("");
   const [postTitle, setPostTitle] = useState<string>("");
   const [postContent, setPostContent] = useState<string>("");
+  const [postId, setPostId] = useState<number | null>(null);
+  const [commentContent, setCommentContent] = useState<string>("");
   const addPostFormView = location.state?.addPostFormView || false;
+  const [commentFormView, setCommentFormView] = useState<{ [key: number]: boolean }>({});
   const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
   const notificationDelay = () => {
     setTimeout(() => {
@@ -77,12 +81,44 @@ export function PostsPage() {
     }));
   };
 
+  const handleShowCommentForm = (postId: number) => async () => {
+    setCommentFormView((prevState) => ({
+      ...prevState,
+      [postId]: !prevState[postId],
+    }));
+  }
+
+  const handleAddComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (postId !== null) {
+      await api.post("/comment", { content: commentContent, postId: postId });
+      fetchComments();
+      setCommentContent("");
+      setCommentFormView((prevState) => ({
+        ...prevState,
+        [postId]: !prevState[postId],
+      }));
+      setPostId(null);
+      setMessage("Comment added successfully!");
+      setMessageType("success");
+      notificationDelay();
+    }
+  }
+
+  const handleShowMoreComents = (postId: number) => {
+    setVisibleComments((prevState) => ({
+      ...prevState,
+      [postId]: !prevState[postId],
+    }));
+  }
+
+
   return (
     <div className={styles.postsPage}>
       <Notifications messageType={messageType} message={message} />
 
       {addPostFormView ? (
-        <form onSubmit={handleAddPost}>
+        <form className={styles.addPostForm} onSubmit={handleAddPost}>
           <p>Type post title:</p>
           <input
             type="text"
@@ -101,7 +137,6 @@ export function PostsPage() {
       ) : (
         true
       )}
-
 
       {posts.map((post) => (
         <div className={styles.postCard} key={post.id}>
@@ -125,20 +160,67 @@ export function PostsPage() {
               </span>
             )}
           </div>
-          <hr />
           <ul className={styles.commentsList}>
-            <li className={styles.commentsListTitle}>
-              Comments ({comments.filter((comment) => comment.postId === post.id).length}):
+            <li className={styles.commentsCounter}>
+              {comments.filter((comment) => comment.postId === post.id).length > 0 ? (
+                <>
+                  <hr />
+                  Comments ({comments.filter((comment) => comment.postId === post.id).length}):
+
+                  {!visibleComments[post.id] ? (
+                    comments.filter((comment) => comment.postId === post.id).length > 2 ? (
+                      <span onClick={() => handleShowMoreComents(post.id)}>Show more comments</span>
+                    ) : (
+                      false
+                    )
+                  ) : (
+                    comments.filter((comment) => comment.postId === post.id).length > 2 ? (
+                      <span onClick={() => handleShowMoreComents(post.id)}>Show less comments</span>
+                    ) : (
+                      false
+                    )
+                  )}
+                </>
+              ) : (false)}
             </li>
-            {comments
-              .filter((comment) => comment.postId === post.id)
-              .map((comment, index) => (
-                <li key={index}>
-                  <strong>{comment.author}</strong>: {comment.content}
-                </li>
-              ))}
+
+            {comments.filter((comment) => comment.postId === post.id).length > 0 ? (
+              <>
+                {!visibleComments[post.id] ? (
+                  <>
+                    {comments.filter((comment) => comment.postId === post.id).slice(0, 2).map((comment) => (
+                      <li key={comment.content} className={styles.comment}>
+                        <strong>{comment.author}</strong>: {comment.content}
+                      </li>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {comments.filter((comment) => comment.postId === post.id).map((comment) => (
+                      <li key={comment.content} className={styles.comment}>
+                        <strong>{comment.author}</strong>: {comment.content}
+                      </li>
+                    ))}
+                  </>
+                )}
+              </>
+            ) : (false)}
+            <hr />
           </ul>
-          <button>Comment</button>
+          {commentFormView[post.id] ? (
+            <form className={styles.addCommentForm} onSubmit={handleAddComment}>
+              <input type="text" placeholder="Type comment" value={commentContent} onChange={(e) => setCommentContent(e.target.value)} required />
+              <div className={styles.commentFormBtns}>
+                <button onClick={() => setPostId(post.id)} type="submit">Comment</button>
+                <button onClick={handleShowCommentForm(post.id)}>Cancel</button>
+              </div>
+            </form>
+          ) : (false)
+          }
+          {!commentFormView[post.id] ? (
+            <button className={styles.addCommentBtn} onClick={handleShowCommentForm(post.id)}>Add comment</button>
+          ) : (false)
+          }
         </div>
       ))}
     </div>
