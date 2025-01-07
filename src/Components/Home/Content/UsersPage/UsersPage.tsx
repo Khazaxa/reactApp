@@ -36,7 +36,6 @@ export function UsersPage() {
   return (
     <div className={styles.usersPage}>
       <Notifications messageType={messageType} message={message} />
-      <div className={styles.usersList}>
         {users.map((user) => (
           <div className={styles.userCard}>
             <div className={styles.userAvatar}>
@@ -53,7 +52,6 @@ export function UsersPage() {
             </div>
           </div>
         ))}
-      </div>
     </div>
   );
 }

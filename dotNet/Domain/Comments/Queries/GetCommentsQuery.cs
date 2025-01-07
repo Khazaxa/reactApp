@@ -16,7 +16,7 @@ internal class GetCommentsQueryHandler(
         var comments = await commentRepository.Query()
             .Include(c => c.Author)
             .Include(c => c.Post)
-            .Select((i) => new CommentDto(i.Content, i.Author.Email))
+            .Select((i) => new CommentDto(i.Content, i.Author.Email, i.PostId))
             .ToListAsync(cancellationToken);
 
         return comments;

@@ -1,10 +1,49 @@
-.postsList {
+.postsPage {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: auto;
-  padding: 20px 0px;
+  padding: 10px 0px;
   align-items: center;
+  margin-bottom: 10px;
+}
+
+.postsPage form {
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  margin-bottom: 10px;
+
+  input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 0px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 0px;
+  }
+
+  button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4caf50;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+  }
 }
 
 .postCard {
@@ -15,16 +54,39 @@
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   width: 50%;
+
+  hr {
+    margin-top: 10px;
+  }
+
+  button {
+    background-color: #555;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+    height: 30px;
+    margin-top: 10px;
+    padding: 5px 10px;
+    width: 20%;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #666;
+      cursor: pointer;
+    }
+  }
 }
 
 .postTitle {
   display: flex;
   color: #fff;
-  border-radius: 5px;
+  height: 30px;
+  width: auto;
   font-size: xx-large;
   align-items: baseline;
 
-  p{
+  p {
     font-size: small;
     margin-left: 10px;
   }
@@ -34,21 +96,70 @@
   display: flex;
   background-color: #555;
   color: #fff;
+  text-align: left;
   border-radius: 5px;
   padding: 10px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 
-  a{
+  .readMoreBtn {
     color: #3399ff;
     margin-left: 5px;
     cursor: pointer;
-    text-decoration: underline;
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.commentsList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+
+  .commentsListTitle {
+    display: flex;
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    box-shadow: none;
+    padding: 0px;
+  }
+
+  li {
+    display: flex;
+    background-color: #555;
+    color: #fff;
+    margin-top: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
 @media (max-width: 600px) {
   .postCard {
+    width: 80%;
     grid-template-columns: 1fr;
     gap: 10px;
+
+    button {
+      width: 40%;
+    }
+  }
+}
+
+@media (min-width: 600px) and (max-width: 800px) {
+  .postCard {
+    width: 80%;
+    grid-template-columns: 1fr;
+    gap: 20px;
+
+    button {
+      width: 40%;
+    }
   }
 }

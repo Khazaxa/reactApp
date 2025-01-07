@@ -101,17 +101,11 @@ export function FoldersPage() {
 
       setMessage("Folder(s) removed successfully!");
       setMessageType("success");
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
+      notificationDelay();
     } catch (error) {
       setMessage("Error removing folder(s)!\n\n" + error);
       setMessageType("error");
-      setTimeout(() => {
-        setMessage("");
-        setMessageType(null);
-      }, 3000);
+      notificationDelay();
     }
   };
 
