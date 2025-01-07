@@ -42,7 +42,8 @@ public class Post : EntityBase
                 .HasDefaultValue(false);
             
             entity.Property(p => p.Content)
-                .HasColumnType("varbinary(max)");
+                //.HasColumnType("varbinary(max)"); SQLSERVER
+                .HasColumnType("longblob"); // MYSQL
         });
     }
 }
