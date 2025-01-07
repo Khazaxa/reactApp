@@ -7,11 +7,9 @@ namespace Domain.Posts.Entities;
 
 public class Post : EntityBase
 {
-    private Post()
-    {
-    }
+    private Post() {}
 
-    public Post(string title, string content, int authorId)
+    public Post(string title, byte[] content, int authorId)
     {
         Title = title;
         Content = content;
@@ -21,12 +19,14 @@ public class Post : EntityBase
     }
 
     public string Title { get; private set; }
-    public string Content { get; private set; }
+    public byte[] Content { get; private set; }
     public int AuthorId { get; private set; }
     public User Author { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
+    public bool IsDeleted { get; private set; }
     public List<Comment> Comments { get; private set; }
+    
 
     public static void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,10 +37,12 @@ public class Post : EntityBase
                 .HasForeignKey(p => p.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasMany(p => p.Comments)
-                .WithOne(c => c.Post)
-                .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
+            entity.Property(p => p.IsDeleted)
+                .IsRequired()
+                .HasDefaultValue(false);
+            
+            entity.Property(p => p.Content)
+                .HasColumnType("varbinary(max)");
         });
     }
 }

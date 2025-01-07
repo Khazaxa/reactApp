@@ -44,7 +44,8 @@ public class DomainModule(IConfigurationRoot _configuration) : Module
             {
                 var optionsBuilder = new DbContextOptionsBuilder<ImgAppDbContext>();
                 var connectionString = _configuration.GetConnectionString(ConnectionStringName);
-                optionsBuilder.UseMySql(connectionString!, ServerVersion.AutoDetect(connectionString));
+                //optionsBuilder.UseMySql(connectionString!, ServerVersion.AutoDetect(connectionString));
+                optionsBuilder.UseSqlServer(connectionString!);
                 return new ImgAppDbContext(optionsBuilder.Options);
             })
             .As<DbContext>()

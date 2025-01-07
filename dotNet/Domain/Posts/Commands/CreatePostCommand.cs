@@ -5,6 +5,7 @@ using Domain.Posts.Entities;
 using Domain.Posts.Repositories;
 using Domain.Users.Services;
 using MediatR;
+using System.Text;
 
 namespace Domain.Posts.Commands;
 
@@ -20,12 +21,12 @@ internal class CreatePostCommandHandler(
     {
         var post = new Post(
             request.Input.Title,
-            request.Input.Content,
+            Encoding.UTF8.GetBytes(request.Input.Content),
             context.GetUserId()!.Value);
-        
+
         postRepository.Add(post);
         await unitOfWork.SaveChangesAsync(cancellationToken);
-        
+
         return Unit.Value;
     }
 }
