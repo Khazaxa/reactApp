@@ -2,6 +2,7 @@ using Core.Cqrs;
 using Domain.Posts.Dto;
 using Domain.Posts.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Domain.Posts.Queries;
 
@@ -15,8 +16,8 @@ internal class GetPostsQueryHandler(
     {
         var posts = await postRepository.Query()
             .Include(x => x.Author)
-            .Select((i) => new PostDto(i.Id, i.Title, i.Content, i.Author.Name!))
+            .Select(i => new PostDto(i.Title, Encoding.UTF8.GetString(i.Content), i.Author.Email!))
             .ToListAsync(cancellationToken);
-        return posts; 
+        return posts;
     }
 }
