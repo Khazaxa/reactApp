@@ -120,14 +120,15 @@ export function PostsPage() {
       {addPostFormView ? (
         <form className={styles.addPostForm} onSubmit={handleAddPost}>
           <p>Type post title:</p>
-          <input
-            type="text"
+          <textarea
+            className={styles.postTitleInput}
             value={postTitle}
             onChange={(e) => setPostTitle(e.target.value)}
             required
           />
           <p>Type post content:</p>
           <textarea
+            className={styles.postContentInput}
             value={postContent}
             onChange={(e) => setPostContent(e.target.value)}
             required
@@ -141,7 +142,10 @@ export function PostsPage() {
       {posts.map((post) => (
         <div className={styles.postCard} key={post.id}>
           <div className={styles.postTitle}>
-            <strong>{post.title}</strong><p> by {post.author}</p>
+            <span>
+              {post.title}
+              <span className={styles.author}> by {post.author}</span>
+            </span>
           </div>
           <div className={styles.postContent}>
             {!readMore[post.id] ? (
@@ -190,7 +194,7 @@ export function PostsPage() {
                   <>
                     {comments.filter((comment) => comment.postId === post.id).slice(0, 2).map((comment) => (
                       <li key={comment.content} className={styles.comment}>
-                        <strong>{comment.author}</strong>: {comment.content}
+                        <strong>{comment.author}:</strong><span>{comment.content}</span>
                       </li>
                     ))}
                   </>
@@ -198,7 +202,7 @@ export function PostsPage() {
                   <>
                     {comments.filter((comment) => comment.postId === post.id).map((comment) => (
                       <li key={comment.content} className={styles.comment}>
-                        <strong>{comment.author}</strong>: {comment.content}
+                        <strong>{comment.author}:</strong>{comment.content}
                       </li>
                     ))}
                   </>
@@ -209,7 +213,7 @@ export function PostsPage() {
           </ul>
           {commentFormView[post.id] ? (
             <form className={styles.addCommentForm} onSubmit={handleAddComment}>
-              <input type="text" placeholder="Type comment" value={commentContent} onChange={(e) => setCommentContent(e.target.value)} required />
+              <textarea className={styles.commentInput} placeholder="Type comment" value={commentContent} onChange={(e) => setCommentContent(e.target.value)} required />
               <div className={styles.commentFormBtns}>
                 <button onClick={() => setPostId(post.id)} type="submit">Comment</button>
                 <button onClick={handleShowCommentForm(post.id)}>Cancel</button>

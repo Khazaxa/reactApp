@@ -12,10 +12,12 @@
   p{
     color: #E1D4C2;
   }
-}
 
-input {
-  @include input;
+  input {
+    @include input;
+    margin: 5px;
+    width: 20vw;
+  }
 }
 
 #buttons {
@@ -34,7 +36,7 @@ input {
 #btnRegister {
   all: unset;
   color: #3399ff;
-  font-size: x-large;
+  font-size: large;
   transition: all 0.3s;
 
   &:hover {
@@ -46,9 +48,21 @@ input {
 @media (max-width: 600px) {
   #loginForm {
     width: 80vw;
+
+    input {
+      width: 50vw;
+      font-size: large;
+    }
   }
-  input {
+}
+
+@media (max-width: 1100px) {
+  #loginForm {
     width: 50vw;
-    font-size: large;
+
+    input {
+      width: 50vw;
+      font-size: large;
+    }
   }
 }

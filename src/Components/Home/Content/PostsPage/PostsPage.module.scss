@@ -1,3 +1,5 @@
+@use "../../../../App.module.scss" as *;
+
 .postsPage {
   display: flex;
   flex-direction: column;
@@ -18,21 +20,20 @@
   width: 20%;
   margin-bottom: 10px;
 
-  input {
+  .postTitleInput {
+    @include input;
     width: 60%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin: 0px;
+    resize: none;
+    scrollbar-width: none;
+    height: 15px;
   }
 
-  textarea {
+  .postContentInput {
+    @include input;
     width: 100%;
-    height: 100px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    margin: 0px;
+    resize: none;
+    scrollbar-width: none;
+    height: 60px;
   }
 
   button {
@@ -55,13 +56,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   width: 50%;
 
-  hr{
+  hr {
     width: 100%;
     margin: 10px 0;
   }
 
   .addCommentBtn {
-    background-color: #A78D78;
+    background-color: #a78d78;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     border: none;
     color: #ffffff;
@@ -72,8 +73,8 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #BEB5A9;
-      color: #6E473B;
+      background-color: #beb5a9;
+      color: #6e473b;
       cursor: pointer;
     }
   }
@@ -82,15 +83,21 @@
 .postTitle {
   display: flex;
   color: #fff;
-  height: 30px;
-  width: auto;
-  font-size: xx-large;
+  text-align: left;
   align-items: baseline;
+  font-size: xx-large;
+  font-weight: bolder;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 
-  p {
+  .author {
     font-size: small;
+    font-weight: normal;
     margin-left: 7px;
   }
+
 }
 
 .postContent {
@@ -101,7 +108,11 @@
   border-radius: 5px;
   padding: 10px;
   margin-top: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
 
   .readMoreBtn {
     color: #3399ff;
@@ -113,8 +124,8 @@
       text-decoration: underline;
     }
   }
-
 }
+
 .commentsList {
   list-style: none;
   display: flex;
@@ -131,16 +142,16 @@
     box-shadow: none;
     padding: 0px;
 
-    span{
+    span {
       color: #3399ff;
       cursor: pointer;
       font-size: large;
       transition: all 0.3s ease;
       margin-top: 10px;
 
-    &:hover {
-      text-decoration: underline;
-    }
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -150,12 +161,16 @@
     color: #fff;
     border-radius: 5px;
     padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     align-items: baseline;
-
-    span {
-      margin-left: 3px;
-      font-size: small;
+    text-align: left;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+    
+    span{
+      margin-left: 5px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
     }
   }
 }
@@ -165,25 +180,20 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  
-  input {
-    border-radius: 5px;
-    padding: 0px;
-    border: none;
-    margin: 0px;
-    width: 100%;
-    font-size: small;
-    height: 30px;
-    text-align: left;
+
+  .commentInput {
+    @include input;
+    resize: none;
+    scrollbar-width: none;
   }
-  
+
   .commentFormBtns {
     display: flex;
     justify-content: space-between;
     margin-top: 5px;
-    
-    button{
-      background-color: #A78D78;;
+
+    button {
+      background-color: #a78d78;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
       border: none;
       color: #ffffff;
@@ -194,8 +204,8 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background-color: #BEB5A9;
-        color: #6E473B;
+        background-color: #beb5a9;
+        color: #6e473b;
         cursor: pointer;
       }
     }
@@ -207,7 +217,7 @@
     width: 80%;
     grid-template-columns: 1fr;
     gap: 10px;
-    
+
     button {
       width: 40%;
     }
@@ -219,7 +229,7 @@
     width: 80%;
     grid-template-columns: 1fr;
     gap: 20px;
-    
+
     button {
       width: 40%;
     }

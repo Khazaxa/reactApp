@@ -1,6 +1,5 @@
 @use "../../App.module.scss" as *;
 
-
 #registerPage{
   align-items: center;
   justify-content: center;
@@ -13,6 +12,8 @@
 
   input {
     @include input;
+    width: 20vw;
+    margin: 5px;
   }
 }
 
@@ -44,9 +45,21 @@
 @media (max-width: 600px) {
   #registerForm {
     width: 80vw;
+
+    input {
+      width: 50vw;
+      font-size: large;
+    }
   }
-  input {
+}
+
+@media (max-width: 1100px) {
+  #registerForm {
     width: 50vw;
-    font-size: large;
+
+    input {
+      width: 50vw;
+      font-size: large;
+    }
   }
 }
