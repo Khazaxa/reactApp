@@ -2,7 +2,7 @@
 
 # Project Setup with Docker Compose
 
-Welcome to my project! This guide will help you get started with running my application using Docker Compose. Docker Compose allows you to configure and start all the services defined in the `docker-compose.yml` file with just a few commands.
+Welcome to our project! This guide will help you get started with running my application using Docker Compose. Docker Compose allows you to configure and start all the services defined in the `docker-compose.yml` file with just a few commands.
 
 ## Prerequisites
 
