@@ -32,6 +32,7 @@ internal class LoginCommandHandler(
         var token = authService.GenerateToken(user.Email, user.Role, user.Id);
 
         return new LoginResponse(
+            user.Id,
             user.Email,
             user.Role,
             token
