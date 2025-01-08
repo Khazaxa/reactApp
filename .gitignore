@@ -223,7 +223,7 @@ AppPackages/
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
-dotNet/Api/appsettings.Local.json
+Backend/Api/appsettings.Local.json
 
 bin/
 obj/
