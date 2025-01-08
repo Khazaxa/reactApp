@@ -1,21 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Item } from "../Item/Item";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
 import Notifications from '../../../Notifications/Notifications';
 
-interface ImageData {
+interface Image {
   id: number;
   name: string;
-  imageUrl: string;
+  path: string;
 }
 
 export function GalleryPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<ImageData[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const removeCheckboxesGallery = location.state?.removeCheckboxesGallery || false;
   const [message, setMessage] = useState<string>("");
@@ -39,16 +38,8 @@ export function GalleryPage() {
 
   const fetchImages = async () => {
     try {
-      await api.get("/images").then((res) => {
-        const imageData = res.data.map(
-          (image: { id: number; name: string; path: string }) => ({
-            id: image.id,
-            name: image.name,
-            imageUrl: image.path,
-          })
-        );
-        setImages(imageData);
-      });
+      const response = await api.get("/images");
+      setImages(response.data);
     } catch (error) {
       console.error("Error fetching images:", error);
     }
@@ -140,7 +131,7 @@ export function GalleryPage() {
             ) : (
               true
             )}
-            <Item name={image.name} imageUrl={image.imageUrl} />
+            <img src={image.path} alt={image.name}/>
           </li>
         ))}
       </ul>

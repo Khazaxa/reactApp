@@ -1,4 +1,5 @@
 import logo from "../../../assets/logo.png";
+import navArrow from "../../../assets/navArrow.png";
 import styles from "./NavBar.module.scss";
 import NavLinks from "./NavLinks/NavLinks";
 import { LogOut } from "../LogOut/LogOut";
@@ -15,7 +16,7 @@ export function NavBar({
   return (
     <div id={(showNavBar ? styles.navBarHidden : styles.navBar )} >
       <button className={styles.navBarBtn} onClick={() => setShowNavBar(!showNavBar)}>
-        {showNavBar ? 'X' : '☰'}
+        <img src={navArrow} />
       </button>
       <div>
         <div id={styles.logo}>

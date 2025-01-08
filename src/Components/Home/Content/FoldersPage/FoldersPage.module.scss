@@ -1,10 +1,53 @@
+@use "../../../../App.module.scss" as *;
+
 .foldersPage {
-  color: #ffffff;
   width: auto;
-  margin: 10px 0px;
+  padding: 10px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10px;
+
+  form {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    margin-bottom: 10px;
+
+    select {
+      width: 60%;
+      height: 30px;
+      border-radius: 5px;
+      border: none;
+      margin: 0px;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    textarea {
+      @include input;
+      width: 60%;
+      text-align: left;
+      height: 15px;
+      resize: none;
+      scrollbar-width: none;
+    }
+    
+    button {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #5a5;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
 }
 
 .removeFolderBtn {
@@ -16,52 +59,11 @@
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 20px;
-}
 
-.removeFolderBtn:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-.foldersPage form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  width: 20%;
-  margin-bottom: 20px;
-}
-
-.foldersPage form select {
-  width: 50%;
-  height: 30px;
-  border-radius: 5px;
-  border: none;
-  margin: 0px;
-  font-size: 16px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.foldersPage form input {
-  width: 50%;
-  height: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  margin: 0px;
-  font-size: 24px;
-}
-
-.foldersPage form button {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #4caf50;
-  color: #E1D4C2;
-  font-size: 20px;
-  cursor: pointer;
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
 }
 
 .foldersPage h1 {
@@ -92,7 +94,8 @@
   background-repeat: no-repeat;
   width: 150px;
   height: 150px;
-  background-color: gray;
+  background-color: #808080;
+  color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
