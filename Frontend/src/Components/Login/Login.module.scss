@@ -9,14 +9,15 @@
 #loginForm {
   @include form;
 
-  p{
-    color: #E1D4C2;
+  p {
+    color: #e1d4c2;
   }
 
   input {
     @include input;
     margin: 5px;
     width: 20vw;
+    text-align: center;
   }
 }
 

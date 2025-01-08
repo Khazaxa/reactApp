@@ -14,7 +14,7 @@ public record UserUpdateCommand(UserParams UserParams) : ICommand<Unit>;
 internal class UserUpdateCommandHandler(
     IUserRepository userRepository,
     IUserContextService userContext,
-    ImgAppDbContext dbContext
+    SocialMediaDbContext dbContext
 ) : ICommandHandler<UserUpdateCommand, Unit>
 {
     public async Task<Unit> Handle(UserUpdateCommand command, CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-# ImgApp API
+# Social Media API
 
 # Project Setup with Docker Compose
 
@@ -59,4 +59,4 @@ Replace `-f` with the name of a specific service to view logs for that service o
 ### Creating new db migration
 
 - Ensure Entity Framework tools are installed `dotnet tool install --global dotnet-ef`
-- In project root catalog run command `dotnet ef migrations add [MIGRATION_NAME] -s API -p Domain  --context ImgAppDbContext`
+- In project root catalog run command `dotnet ef migrations add [MIGRATION_NAME] -s API -p Domain  --context SocialMediaDbContext`

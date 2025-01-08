@@ -5,7 +5,7 @@ namespace Domain.Images.Repositories;
 
 internal class ImageRepository(
     IUnitOfWork unitOfWork,
-    ImgAppDbContext dbContext) : EntityRepositoryBase<Image>(unitOfWork), IImageRepository
+    SocialMediaDbContext dbContext) : EntityRepositoryBase<Image>(unitOfWork), IImageRepository
 {
     public IQueryable<Image> Query()
         => dbContext.Images.AsQueryable();

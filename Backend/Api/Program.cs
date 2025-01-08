@@ -24,7 +24,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImgApp API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Social Media API", Version = "v1" });
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -85,7 +85,7 @@ public class Program
         app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseSwagger();
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImgApp API v1"); });
+        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social Media API v1"); });
 
         app.UseCors("AllowAll");
         app.UseAuthentication();

@@ -11,7 +11,7 @@ namespace Domain;
 
 public class DomainModule(IConfigurationRoot _configuration) : Module
 {
-    public const string ConnectionStringName = nameof(ImgAppDbContext);
+    public const string ConnectionStringName = nameof(SocialMediaDbContext);
 
     protected override void Load(ContainerBuilder builder)
     {
@@ -33,7 +33,7 @@ public class DomainModule(IConfigurationRoot _configuration) : Module
     
     public static void MigrateDatabase(IServiceScope scope)
     {
-        var dbContext = scope.ServiceProvider.GetRequiredService<ImgAppDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<SocialMediaDbContext>();
         dbContext.Database.Migrate();
     }
     
@@ -42,11 +42,11 @@ public class DomainModule(IConfigurationRoot _configuration) : Module
         builder
             .Register(x =>
             {
-                var optionsBuilder = new DbContextOptionsBuilder<ImgAppDbContext>();
+                var optionsBuilder = new DbContextOptionsBuilder<SocialMediaDbContext>();
                 var connectionString = _configuration.GetConnectionString(ConnectionStringName);
                 optionsBuilder.UseMySql(connectionString!, ServerVersion.AutoDetect(connectionString));
                 //optionsBuilder.UseSqlServer(connectionString!);
-                return new ImgAppDbContext(optionsBuilder.Options);
+                return new SocialMediaDbContext(optionsBuilder.Options);
             })
             .As<DbContext>()
             .AsSelf()

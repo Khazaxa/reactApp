@@ -5,7 +5,7 @@ using Domain.Users.Services;
 namespace Domain.Folders.Repositories;
 
 internal class FolderRepository(IUnitOfWork unitOfWork,
-    ImgAppDbContext dbContext,
+    SocialMediaDbContext dbContext,
     IUserContextService userContext) : EntityRepositoryBase<Folder>(unitOfWork), IFolderRepository
 {
     public IQueryable<Folder> Query()

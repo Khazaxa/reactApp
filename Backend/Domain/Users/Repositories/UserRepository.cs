@@ -6,7 +6,7 @@ namespace Domain.Users.Repositories;
 
 internal class UserRepository(
     IUnitOfWork unitOfWork, 
-    ImgAppDbContext dbContext
+    SocialMediaDbContext dbContext
 ) : EntityRepositoryBase<User>(unitOfWork), IUserRepository
 {
     public IQueryable<User> Query()

@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain;
 
-internal class ImgAppDbContext : DbContext
+internal class SocialMediaDbContext : DbContext
 {
-    public ImgAppDbContext(DbContextOptions<ImgAppDbContext> options) : base(options) { }
+    public SocialMediaDbContext(DbContextOptions<SocialMediaDbContext> options) : base(options) { }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Image> Images { get; set; }
