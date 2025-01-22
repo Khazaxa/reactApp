@@ -35,9 +35,11 @@ export function Login({
         },
       });
       const { accessToken } = response.data;
+      const { userId } = response.data;
 
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", userId);
         setIsLogged(true);
 
       } else {

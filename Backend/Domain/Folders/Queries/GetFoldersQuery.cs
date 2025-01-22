@@ -20,6 +20,7 @@ internal class GetFoldersQueryHandler(
             .Select(f => new FolderDto(
                 f.Id,
                 f.Name,
+                f.UserId,
                 f.Logo,
                 f.Images
                 ))

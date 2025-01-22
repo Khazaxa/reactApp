@@ -2,7 +2,7 @@
 
 .foldersPage {
   width: auto;
-  padding: 10px 0px;
+  padding: 20px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
     width: 20%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 
     select {
       width: 60%;
@@ -28,7 +28,7 @@
       text-align: center;
       cursor: pointer;
     }
-    
+
     textarea {
       @include input;
       width: 60%;
@@ -37,7 +37,7 @@
       resize: none;
       scrollbar-width: none;
     }
-    
+
     button {
       padding: 10px;
       border-radius: 5px;
@@ -55,7 +55,7 @@
   border-radius: 5px;
   border: none;
   background-color: #e02a1d;
-  color: #E1D4C2;
+  color: #e1d4c2;
   font-size: 20px;
   cursor: pointer;
   margin-bottom: 20px;
@@ -72,11 +72,11 @@
 }
 
 .foldersPage ul {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .foldersPage ul li {
@@ -98,6 +98,7 @@
   color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  user-select: none;
 }
 
 .checkboxes {

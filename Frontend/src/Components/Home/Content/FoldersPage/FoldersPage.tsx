@@ -8,12 +8,14 @@ import Notifications from '../../../Notifications/Notifications';
 interface Folder {
   id: number;
   name: string;
+  userId: number;
   logo: Logo;
 }
 
 interface Logo {
   id: number;
   name: string;
+  userId: number;
   path: string;
 }
 
@@ -28,6 +30,7 @@ export function FoldersPage() {
   const addFolderFormView = location.state?.addFolderFormView || false;
   const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
   const [message, setMessage] = useState<string>("");
+  const userIdLocal = localStorage.getItem("userId");
   const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
   const notificationDelay = () => {
     setTimeout(() => {
@@ -90,7 +93,6 @@ export function FoldersPage() {
     );
   };
 
-
   const removeFolder = async () => {
     try {
       for (const id of checkedItems) {
@@ -108,7 +110,6 @@ export function FoldersPage() {
       notificationDelay();
     }
   };
-
 
   return (
     <div className={styles.foldersPage}>
@@ -129,7 +130,7 @@ export function FoldersPage() {
             }}
           >
             <option value={0}>default</option>
-            {logos.map((logo) => (
+            {logos.filter(logo => logo.userId === Number(userIdLocal)).map((logo) => (
               <option key={logo.id} value={logo.id}>
                 {logo.name}
               </option>
@@ -148,9 +149,8 @@ export function FoldersPage() {
         true
       )}
 
-      <h1>Folders:</h1>
       <ul>
-        {folders.map((folder) => (
+        {folders.filter(folder => folder.userId === Number(userIdLocal)).map((folder) => (
           <li
             className="folders"
             key={folder.id}
@@ -161,6 +161,7 @@ export function FoldersPage() {
               <input
                 className={styles.checkboxes}
                 type="checkbox"
+                onChange={() => handleRemoveItemClick(folder.id)}
                 checked={checkedItems.includes(folder.id)}
               />
             ) : (

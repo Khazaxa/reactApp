@@ -7,6 +7,7 @@ import Notifications from '../../../Notifications/Notifications';
 interface Image {
   id: number;
   name: string;
+  userId: number;
   path: string;
 }
 
@@ -18,6 +19,7 @@ export function GalleryPage() {
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const removeCheckboxesGallery = location.state?.removeCheckboxesGallery || false;
   const [message, setMessage] = useState<string>("");
+  const userIdLocal = localStorage.getItem("userId");
   const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
   const notificationDelay = () => {
     setTimeout(() => {
@@ -115,9 +117,8 @@ export function GalleryPage() {
         <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button>
       ) : (true)}
 
-      <h1>Gallery:</h1>
       <ul>
-        {images.map((image) => (
+        {images.filter((image) => image.userId === Number(userIdLocal)).map((image) => (
           <li
             key={image.id}
             onClick={() => handleRemoveItemClick(Number(image.id))}
@@ -126,12 +127,13 @@ export function GalleryPage() {
               <input
                 className={styles.checkboxes}
                 type="checkbox"
+                onChange={() => handleRemoveItemClick(Number(image.id))}
                 checked={checkedItems.includes(image.id)}
               />
             ) : (
               true
             )}
-            <img src={image.path} alt={image.name}/>
+            <img src={image.path} alt={image.name} />
           </li>
         ))}
       </ul>
