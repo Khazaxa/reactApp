@@ -9,14 +9,39 @@
   margin-bottom: 10px;
 
   form {
+    background-color: #808080;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: center;
     justify-content: center;
-    width: 20%;
-    margin-bottom: 20px;
+    width: 50%;
+    border: 5px solid #ffff;
+    border-radius: 10px;
+    padding: 10px;
+    position: absolute;
+    top: 200px;
+    z-index: 1;
+
+    .closeFormBtn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 3px 14px;
+      border-radius: 5px;
+      border: none;
+      background-color: #e02a1d;
+      color: #e1d4c2;
+      font-size: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: #ffffff;
+        cursor: pointer;
+      }
+    }
 
     select {
       width: 60%;
@@ -27,6 +52,7 @@
       font-size: 16px;
       text-align: center;
       cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     textarea {
@@ -38,14 +64,21 @@
       scrollbar-width: none;
     }
 
-    button {
+    .submitFormBtn {
       padding: 10px;
       border-radius: 5px;
       border: none;
       background-color: #5a5;
-      color: #ffffff;
+      color: #e1d4c2;
       font-size: 20px;
       cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: #ffffff;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -58,7 +91,6 @@
   color: #e1d4c2;
   font-size: 20px;
   cursor: pointer;
-  margin-bottom: 20px;
 
   &:disabled {
     background-color: gray;
@@ -77,6 +109,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+  margin-top: 20px;
 }
 
 .foldersPage ul li {

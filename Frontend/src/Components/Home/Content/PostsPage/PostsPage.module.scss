@@ -11,14 +11,39 @@
 }
 
 .addPostForm {
+  background-color: #808080;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
   justify-content: center;
-  width: 20%;
-  margin-bottom: 10px;
+  width: 50%;
+  border: 5px solid #ffff;
+  border-radius: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 200px;
+  z-index: 1;
+
+  .closeFormBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 3px 14px;
+    border-radius: 5px;
+    border: none;
+    background-color: #e02a1d;
+    color: #e1d4c2;
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ffffff;
+      cursor: pointer;
+    }
+  }
 
   .postTitleInput {
     @include input;
@@ -30,20 +55,28 @@
 
   .postContentInput {
     @include input;
-    width: 100%;
+    width: 80%;
     resize: none;
     scrollbar-width: none;
-    height: 60px;
+    height: auto;
+    max-height: 400px;
   }
 
-  button {
+  .submitFormBtn {
     padding: 10px;
     border-radius: 5px;
     border: none;
     background-color: #5a5;
-    color: #ffffff;
+    color: #e1d4c2;
     font-size: 20px;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ffffff;
+      cursor: pointer;
+    }
   }
 }
 
@@ -97,7 +130,6 @@
     font-weight: normal;
     margin-left: 7px;
   }
-
 }
 
 .postContent {
@@ -164,8 +196,8 @@
     align-items: baseline;
     text-align: left;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-    
-    span{
+
+    span {
       margin-left: 5px;
       word-wrap: break-word;
       overflow-wrap: break-word;

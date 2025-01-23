@@ -45,7 +45,7 @@ export function PostsPage() {
   }
 
   const fetchComments = async () => {
-    const response = await api.get(`/comments`);
+    const response = await api.get("/comments");
     setComments(response.data);
   }
 
@@ -53,6 +53,19 @@ export function PostsPage() {
     fetchPosts();
     fetchComments();
   }, []);
+
+  useEffect(() => {
+    if (!addPostFormView) {
+      setPostTitle("");
+      setPostContent("");
+    }
+  }, [addPostFormView]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = event.target;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
 
   const handleAddPost = async (e: React.FormEvent) => {
     try {
@@ -115,25 +128,37 @@ export function PostsPage() {
 
   return (
     <div className={styles.postsPage}>
+
       <Notifications messageType={messageType} message={message} />
 
       {addPostFormView ? (
         <form className={styles.addPostForm} onSubmit={handleAddPost}>
+          <button 
+            className={styles.closeFormBtn}
+            type="button"
+            onClick={() => navigate("/posts", { state: { addPostFormView: false } })}>
+            X
+          </button>
+
           <p>Type post title:</p>
+
           <textarea
             className={styles.postTitleInput}
             value={postTitle}
             onChange={(e) => setPostTitle(e.target.value)}
             required
           />
+
           <p>Type post content:</p>
+
           <textarea
             className={styles.postContentInput}
             value={postContent}
-            onChange={(e) => setPostContent(e.target.value)}
+            onChange={(e) => { setPostContent(e.target.value); handleInputChange(e); }}
             required
           ></textarea>
-          <button type="submit">Add post</button>
+
+          <button className={styles.submitFormBtn} type="submit">Add post</button>
         </form>
       ) : (
         true
