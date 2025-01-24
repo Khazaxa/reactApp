@@ -118,17 +118,21 @@ export function GalleryPage() {
       ) : (true)}
 
       <ul>
-        {images.filter((image) => image.userId === Number(userIdLocal)).map((image) => (
+        {images.map((image) => (
           <li
             key={image.id}
-            onClick={() => handleRemoveItemClick(Number(image.id))}
+            onClick={
+              removeCheckboxesGallery && image.userId === Number(userIdLocal)
+                ? () => handleRemoveItemClick(image.id)
+                : undefined
+            }
           >
-            {removeCheckboxesGallery ? (
+            {removeCheckboxesGallery && image.userId === Number(userIdLocal) ? (
               <input
                 className={styles.checkboxes}
                 type="checkbox"
-                onChange={() => handleRemoveItemClick(Number(image.id))}
                 checked={checkedItems.includes(image.id)}
+                readOnly
               />
             ) : (
               true

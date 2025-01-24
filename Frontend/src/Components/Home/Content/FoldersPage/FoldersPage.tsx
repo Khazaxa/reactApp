@@ -28,13 +28,10 @@ export function FoldersPage() {
   const [logoId, setLogoId] = useState<number | null>(null);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const addFolderFormView = location.state?.addFolderFormView || false;
-  const removeCheckboxesFolders =
-    location.state?.removeCheckboxesFolders || false;
+  const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
   const [message, setMessage] = useState<string>("");
   const userIdLocal = localStorage.getItem("userId");
-  const [messageType, setMessageType] = useState<
-    "success" | "error" | "warning" | null
-  >(null);
+  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
@@ -93,11 +90,11 @@ export function FoldersPage() {
       return;
     }
 
-    setCheckedItems((prevCheckedItems) =>
-      prevCheckedItems.includes(id)
-        ? prevCheckedItems.filter((item) => item !== id)
-        : [...prevCheckedItems, id]
-    );
+      setCheckedItems((prevCheckedItems) =>
+        prevCheckedItems.includes(id)
+          ? prevCheckedItems.filter((item) => item !== id)
+          : [...prevCheckedItems, id]
+      );
   };
 
   const removeFolder = async () => {
@@ -124,7 +121,7 @@ export function FoldersPage() {
 
       {removeCheckboxesFolders ? (
         <button
-          className={styles.removeFolderBtn}
+          className={styles.removeBtn}
           onClick={removeFolder}
           disabled={checkedItems.length === 0}
         >
@@ -154,13 +151,11 @@ export function FoldersPage() {
             }}
           >
             <option value={0}>default</option>
-            {logos
-              .filter((logo) => logo.userId === Number(userIdLocal))
-              .map((logo) => (
-                <option key={logo.id} value={logo.id}>
-                  {logo.name}
-                </option>
-              ))}
+            {logos.map((logo) => (
+              <option key={logo.id} value={logo.id}>
+                {logo.name}
+              </option>
+            ))}
           </select>
 
           <p>Type folder name:</p>
@@ -179,31 +174,32 @@ export function FoldersPage() {
       )}
 
       <ul>
-        {folders
-          .filter((folder) => folder.userId === Number(userIdLocal))
-          .map((folder) => (
-            <li
-              className="folders"
-              key={folder.id}
-              onClick={() => handleRemoveItemClick(folder.id)}
-              style={{
-                backgroundImage: `url(${folder.logo?.path || folderDefaultLogo
-                  })`,
-              }}
-            >
-              {removeCheckboxesFolders ? (
-                <input
-                  className={styles.checkboxes}
-                  type="checkbox"
-                  onChange={() => handleRemoveItemClick(folder.id)}
-                  checked={checkedItems.includes(folder.id)}
-                />
-              ) : (
-                false
-              )}
-              {folder.name}
-            </li>
-          ))}
+        {folders.map((folder) => (
+          <li
+            className="folders"
+            key={folder.id}
+            onClick={
+              removeCheckboxesFolders && folder.userId === Number(userIdLocal)
+                ? () => handleRemoveItemClick(folder.id)
+                : undefined
+            }
+            style={{
+              backgroundImage: `url(${folder.logo?.path || folderDefaultLogo})`,
+            }}
+          >
+            {removeCheckboxesFolders && folder.userId === Number(userIdLocal) ? (
+              <input
+                className={styles.checkboxes}
+                type="checkbox"
+                checked={checkedItems.includes(folder.id)}
+                readOnly
+              />
+            ) : (
+              true
+            )}
+            {folder.name}
+          </li>
+        ))}
       </ul>
     </div>
   );
