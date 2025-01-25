@@ -26,9 +26,7 @@ export function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
   const [readMore, setReadMore] = useState<{ [key: number]: boolean }>({});
-  const [visibleComments, setVisibleComments] = useState<{
-    [key: number]: boolean;
-  }>({});
+  const [visibleComments, setVisibleComments] = useState<{ [key: number]: boolean; }>({});
   const [message, setMessage] = useState<string>("");
   const [postTitle, setPostTitle] = useState<string>("");
   const [postContent, setPostContent] = useState<string>("");
@@ -36,12 +34,8 @@ export function PostsPage() {
   const [commentContent, setCommentContent] = useState<string>("");
   const addPostFormView = location.state?.addPostFormView || false;
   const removeCheckboxesPosts = location.state?.removeCheckboxesPosts || false;
-  const [commentFormView, setCommentFormView] = useState<{
-    [key: number]: boolean;
-  }>({});
-  const [messageType, setMessageType] = useState<
-    "success" | "error" | "warning" | null
-  >(null);
+  const [commentFormView, setCommentFormView] = useState<{ [key: number]: boolean; }>({});
+  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
   const userIdLocal = localStorage.getItem("userId");
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const notificationDelay = () => {
@@ -80,6 +74,12 @@ export function PostsPage() {
       setPostContent("");
     }
   }, [addPostFormView]);
+
+  useEffect(() => {
+    if (!removeCheckboxesPosts) {
+      setCheckedItems([]);
+    }
+  }, [removeCheckboxesPosts]);
 
   useEffect(() => {
     if (postId !== null && !commentFormView[postId]) {
@@ -296,7 +296,7 @@ export function PostsPage() {
           <ul className={styles.commentsList}>
             <li className={styles.commentsCounter}>
               {comments.filter((comment) => comment.postId === post.id).length >
-              0 ? (
+                0 ? (
                 <>
                   <hr />
                   Comments (
@@ -319,7 +319,7 @@ export function PostsPage() {
                       false
                     )
                   ) : comments.filter((comment) => comment.postId === post.id)
-                      .length > 2 ? (
+                    .length > 2 ? (
                     <span
                       onClick={() => {
                         handleShowMoreComents(post.id);
@@ -337,7 +337,7 @@ export function PostsPage() {
             </li>
 
             {comments.filter((comment) => comment.postId === post.id).length >
-            0 ? (
+              0 ? (
               <>
                 {!visibleComments[post.id] ? (
                   <>

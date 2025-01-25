@@ -1,6 +1,6 @@
 @mixin button {
   width: 100px;
-  background-color: #A88C7C;
+  background-color: #a88c7c;
   color: #fff;
   border-radius: 10px;
   padding: 10px 20px;
@@ -10,8 +10,8 @@
 
   &:hover {
     cursor: pointer;
-    background-color: #BEB5A9;
-    color: #6E473B;
+    background-color: #beb5a9;
+    color: #6e473b;
     transition: all 0.3s;
   }
 }
@@ -23,7 +23,7 @@
   border-width: 2px;
   padding: 10px;
   border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -32,13 +32,49 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px; 
+  padding: 20px;
   border-radius: 15px;
-  border: solid #291C0E;
-  background-color: #6E473B;
+  border: solid #291c0e;
+  background-color: #6e473b;
 }
 
 .errorMessage {
   font-size: x-large;
   color: rgb(121, 0, 0);
+}
+
+@mixin submitFormBtn {
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #5a5;
+  color: #e1d4c2;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ffffff;
+    cursor: pointer;
+  }
+}
+
+@mixin closeFormBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3px 14px;
+  border-radius: 5px;
+  border: none;
+  background-color: #e02a1d;
+  color: #e1d4c2;
+  font-size: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ffffff;
+    cursor: pointer;
+  }
 }

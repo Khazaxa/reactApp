@@ -25,22 +25,7 @@
     z-index: 1;
 
     .closeFormBtn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 3px 14px;
-      border-radius: 5px;
-      border: none;
-      background-color: #e02a1d;
-      color: #e1d4c2;
-      font-size: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-      transition: all 0.3s ease;
-
-      &:hover {
-        color: #ffffff;
-        cursor: pointer;
-      }
+      @include closeFormBtn;
     }
 
     select {
@@ -65,20 +50,7 @@
     }
 
     .submitFormBtn {
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background-color: #5a5;
-      color: #e1d4c2;
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-      transition: all 0.3s ease;
-
-      &:hover {
-        color: #ffffff;
-        cursor: pointer;
-      }
+     @include submitFormBtn;
     }
   }
 }
