@@ -7,11 +7,18 @@
 }
 
 #registerForm {
-  @include form;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 15px;
+  border: solid #291c0e;
+  background-color: #6e473b;
   position: relative;
 
   input {
-    @include input;
+    @include inputStyle;
     width: 20vw;
     margin: 5px;
   }

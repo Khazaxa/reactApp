@@ -1,9 +1,9 @@
+@use "../../../../App.module.scss" as *;
+
 #homePage {
-  display: flex;
-  flex-direction: column;
+  @include page;
   align-items: center;
   justify-content: center;
-  width: auto;
   height: 100%;
   background-color: #312626;
   color: white;

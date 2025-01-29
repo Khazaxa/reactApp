@@ -28,10 +28,13 @@ export function FoldersPage() {
   const [logoId, setLogoId] = useState<number | null>(null);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const addFolderFormView = location.state?.addFolderFormView || false;
-  const removeCheckboxesFolders = location.state?.removeCheckboxesFolders || false;
+  const removeCheckboxesFolders =
+    location.state?.removeCheckboxesFolders || false;
   const [message, setMessage] = useState<string>("");
   const userIdLocal = localStorage.getItem("userId");
-  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | null
+  >(null);
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
@@ -90,11 +93,11 @@ export function FoldersPage() {
       return;
     }
 
-      setCheckedItems((prevCheckedItems) =>
-        prevCheckedItems.includes(id)
-          ? prevCheckedItems.filter((item) => item !== id)
-          : [...prevCheckedItems, id]
-      );
+    setCheckedItems((prevCheckedItems) =>
+      prevCheckedItems.includes(id)
+        ? prevCheckedItems.filter((item) => item !== id)
+        : [...prevCheckedItems, id]
+    );
   };
 
   const removeFolder = async () => {
@@ -131,8 +134,8 @@ export function FoldersPage() {
         true
       )}
 
-      {addFolderFormView ? (
-        <form onSubmit={handleAddFolder}>
+      <div id={styles.formContainer}>
+        <form className={addFolderFormView ? styles.showForm : styles.hideForm} onSubmit={handleAddFolder}>
           <button
             className={styles.closeFormBtn}
             type="button"
@@ -169,9 +172,7 @@ export function FoldersPage() {
             Add Folder
           </button>
         </form>
-      ) : (
-        true
-      )}
+      </div>
 
       <ul>
         {folders.map((folder) => (
@@ -187,7 +188,8 @@ export function FoldersPage() {
               backgroundImage: `url(${folder.logo?.path || folderDefaultLogo})`,
             }}
           >
-            {removeCheckboxesFolders && folder.userId === Number(userIdLocal) ? (
+            {removeCheckboxesFolders &&
+            folder.userId === Number(userIdLocal) ? (
               <input
                 className={styles.checkboxes}
                 type="checkbox"

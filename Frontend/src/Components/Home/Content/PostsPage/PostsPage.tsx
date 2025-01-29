@@ -26,18 +26,24 @@ export function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
   const [readMore, setReadMore] = useState<{ [key: number]: boolean }>({});
-  const [visibleComments, setVisibleComments] = useState<{ [key: number]: boolean; }>({});
-  const [message, setMessage] = useState<string>("");
+  const [visibleComments, setVisibleComments] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [postTitle, setPostTitle] = useState<string>("");
   const [postContent, setPostContent] = useState<string>("");
   const [postId, setPostId] = useState<number | null>(null);
   const [commentContent, setCommentContent] = useState<string>("");
   const addPostFormView = location.state?.addPostFormView || false;
   const removeCheckboxesPosts = location.state?.removeCheckboxesPosts || false;
-  const [commentFormView, setCommentFormView] = useState<{ [key: number]: boolean; }>({});
-  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const [commentFormView, setCommentFormView] = useState<{
+    [key: number]: boolean;
+  }>({});
   const userIdLocal = localStorage.getItem("userId");
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | null
+  >(null);
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
@@ -198,8 +204,11 @@ export function PostsPage() {
         true
       )}
 
-      {addPostFormView ? (
-        <form className={styles.addPostForm} onSubmit={handleAddPost}>
+      <div id={styles.formContainer}>
+        <form
+          className={addPostFormView ? styles.showForm : styles.hideForm}
+          onSubmit={handleAddPost}
+        >
           <button
             className={styles.closeFormBtn}
             type="button"
@@ -210,7 +219,7 @@ export function PostsPage() {
             X
           </button>
 
-          <p>Type post title:</p>
+          <p>Post title:</p>
 
           <textarea
             className={styles.postTitleInput}
@@ -219,7 +228,7 @@ export function PostsPage() {
             required
           />
 
-          <p>Type post content:</p>
+          <p>Post content:</p>
 
           <textarea
             className={styles.postContentInput}
@@ -235,9 +244,7 @@ export function PostsPage() {
             Add post
           </button>
         </form>
-      ) : (
-        true
-      )}
+      </div>
 
       {posts.map((post) => (
         <div
@@ -296,7 +303,7 @@ export function PostsPage() {
           <ul className={styles.commentsList}>
             <li className={styles.commentsCounter}>
               {comments.filter((comment) => comment.postId === post.id).length >
-                0 ? (
+              0 ? (
                 <>
                   <hr />
                   Comments (
@@ -319,7 +326,7 @@ export function PostsPage() {
                       false
                     )
                   ) : comments.filter((comment) => comment.postId === post.id)
-                    .length > 2 ? (
+                      .length > 2 ? (
                     <span
                       onClick={() => {
                         handleShowMoreComents(post.id);
@@ -337,7 +344,7 @@ export function PostsPage() {
             </li>
 
             {comments.filter((comment) => comment.postId === post.id).length >
-              0 ? (
+            0 ? (
               <>
                 {!visibleComments[post.id] ? (
                   <>

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./UserSettingsPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
+import { useNavigate, useLocation } from "react-router-dom";
+import Notifications from "../../../Notifications/Notifications";
 
 interface User {
   name: string;
@@ -10,78 +12,136 @@ interface User {
 }
 
 export function UserSettingsPage() {
-  const [user, setUser] = useState<User[]>([]);
-  const [editUser, seteditUser] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [user, setUser] = useState<User>();
+  const [editUser, setEditUser] = useState<boolean>(false);
+  const [editUserName, setEditUserName] = useState<string>("");
+  const [editUserAge, setEditUserAge] = useState<number | null>(null);
+  const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | null
+  >(null);
+  const notificationDelay = () => {
+    setTimeout(() => {
+      setMessage("");
+      setMessageType(null);
+    }, 3000);
+  };
 
   const fetchUser = async () => {
-    const response = await api.get(`/users`);
+    const response = await api.get(`/user/${"User"}`);
     setUser(response.data);
+
+    setEditUserName(response.data.name);
+    setEditUserAge(response.data.age);
   };
 
   useEffect(() => {
     fetchUser();
   }, []);
 
-  const handleEditUser = () => {
-    seteditUser(!editUser);
+  useEffect(() => {
+    if (editUser) {
+      if (user) {
+        setEditUserName(user.name);
+        setEditUserAge(user.age);
+      }
+    }
+  }, [editUser, user]);
+
+  const handleShowForm = () => {
+    navigate("/settings", {
+      state: { showUserEditForm: location.state?.showUserEditForm !== true },
+    });
+    setEditUser(!editUser);
+  };
+
+  const handleEditUser = async (e: React.FormEvent) => {
+    try {
+      e.preventDefault();
+      await api.put("/user", { name: editUserName, age: editUserAge });
+      setEditUserName("");
+      setEditUserAge(null);
+
+      navigate("/settings", {
+        state: { showUserEditForm: false },
+      });
+      setEditUser(false);
+      fetchUser();
+
+      setMessage("User edited successfully!");
+      setMessageType("success");
+      notificationDelay();
+    } catch (error) {
+      setMessage("Error edit user: " + error);
+      setMessageType("error");
+      notificationDelay();
+    }
   };
 
   return (
     <div className={styles.settingsPage}>
-      {user.map((u) => (
-        <>
-          {editUser ? (
-            <form className={styles.editUserForm}>
-              <button
-                className={styles.closeFormBtn}
-                type="button"
-                onClick={() => handleEditUser()}
-              >
-                X
-              </button>
-              <input
-                className={styles.editUserNameInput}
-                type="text"
-                value={u.name}
-                placeholder="Name"
-              />
-              <input
-                className={styles.editUserAgeInput}
-                type="text"
-                value={u.age ? u.age : "--"}
-                placeholder="Age"
-              />
-              <button className={styles.submitFormBtn} type="submit">
-                Save
-              </button>
-            </form>
-          ) : (
-            true
-          )}
-          <div key={u.email} className={styles.userCard}>
+      <Notifications messageType={messageType} message={message} />
+
+      <>
+        <div id={styles.formContainer}>
+          <form
+            onSubmit={handleEditUser}
+            className={editUser ? styles.showForm : styles.hideForm}
+          >
+            <button
+              className={styles.closeFormBtn}
+              type="button"
+              onClick={() => handleShowForm()}
+            >
+              X
+            </button>
+            <input
+              className={styles.editUserNameInput}
+              type="text"
+              value={editUserName ?? ""}
+              placeholder="Name"
+              onChange={(e) => setEditUserName(e.target.value)}
+              required
+            />
+            <input
+              className={styles.editUserAgeInput}
+              type="text"
+              value={editUserAge !== null ? editUserAge : "--"}
+              placeholder="Age"
+              onChange={(e) => setEditUserAge(Number(e.target.value))}
+            />
+            <button className={styles.submitFormBtn} type="submit">
+              Save
+            </button>
+          </form>
+        </div>
+        {user && (
+          <div key={user.email} className={styles.userCard}>
             <div className={styles.userAvatar}>
-              <img src={u.avatar} alt={`avatar`} />
+              <img src={user.avatar} alt={`avatar`} />
             </div>
             <div className={styles.userInfo}>
               <div className={styles.userName}>
-                <strong>{u.name ? u.name : "--"}</strong>
+                <strong>{user.name ? user.name : "--"}</strong>
               </div>
               <div className={styles.userEmail}>
-                <strong>{u.email}</strong>
+                <strong>{user.email}</strong>
               </div>
               <div className={styles.userAge}>
-                <strong>{u.age ? u.age : "--"}</strong>
+                <strong>{user.age ? user.age : "--"}</strong>
               </div>
               <button
-                onClick={() => handleEditUser()}
+                onClick={() => handleShowForm()}
                 className={styles.userEdit}
               >
-                Edit
+                Edit profile
               </button>
             </div>
           </div>
-        </>
-      ))}
+        )}
+      </>
     </div>
   );
 }

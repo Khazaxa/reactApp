@@ -1,21 +1,11 @@
+@use "../../../../App.module.scss" as *;
+
 .galleryPage {
-  width: auto;
-  padding: 20px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
+  @include page;
 }
 
-.removeImageBtn {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #e02a1d;
-  color: #e1d4c2;
-  font-size: 20px;
-  cursor: pointer;
-  margin-bottom: 20px;
+.removeBtn {
+  @include removeBtn;
 }
 
 .removeImageBtn:disabled {

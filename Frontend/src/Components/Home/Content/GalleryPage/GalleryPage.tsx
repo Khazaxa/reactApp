@@ -114,7 +114,7 @@ export function GalleryPage() {
       <Notifications messageType={messageType} message={message} />
 
       {removeCheckboxesGallery ? (
-        <button className={styles.removeImageBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button>
+        <button className={styles.removeBtn} onClick={removeImage} disabled={checkedItems.length === 0}>Remove</button>
       ) : (true)}
 
       <ul>

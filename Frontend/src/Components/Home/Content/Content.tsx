@@ -11,22 +11,22 @@ const Content = () => {
   const location = useLocation();
   const addFolderFormView = location.state?.addFolderFormView || false;
   const addPostFormView = location.state?.addPostFormView || false;
+  const showUserEditForm = location.state?.showUserEditForm || false;
 
   return (
     <div id={styles.content}>
-      {addFolderFormView || addPostFormView ? (
-        <div className={styles.blackBackground}></div>
-      ) : (true)}
-      
-      <Routes>
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route path="/home" element={<HomePage />}/>
-        <Route path="/users" element={<UsersPage />} />
-        <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/folders" element={<FoldersPage />} />
-        <Route path="/posts" element={<PostsPage />} />
-        <Route path="/settings" element={<UserSettingsPage />} />
-      </Routes>
+      <div className={(addFolderFormView || addPostFormView || showUserEditForm ) ?  styles.blackBackground : styles.hiddenBlackBackground}></div>
+      <>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/folders" element={<FoldersPage />} />
+          <Route path="/posts" element={<PostsPage />} />
+          <Route path="/settings" element={<UserSettingsPage />} />
+        </Routes>
+      </>
     </div>
   );
 };

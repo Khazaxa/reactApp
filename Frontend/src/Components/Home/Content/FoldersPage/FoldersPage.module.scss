@@ -1,73 +1,36 @@
 @use "../../../../App.module.scss" as *;
 
 .foldersPage {
-  width: auto;
-  padding: 20px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
+  @include page;
+}
 
-  form {
-    background-color: #808080;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    border: 5px solid #ffff;
-    border-radius: 10px;
-    padding: 10px;
-    position: absolute;
-    top: 200px;
-    z-index: 1;
+#formContainer {
+  @include formCointainer;
 
-    .closeFormBtn {
-      @include closeFormBtn;
-    }
+  select {
+    width: 60%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    margin: 0px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
 
-    select {
-      width: 60%;
-      height: 30px;
-      border-radius: 5px;
-      border: none;
-      margin: 0px;
-      font-size: 16px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    textarea {
-      @include input;
-      width: 60%;
-      text-align: left;
-      height: 15px;
-      resize: none;
-      scrollbar-width: none;
-    }
-
-    .submitFormBtn {
-     @include submitFormBtn;
-    }
+  textarea {
+    @include inputStyle;
+    width: 60%;
+    text-align: left;
+    height: 15px;
+    resize: none;
+    scrollbar-width: none;
   }
 }
 
 .removeBtn {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #e02a1d;
-  color: #e1d4c2;
-  font-size: 20px;
-  cursor: pointer;
-
-  &:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
+  @include removeBtn;
 }
 
 .foldersPage h1 {
