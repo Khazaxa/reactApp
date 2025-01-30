@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import styles from "./UserSettingsPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Notifications from "../../../Notifications/Notifications";
 
 interface User {
@@ -12,13 +12,11 @@ interface User {
 }
 
 export function UserSettingsPage() {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   const userIdLocal = localStorage.getItem("userId");
-  const [showUserEditForm, setShowUserEditForm] = useState<boolean>(
-    location.state?.showUserEditForm || false
-  );
   const [user, setUser] = useState<User>();
+  const [editUser, setEditUser] = useState<boolean>(false);
   const [editUserName, setEditUserName] = useState<string>("");
   const [editUserAge, setEditUserAge] = useState<number | null>(null);
   const [message, setMessage] = useState<string>("");
@@ -45,16 +43,19 @@ export function UserSettingsPage() {
   }, [fetchUser]);
 
   useEffect(() => {
-    if (showUserEditForm) {
+    if (editUser) {
       if (user) {
         setEditUserName(user.name);
         setEditUserAge(user.age);
       }
     }
-  }, [showUserEditForm, user]);
+  }, [editUser, user]);
 
   const handleShowForm = () => {
-    setShowUserEditForm(!showUserEditForm);
+    navigate("/settings", {
+      state: { showUserEditForm: location.state?.showUserEditForm !== true },
+    });
+    setEditUser(!editUser);
   };
 
   const handleEditUser = async (e: React.FormEvent) => {
@@ -64,7 +65,10 @@ export function UserSettingsPage() {
       setEditUserName("");
       setEditUserAge(null);
 
-      setShowUserEditForm(false);
+      navigate("/settings", {
+        state: { showUserEditForm: false },
+      });
+      setEditUser(false);
       fetchUser();
 
       setMessage("User edited successfully!");
@@ -85,7 +89,9 @@ export function UserSettingsPage() {
         <form
           onSubmit={handleEditUser}
           className={
-            showUserEditForm === true ? styles.showForm : styles.hideForm
+            location.state?.showUserEditForm === true
+              ? styles.showForm
+              : styles.hideForm
           }
         >
           <button
