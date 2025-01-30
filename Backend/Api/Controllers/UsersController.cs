@@ -30,4 +30,11 @@ public class UsersController(IMediator mediator) : ControllerBase
     {
         return await mediator.Send(new UserGetQuery(name), cancellationToken);
     }
+
+    [HttpGet]
+    [Route("userById/{id}")]
+    public async Task<UserDto> GetUserById(int id, CancellationToken cancellationToken)
+    {
+        return await mediator.Send(new UserGetByIdQuery(id), cancellationToken);
+    }
 }
