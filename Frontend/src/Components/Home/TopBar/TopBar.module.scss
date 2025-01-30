@@ -11,18 +11,18 @@
   height: 8vh;
   background-color: #9e9e9d;
   overflow: hidden;
-  
+
   button {
     border: none;
     padding: 10px 10px;
     border-radius: 10px;
-    background-color: #A78D78;
-    color: #E1D4C2;
+    background-color: #a78d78;
+    color: #e1d4c2;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #BEB5A9;
+      background-color: #beb5a9;
       cursor: pointer;
     }
   }
