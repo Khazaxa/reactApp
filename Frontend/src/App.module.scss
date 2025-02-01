@@ -18,17 +18,17 @@
 
 .errorMessage {
   font-size: x-large;
-  color: rgb(121, 0, 0);
+  color: #e02a1d;
 }
 
 @mixin page {
   display: flex;
   flex-direction: column;
   width: auto;
-  padding: 20px 0px;
   align-items: center;
   margin-bottom: 10px;
   position: relative;
+  padding: 10px 80px;
 }
 
 @mixin removeBtn {
@@ -51,6 +51,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  user-select: none;
 
   .showForm {
     background-color: #808080;

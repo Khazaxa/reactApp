@@ -11,11 +11,28 @@ interface User {
   avatar: string;
 }
 
+interface Post {
+  id: number;
+  title: string;
+  content: string;
+  authorId: number;
+  author: string;
+}
+
+interface Image {
+  id: number;
+  name: string;
+  userId: number;
+  path: string;
+}
+
 export function UserSettingsPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const userIdLocal = localStorage.getItem("userId");
   const [user, setUser] = useState<User>();
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [editUser, setEditUser] = useState<boolean>(false);
   const [editUserName, setEditUserName] = useState<string>("");
   const [editUserAge, setEditUserAge] = useState<number | null>(null);
@@ -38,9 +55,29 @@ export function UserSettingsPage() {
     setEditUserAge(response.data.age);
   }, [userIdLocal]);
 
+  const fetchPosts = useCallback(async () => {
+    const response = await api.get("/posts");
+    setPosts(
+      response.data.filter(
+        (post: Post) => post.authorId === Number(userIdLocal)
+      )
+    );
+  }, [userIdLocal]);
+
+  const fetchImages = useCallback(async () => {
+    const response = await api.get("/images");
+    setImages(
+      response.data.filter(
+        (image: Image) => image.userId === Number(userIdLocal)
+      )
+    );
+  }, [userIdLocal]);
+
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+    fetchPosts();
+    fetchImages();
+  }, [fetchUser, fetchPosts, fetchImages]);
 
   useEffect(() => {
     if (editUser) {
@@ -121,30 +158,63 @@ export function UserSettingsPage() {
           </button>
         </form>
       </div>
-      {user && (
-        <div key={user.email} className={styles.userCard}>
-          <div className={styles.userAvatar}>
-            <img src={user.avatar} alt={`avatar`} />
-          </div>
-          <div className={styles.userInfo}>
-            <div className={styles.userName}>
-              <strong>{user.name ? user.name : "--"}</strong>
+
+      <div className={styles.settingsContainer}>
+        <div className={styles.userCard}>
+          {user && (
+            <div className={styles.userContainer}>
+              <div className={styles.userAvatar}>
+                <img src={user.avatar} alt={`avatar`} />
+              </div>
+              <div className={styles.userInfo}>
+                <div className={styles.userName}>
+                  <strong>{user.name ? user.name : "--"}</strong>
+                </div>
+                <div className={styles.userEmail}>
+                  <strong>{user.email}</strong>
+                </div>
+                <div className={styles.userAge}>
+                  <strong>{user.age ? user.age : "--"}</strong>
+                </div>
+                <button
+                  onClick={() => handleShowForm()}
+                  className={styles.userEdit}
+                >
+                  Edit profile
+                </button>
+              </div>
             </div>
-            <div className={styles.userEmail}>
-              <strong>{user.email}</strong>
-            </div>
-            <div className={styles.userAge}>
-              <strong>{user.age ? user.age : "--"}</strong>
-            </div>
-            <button
-              onClick={() => handleShowForm()}
-              className={styles.userEdit}
-            >
-              Edit profile
-            </button>
-          </div>
+          )}
         </div>
-      )}
+
+        <div className={styles.userContent}>
+          {posts.length > 0 && (
+            <div className={styles.userMedia}>
+              <strong>Posts:</strong>
+              {posts.map((post) => (
+                <div className={styles.media}>
+                  <span>{post.title}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {images.length > 0 && (
+            <div className={styles.userMedia}>
+              <strong>Images:</strong>
+              {images.map((image) => (
+                <div className={styles.media}>
+                  <div className={styles.imageContainer}>
+                    {image.name}
+                    <div className={styles.imageMedia}>
+                      <img src={image.path} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

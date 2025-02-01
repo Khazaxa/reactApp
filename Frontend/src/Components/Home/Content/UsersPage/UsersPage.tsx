@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./UsersPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
-import Notifications from '../../../Notifications/Notifications';
+import Notifications from "../../../Notifications/Notifications";
 
 interface User {
   name: string;
@@ -13,7 +13,9 @@ interface User {
 export function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | null
+  >(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -36,6 +38,7 @@ export function UsersPage() {
   return (
     <div className={styles.usersPage}>
       <Notifications messageType={messageType} message={message} />
+      <div className={styles.usersList}>
         {users.map((user) => (
           <div className={styles.userCard}>
             <div className={styles.userAvatar}>
@@ -52,6 +55,7 @@ export function UsersPage() {
             </div>
           </div>
         ))}
+      </div>
     </div>
   );
 }

@@ -23,6 +23,23 @@
   }
 }
 
+.settingsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #666;
+  border-radius: 10px;
+  padding: 15px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .userCard {
   display: flex;
   flex-direction: row;
@@ -30,7 +47,7 @@
   justify-content: center;
   background-color: #444;
   border-radius: 10px;
-  padding: 15px 30px;
+  padding: 15px 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -49,8 +66,9 @@
 
 .userAvatar img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 
 .userInfo {
@@ -72,7 +90,7 @@
 }
 
 .userEdit {
-  background-color: #444;
+  background-color: #666;
   border: none;
   font-size: medium;
   transition: all 0.3s ease;
@@ -92,6 +110,80 @@
   input {
     border-radius: 5px;
     width: 50px;
+  }
+}
+
+.userContent {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+  position: relative;
+  justify-content: center;
+  width: auto;
+
+  .userMedia {
+    display: flex;
+    flex-direction: column;
+    background-color: #444;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    width: 100%;
+    color: #fff;
+
+    .media {
+      background-color: #666;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      color: #fff;
+      text-align: left;
+      align-items: center;
+      font-weight: bolder;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+
+      .imageContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 1/1;
+          object-fit: contain;
+        }
+      }
+
+      .imageMedia {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #808080;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        user-select: none;
+
+        img {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 1/1;
+          object-fit: contain;
+        }
+      }
+    }
   }
 }
 

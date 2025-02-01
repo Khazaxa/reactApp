@@ -246,208 +246,215 @@ export function PostsPage() {
         </form>
       </div>
 
-      {posts.map((post) => (
-        <div
-          className={styles.postCard}
-          key={post.id}
-          onClick={
-            removeCheckboxesPosts && post.authorId === Number(userIdLocal)
-              ? () => handleRemoveItemClick(post.id)
-              : undefined
-          }
-        >
-          {removeCheckboxesPosts && post.authorId === Number(userIdLocal) ? (
-            <input
-              type="checkbox"
-              className={styles.checkboxes}
-              checked={checkedItems.includes(post.id)}
-              readOnly
-            />
-          ) : (
-            true
-          )}
+      <div className={styles.postsList}>
+        {posts.map((post) => (
+          <div
+            className={styles.postCard}
+            key={post.id}
+            onClick={
+              removeCheckboxesPosts && post.authorId === Number(userIdLocal)
+                ? () => handleRemoveItemClick(post.id)
+                : undefined
+            }
+          >
+            {removeCheckboxesPosts && post.authorId === Number(userIdLocal) ? (
+              <input
+                type="checkbox"
+                className={styles.checkboxes}
+                checked={checkedItems.includes(post.id)}
+                readOnly
+              />
+            ) : (
+              true
+            )}
 
-          <div className={styles.postTitle}>
-            <span>
-              {post.title}
-              <span className={styles.author}> by {post.author}</span>
-            </span>
-          </div>
-          <div className={styles.postContent}>
-            {!readMore[post.id] ? (
-              post.content.length > 200 ? (
+            <div className={styles.postTitle}>
+              <span>
+                {post.title}
+                <span className={styles.author}> by {post.author}</span>
+              </span>
+            </div>
+            <div className={styles.postContent}>
+              {!readMore[post.id] ? (
+                post.content.length > 200 ? (
+                  <span>
+                    {post.content.slice(0, 200)} ...
+                    <span
+                      className={styles.readMoreBtn}
+                      onClick={() => readMorePost(post.id)}
+                    >
+                      Show more
+                    </span>
+                  </span>
+                ) : (
+                  post.content
+                )
+              ) : (
                 <span>
-                  {post.content.slice(0, 200)} ...
+                  {post.content}
                   <span
                     className={styles.readMoreBtn}
                     onClick={() => readMorePost(post.id)}
                   >
-                    Show more
+                    Show less
                   </span>
                 </span>
-              ) : (
-                post.content
-              )
-            ) : (
-              <span>
-                {post.content}
-                <span
-                  className={styles.readMoreBtn}
-                  onClick={() => readMorePost(post.id)}
-                >
-                  Show less
-                </span>
-              </span>
-            )}
-          </div>
-          <ul className={styles.commentsList}>
-            <li className={styles.commentsCounter}>
-              {comments.filter((comment) => comment.postId === post.id).length >
-              0 ? (
-                <>
-                  <hr />
-                  Comments (
-                  {
-                    comments.filter((comment) => comment.postId === post.id)
-                      .length
-                  }
-                  ):
-                  {!visibleComments[post.id] ? (
-                    comments.filter((comment) => comment.postId === post.id)
-                      .length > 2 ? (
+              )}
+            </div>
+            <ul className={styles.commentsList}>
+              <li className={styles.commentsCounter}>
+                {comments.filter((comment) => comment.postId === post.id)
+                  .length > 0 ? (
+                  <>
+                    <hr />
+                    Comments (
+                    {
+                      comments.filter((comment) => comment.postId === post.id)
+                        .length
+                    }
+                    ):
+                    {!visibleComments[post.id] ? (
+                      comments.filter((comment) => comment.postId === post.id)
+                        .length > 2 ? (
+                        <span
+                          onClick={() => {
+                            handleShowMoreComents(post.id);
+                          }}
+                        >
+                          Show more comments
+                        </span>
+                      ) : (
+                        false
+                      )
+                    ) : comments.filter((comment) => comment.postId === post.id)
+                        .length > 2 ? (
                       <span
                         onClick={() => {
                           handleShowMoreComents(post.id);
                         }}
                       >
-                        Show more comments
+                        Show less comments
                       </span>
                     ) : (
                       false
-                    )
-                  ) : comments.filter((comment) => comment.postId === post.id)
-                      .length > 2 ? (
-                    <span
-                      onClick={() => {
-                        handleShowMoreComents(post.id);
-                      }}
-                    >
-                      Show less comments
-                    </span>
+                    )}
+                  </>
+                ) : (
+                  false
+                )}
+              </li>
+
+              {comments.filter((comment) => comment.postId === post.id).length >
+              0 ? (
+                <>
+                  {!visibleComments[post.id] ? (
+                    <>
+                      {comments
+                        .filter((comment) => comment.postId === post.id)
+                        .slice(0, 2)
+                        .map((comment) => (
+                          <li key={comment.content} className={styles.comment}>
+                            <strong>{comment.author}:</strong>
+                            <span>{comment.content}</span>
+
+                            {comment.authorId === Number(userIdLocal) ? (
+                              <div className={styles.commentMenu}>
+                                <button
+                                  className={styles.menuButton}
+                                  onClick={() => toggleCommentMenu(comment.id)}
+                                >
+                                  &#x22EE;
+                                </button>
+                                {visibleCommentMenu === comment.id && (
+                                  <div className={styles.menuOptions}>
+                                    <button>Delete</button>
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              false
+                            )}
+                          </li>
+                        ))}
+                    </>
                   ) : (
-                    false
+                    <>
+                      {comments
+                        .filter((comment) => comment.postId === post.id)
+                        .map((comment) => (
+                          <li key={comment.content} className={styles.comment}>
+                            <strong>{comment.author}:</strong>
+                            <span>{comment.content}</span>
+
+                            {comment.authorId === Number(userIdLocal) ? (
+                              <div className={styles.commentMenu}>
+                                <button
+                                  className={styles.menuButton}
+                                  onClick={() => toggleCommentMenu(comment.id)}
+                                >
+                                  &#x22EE;
+                                </button>
+                                {visibleCommentMenu === comment.id && (
+                                  <div className={styles.menuOptions}>
+                                    <button>Delete</button>
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              false
+                            )}
+                          </li>
+                        ))}
+                    </>
                   )}
                 </>
               ) : (
                 false
               )}
-            </li>
-
-            {comments.filter((comment) => comment.postId === post.id).length >
-            0 ? (
-              <>
-                {!visibleComments[post.id] ? (
-                  <>
-                    {comments
-                      .filter((comment) => comment.postId === post.id)
-                      .slice(0, 2)
-                      .map((comment) => (
-                        <li key={comment.content} className={styles.comment}>
-                          <strong>{comment.author}:</strong>
-                          <span>{comment.content}</span>
-
-                          {comment.authorId === Number(userIdLocal) ? (
-                            <div className={styles.commentMenu}>
-                              <button
-                                className={styles.menuButton}
-                                onClick={() => toggleCommentMenu(comment.id)}
-                              >
-                                &#x22EE;
-                              </button>
-                              {visibleCommentMenu === comment.id && (
-                                <div className={styles.menuOptions}>
-                                  <button>Delete</button>
-                                </div>
-                              )}
-                            </div>
-                          ) : (
-                            false
-                          )}
-                        </li>
-                      ))}
-                  </>
-                ) : (
-                  <>
-                    {comments
-                      .filter((comment) => comment.postId === post.id)
-                      .map((comment) => (
-                        <li key={comment.content} className={styles.comment}>
-                          <strong>{comment.author}:</strong>
-                          <span>{comment.content}</span>
-
-                          {comment.authorId === Number(userIdLocal) ? (
-                            <div className={styles.commentMenu}>
-                              <button
-                                className={styles.menuButton}
-                                onClick={() => toggleCommentMenu(comment.id)}
-                              >
-                                &#x22EE;
-                              </button>
-                              {visibleCommentMenu === comment.id && (
-                                <div className={styles.menuOptions}>
-                                  <button>Delete</button>
-                                </div>
-                              )}
-                            </div>
-                          ) : (
-                            false
-                          )}
-                        </li>
-                      ))}
-                  </>
-                )}
-              </>
+              <hr />
+            </ul>
+            {commentFormView[post.id] ? (
+              <form
+                className={styles.addCommentForm}
+                onSubmit={handleAddComment}
+              >
+                <textarea
+                  className={styles.commentInput}
+                  placeholder="Type comment"
+                  onChange={(e) => setCommentContent(e.target.value)}
+                  required
+                />
+                <div className={styles.commentFormBtns}>
+                  <button
+                    onClick={() => {
+                      setPostId(post.id);
+                      toggleCommentMenu(0);
+                    }}
+                    type="submit"
+                  >
+                    Comment
+                  </button>
+                  <button onClick={handleShowCommentForm(post.id)}>
+                    Cancel
+                  </button>
+                </div>
+              </form>
             ) : (
               false
             )}
-            <hr />
-          </ul>
-          {commentFormView[post.id] ? (
-            <form className={styles.addCommentForm} onSubmit={handleAddComment}>
-              <textarea
-                className={styles.commentInput}
-                placeholder="Type comment"
-                onChange={(e) => setCommentContent(e.target.value)}
-                required
-              />
-              <div className={styles.commentFormBtns}>
-                <button
-                  onClick={() => {
-                    setPostId(post.id);
-                    toggleCommentMenu(0);
-                  }}
-                  type="submit"
-                >
-                  Comment
-                </button>
-                <button onClick={handleShowCommentForm(post.id)}>Cancel</button>
-              </div>
-            </form>
-          ) : (
-            false
-          )}
-          {!commentFormView[post.id] ? (
-            <button
-              className={styles.addCommentBtn}
-              onClick={handleShowCommentForm(post.id)}
-            >
-              Add comment
-            </button>
-          ) : (
-            false
-          )}
-        </div>
-      ))}
+            {!commentFormView[post.id] ? (
+              <button
+                className={styles.addCommentBtn}
+                onClick={handleShowCommentForm(post.id)}
+              >
+                Add comment
+              </button>
+            ) : (
+              false
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

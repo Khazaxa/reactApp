@@ -1,10 +1,14 @@
-.usersPage{
+@use "../../../../App.module.scss" as *;
+
+.usersPage {
+  @include page;
+  align-items: normal;
+}
+
+.usersList {
   display: flex;
   flex-direction: column;
-  width: auto;
   gap: 10px;
-  margin-bottom: 10px;
-  padding: 20px 80px;
 }
 
 .userCard {
@@ -36,7 +40,9 @@
   object-fit: cover;
 }
 
-.userName, .userAge, .userEmail {
+.userName,
+.userAge,
+.userEmail {
   background-color: #555;
   color: #fff;
   border-radius: 5px;
