@@ -7,6 +7,10 @@
   padding-left: 5vw;
   background-color: #724c4c;
   user-select: none;
+
+  h1 {
+    font-size: clamp(1.2rem, 1.5vw, 5rem);
+  }
 }
 
 #search {

@@ -3,7 +3,6 @@
   flex-direction: column;
   gap: 10px;
   height: 100dvh;
-  width: 300px;
   background-color: #6e473b;
   position: absolute;
   z-index: 9999;
@@ -23,7 +22,6 @@
   flex-direction: column;
   gap: 10px;
   height: 100dvh;
-  width: 300px;
   background-color: #6e473b;
   position: absolute;
   z-index: 9999;
@@ -38,20 +36,21 @@
 }
 
 #logo {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: auto;
-  width: 100%;
-  font-size: 2rem;
-  font-weight: bold;
   color: #e1d4c2;
   margin-top: 10px;
   user-select: none;
-}
+  display: inline-block;
+  width: clamp(50px, 20vw, 100px);
 
-#logo img {
-  width: 100px;
-  border-radius: 20px;
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
 }
 
 .navBarBtn {

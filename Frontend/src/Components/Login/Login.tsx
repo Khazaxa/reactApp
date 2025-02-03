@@ -60,7 +60,7 @@ export function Login({
         <h1>Login</h1>
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Email"
           onChange={(event) => {
             setLogin(event.target.value);
           }}

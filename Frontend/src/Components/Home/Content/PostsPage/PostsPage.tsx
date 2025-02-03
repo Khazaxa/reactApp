@@ -274,6 +274,7 @@ export function PostsPage() {
                 <span className={styles.author}> by {post.author}</span>
               </span>
             </div>
+            <hr />
             <div className={styles.postContent}>
               {!readMore[post.id] ? (
                 post.content.length > 200 ? (
@@ -301,12 +302,12 @@ export function PostsPage() {
                 </span>
               )}
             </div>
+            <hr />
             <ul className={styles.commentsList}>
               <li className={styles.commentsCounter}>
                 {comments.filter((comment) => comment.postId === post.id)
                   .length > 0 ? (
                   <>
-                    <hr />
                     Comments (
                     {
                       comments.filter((comment) => comment.postId === post.id)
@@ -407,11 +408,11 @@ export function PostsPage() {
                         ))}
                     </>
                   )}
+                  <hr />
                 </>
               ) : (
                 false
               )}
-              <hr />
             </ul>
             {commentFormView[post.id] ? (
               <form

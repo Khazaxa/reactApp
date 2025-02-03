@@ -3,20 +3,17 @@
 #topBar {
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  gap: 30px;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
-  width: 100%;
-  height: 8vh;
+  padding: 10px;
   background-color: #9e9e9d;
-  overflow: hidden;
   user-select: none;
 
   button {
     border: none;
-    padding: 10px 10px;
     border-radius: 10px;
+    padding: 10px;
     background-color: #a78d78;
     color: #e1d4c2;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);

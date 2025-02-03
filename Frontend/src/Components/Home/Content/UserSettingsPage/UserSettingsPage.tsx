@@ -191,26 +191,30 @@ export function UserSettingsPage() {
           {posts.length > 0 && (
             <div className={styles.userMedia}>
               <strong>Posts:</strong>
-              {posts.map((post) => (
-                <div className={styles.media}>
-                  <span>{post.title}</span>
-                </div>
-              ))}
+              <div className={styles.scrollContainer}>
+                {posts.map((post) => (
+                  <div className={styles.media}>
+                    <span>{post.title}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
           {images.length > 0 && (
             <div className={styles.userMedia}>
               <strong>Images:</strong>
-              {images.map((image) => (
-                <div className={styles.media}>
-                  <div className={styles.imageContainer}>
-                    {image.name}
-                    <div className={styles.imageMedia}>
-                      <img src={image.path} />
+              <div className={styles.scrollContainer}>
+                {images.map((image) => (
+                  <div className={styles.media}>
+                    <div className={styles.imageContainer}>
+                      {image.name}
+                      <div className={styles.imageMedia}>
+                        <img src={image.path} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
         </div>

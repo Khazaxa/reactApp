@@ -15,11 +15,12 @@
   display: grid;
   grid-template-columns: 60px 1fr 60px 1fr;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   background-color: #444;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: clamp(15px, 2.5vw, 15px);
 }
 
 .userAvatar {

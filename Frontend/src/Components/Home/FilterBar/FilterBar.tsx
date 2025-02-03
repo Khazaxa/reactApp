@@ -5,9 +5,7 @@ import homeStyles from "../Home.module.scss";
 const FilterBar = () => {
   return (
     <div id={styles.filterBar}>
-      <h1>
-        <strong>Explore</strong>
-      </h1>
+      <h1>Explore</h1>
       <div id={styles.search}>
         <button className={homeStyles.navButton}>Filters</button>
         <img src={search} id={styles.loupe} />
