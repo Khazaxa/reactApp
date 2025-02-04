@@ -16,7 +16,7 @@ interface Post {
   title: string;
   content: string;
   authorId: number;
-  author: string;
+  author: Image;
 }
 
 interface Image {
@@ -32,6 +32,8 @@ export function UserSettingsPage() {
   const userIdLocal = localStorage.getItem("userId");
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [logos, setLogos] = useState<Image[]>([]);
+  const [logoId, setLogoId] = useState<number | null>(null);
   const [images, setImages] = useState<Image[]>([]);
   const [editUser, setEditUser] = useState<boolean>(false);
   const [editUserName, setEditUserName] = useState<string>("");
@@ -47,6 +49,11 @@ export function UserSettingsPage() {
       setMessage("");
       setMessageType(null);
     }, 3000);
+  };
+
+  const fetchLogos = async () => {
+    const response = await api.get("/images");
+    setLogos(response.data);
   };
 
   const fetchUser = useCallback(async () => {
@@ -79,6 +86,7 @@ export function UserSettingsPage() {
     fetchUser();
     fetchPosts();
     fetchImages();
+    fetchLogos();
   }, [fetchUser, fetchPosts, fetchImages]);
 
   useEffect(() => {
@@ -120,16 +128,22 @@ export function UserSettingsPage() {
     }
   };
 
-  const handleImageChange = async (image: Image) => {
+  const handleImageChange = async (e: React.FormEvent) => {
     try {
-      await api.put(`/user/${userIdLocal}/avatar`, { avatar: image.path });
-      setUser((prevUser) => prevUser && { ...prevUser, avatar: image.path });
-      setShowImageModal(false);
-      setMessage("Image changed successfully!");
+      e.preventDefault();
+      await api.put("/user", { avatarId: logoId });
+
+      navigate("/settings", {
+        state: { showUserEditForm: false },
+      });
+      setEditUser(false);
+      fetchUser();
+
+      setMessage("Image edited successfully!");
       setMessageType("success");
       notificationDelay();
     } catch (error) {
-      setMessage("Error changing image: " + error);
+      setMessage("Error edit image: " + error);
       setMessageType("error");
       notificationDelay();
     }
@@ -151,7 +165,7 @@ export function UserSettingsPage() {
           <button
             className={styles.closeFormBtn}
             type="button"
-            onClick={() => handleShowForm()}
+            onClick={handleShowForm}
           >
             X
           </button>
@@ -184,9 +198,24 @@ export function UserSettingsPage() {
                 <div className={styles.userAvatar}>
                   <img src={user.avatar} alt={`avatar`} />
                 </div>
-                <button onClick={() => setShowImageModal(true)}>
-                  Change Image
-                </button>
+                <form onSubmit={handleImageChange}>
+                  <select
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setLogoId(value === 0 ? null : value);
+                    }}
+                  >
+                    {logos.map((logo) => (
+                      <option key={logo.id} value={logo.id}>
+                        {logo.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button className={styles.submitFormBtn} type="submit">
+                    Change Avatar
+                  </button>
+                </form>
               </div>
               <div className={styles.userInfo}>
                 <div className={styles.userName}>
@@ -222,7 +251,7 @@ export function UserSettingsPage() {
                   <div
                     key={image.id}
                     className={styles.imageItem}
-                    onClick={() => handleImageChange(image)}
+                    onClick={handleImageChange}
                   >
                     <span>{image.name}</span>
                   </div>

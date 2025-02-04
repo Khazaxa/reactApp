@@ -20,14 +20,15 @@ public class User : EntityBase
 
     public User(string name, string email, int? age, Image? avatar, byte[] passwordHash, byte[] passwordSalt, UserRole role)
     {
-        Update(name, age, avatar);
+        Name = name;
+        Age = age;
         Email = email;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
         Role = role;
     }
 
-    [MaxLength(NameMaxLength)] public string Name { get; private set; }
+    [MaxLength(NameMaxLength)] public string? Name { get; private set; }
     [MaxLength(EmailMaxLength)] public string Email { get; private set; }
     public int? Age { get; private set; }
     public byte[] PasswordHash { get; private set; } = null!;
@@ -38,15 +39,16 @@ public class User : EntityBase
     public int? AvatarImageId { get; private set; }
     public Image? AvatarImage { get; private set; }
 
-    public void Update(string name, int? age, Image? avatar)
+    public void Update(string? name, int? age)
     {
         Name = name;
         Age = age;
-        if (avatar != null)
-        {
-            AvatarImageId = avatar.Id;
-            AvatarImage = avatar;
-        }
+    }
+    
+    public void UpdateAvatar(Image avatar)
+    {
+        AvatarImageId = avatar.Id;
+        AvatarImage = avatar;
     }
 
     public static void OnModelCreating(ModelBuilder builder)
