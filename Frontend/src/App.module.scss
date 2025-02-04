@@ -1,6 +1,6 @@
 @mixin button {
   width: 100px;
-  background-color: #A88C7C;
+  background-color: #a88c7c;
   color: #fff;
   border-radius: 10px;
   padding: 10px 20px;
@@ -10,35 +10,138 @@
 
   &:hover {
     cursor: pointer;
-    background-color: #BEB5A9;
-    color: #6E473B;
+    background-color: #beb5a9;
+    color: #6e473b;
     transition: all 0.3s;
   }
 }
 
-@mixin input {
+.errorMessage {
+  font-size: x-large;
+  color: #e02a1d;
+}
+
+@mixin page {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  padding: 10px clamp(6px, 2.5vw, 800px);
+}
+
+@mixin removeBtn {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #e02a1d;
+  color: #e1d4c2;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+}
+
+@mixin formCointainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  user-select: none;
+
+  .showForm {
+    background-color: #808080;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #ffff;
+    border-radius: 10px;
+    padding: 10px 50px;
+    position: absolute;
+    transition: transform 0.3s ease-out;
+    transform: translateY(100%);
+    z-index: 1;
+  }
+
+  .hideForm {
+    background-color: #808080;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    border: 5px solid #ffff;
+    border-radius: 10px;
+    padding: 10px 50px;
+    position: absolute;
+    transition: transform 0.3s ease-out;
+    transform: translateY(-100%);
+    z-index: 1;
+  }
+
+  .closeFormBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 3px 14px;
+    border-radius: 5px;
+    border: none;
+    background-color: #e02a1d;
+    color: #e1d4c2;
+    font-size: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ffffff;
+      cursor: pointer;
+    }
+  }
+
+  .submitFormBtn {
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #5a5;
+    color: #e1d4c2;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ffffff;
+      cursor: pointer;
+    }
+  }
+}
+
+@mixin inputStyle {
   border: none;
   text-align: left;
   font-weight: 500;
   border-width: 2px;
   padding: 10px;
   border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-@mixin form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px; 
-  border-radius: 15px;
-  border: solid #291C0E;
-  background-color: #6E473B;
-}
-
-.errorMessage {
-  font-size: x-large;
-  color: rgb(121, 0, 0);
+@mixin topBarBtn {
+  img {
+    display: flex;
+    width: 100%;
+    height: 20px;
+    aspect-ratio: 3/1;
+    object-fit: contain;
+  }
 }

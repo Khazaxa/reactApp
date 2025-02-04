@@ -7,14 +7,22 @@
 }
 
 #loginForm {
-  @include form;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  border-radius: 10px;
+  border: solid #291c0e;
+  background-color: #6e473b;
 
   p {
     color: #e1d4c2;
   }
 
   input {
-    @include input;
+    @include inputStyle;
     margin: 5px;
     width: 20vw;
     text-align: center;
@@ -39,6 +47,7 @@
   color: #3399ff;
   font-size: large;
   transition: all 0.3s;
+  margin-top: 10px;
 
   &:hover {
     cursor: pointer;
@@ -48,7 +57,7 @@
 
 @media (max-width: 600px) {
   #loginForm {
-    width: 80vw;
+    width: 10vw;
 
     input {
       width: 50vw;

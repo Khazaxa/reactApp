@@ -1,33 +1,16 @@
+@use "../../../../App.module.scss" as *;
+
 .galleryPage {
-  padding: 10px 0px;
-  margin-bottom: 10px;
-  width: auto;
+  @include page;
 }
 
-.removeImageBtn {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #e02a1d;
-  color: #E1D4C2;
-  font-size: 20px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.removeImageBtn:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-.galleryPage h1 {
-  color: yellow;
-  margin-bottom: 10px;
+.removeBtn {
+  @include removeBtn;
 }
 
 .galleryPage ul {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -47,12 +30,14 @@
   overflow: hidden;
   background-color: #808080;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  user-select: none;
 }
 
 .galleryPage ul li img {
   width: 100%;
   height: auto;
-  object-fit: cover;;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 
 .checkboxes {

@@ -1,0 +1,199 @@
+@use "../../../../App.module.scss" as *;
+
+.settingsPage {
+  @include page;
+}
+
+#formContainer {
+  @include formCointainer;
+
+  .editUserNameInput,
+  .editUserAgeInput {
+    @include inputStyle;
+    width: 200px;
+    height: 15px;
+  }
+
+  .editUserAgeInput {
+    @include inputStyle;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.settingsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #444;
+  border-radius: 10px;
+  padding: 15px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.userCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.userAvatar {
+  background-color: #fff;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-right: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.userAvatar img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.userName,
+.userAge,
+.userEmail {
+  background-color: #666;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: large;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.userEdit {
+  background-color: #444;
+  border: none;
+  font-size: medium;
+  transition: all 0.3s ease;
+  color: #3399ff;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.userName,
+.userAge {
+  display: flex;
+  justify-content: space-between;
+
+  input {
+    border-radius: 5px;
+    width: 50px;
+  }
+}
+
+.userContent {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  position: relative;
+  justify-content: center;
+  width: 100%;
+
+  .userMedia {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #444;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    flex: 1 1 50%;
+    color: #fff;
+
+    .scrollContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0px 5px 10px 5px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      height: 200px;
+    }
+
+    .media {
+      background-color: #666;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      color: #fff;
+      text-align: left;
+      align-items: center;
+      font-weight: bolder;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+
+      .imageContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .imageMedia {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: auto;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: #808080;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        user-select: none;
+
+        img {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 1/1;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .userContent {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .userCard {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

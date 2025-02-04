@@ -1,79 +1,41 @@
 @use "../../../../App.module.scss" as *;
 
 .foldersPage {
-  width: auto;
-  padding: 10px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
+  @include page;
+}
 
-  form {
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    width: 20%;
-    margin-bottom: 10px;
+#formContainer {
+  @include formCointainer;
 
-    select {
-      width: 60%;
-      height: 30px;
-      border-radius: 5px;
-      border: none;
-      margin: 0px;
-      font-size: 16px;
-      text-align: center;
-      cursor: pointer;
-    }
-    
-    textarea {
-      @include input;
-      width: 60%;
-      text-align: left;
-      height: 15px;
-      resize: none;
-      scrollbar-width: none;
-    }
-    
-    button {
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
-      background-color: #5a5;
-      color: #ffffff;
-      font-size: 20px;
-      cursor: pointer;
-    }
+  select {
+    width: 60%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    margin: 0px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  textarea {
+    @include inputStyle;
+    width: 60%;
+    text-align: left;
+    height: 15px;
+    resize: none;
+    scrollbar-width: none;
   }
 }
 
-.removeFolderBtn {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #e02a1d;
-  color: #E1D4C2;
-  font-size: 20px;
-  cursor: pointer;
-  margin-bottom: 20px;
-
-  &:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-}
-
-.foldersPage h1 {
-  color: yellow;
-  margin-bottom: 10px;
+.removeBtn {
+  @include removeBtn;
 }
 
 .foldersPage ul {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -98,6 +60,7 @@
   color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  user-select: none;
 }
 
 .checkboxes {

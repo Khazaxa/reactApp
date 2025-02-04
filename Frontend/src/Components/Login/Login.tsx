@@ -1,7 +1,7 @@
 import styles from "./Login.module.scss";
 import { useState } from "react";
 import api from "../../ApiConfig/ApiConfig";
-import Notifications from '../Notifications/Notifications';
+import Notifications from "../Notifications/Notifications";
 
 export function Login({
   setIsLogged,
@@ -13,13 +13,15 @@ export function Login({
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | null
+  >(null);
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
       setMessageType(null);
     }, 3000);
-  }
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -35,11 +37,12 @@ export function Login({
         },
       });
       const { accessToken } = response.data;
+      const { userId } = response.data;
 
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", userId);
         setIsLogged(true);
-
       } else {
         setIsLogged(false);
       }
@@ -57,7 +60,7 @@ export function Login({
         <h1>Login</h1>
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Email"
           onChange={(event) => {
             setLogin(event.target.value);
           }}
@@ -81,7 +84,7 @@ export function Login({
                 e.preventDefault();
                 setIsRegister(false);
               }}
-              >
+            >
               Register
             </button>
           </div>

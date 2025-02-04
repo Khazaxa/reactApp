@@ -8,7 +8,7 @@ export function RemoveBtn() {
 
   const RemoveClick = () => {
     if (location.pathname === '/posts') {
-      navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });;
+      navigate("/posts", { state: { removeCheckboxesPosts: location.state?.removeCheckboxesPosts !== true } });;
     } else if (location.pathname === '/gallery') {
       navigate("/gallery", { state: { removeCheckboxesGallery: location.state?.removeCheckboxesGallery !== true } });;
     } else if (location.pathname === '/folders') {
