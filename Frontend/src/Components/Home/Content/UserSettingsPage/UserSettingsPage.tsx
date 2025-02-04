@@ -40,6 +40,8 @@ export function UserSettingsPage() {
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);
+  const [showImageModal, setShowImageModal] = useState<boolean>(false);
+
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
@@ -118,6 +120,21 @@ export function UserSettingsPage() {
     }
   };
 
+  const handleImageChange = async (image: Image) => {
+    try {
+      await api.put(`/user/${userIdLocal}/avatar`, { avatar: image.path });
+      setUser((prevUser) => prevUser && { ...prevUser, avatar: image.path });
+      setShowImageModal(false);
+      setMessage("Image changed successfully!");
+      setMessageType("success");
+      notificationDelay();
+    } catch (error) {
+      setMessage("Error changing image: " + error);
+      setMessageType("error");
+      notificationDelay();
+    }
+  };
+
   return (
     <div className={styles.settingsPage}>
       <Notifications messageType={messageType} message={message} />
@@ -163,8 +180,13 @@ export function UserSettingsPage() {
         <div className={styles.userCard}>
           {user && (
             <div className={styles.userContainer}>
-              <div className={styles.userAvatar}>
-                <img src={user.avatar} alt={`avatar`} />
+              <div className={styles.userImage}>
+                <div className={styles.userAvatar}>
+                  <img src={user.avatar} alt={`avatar`} />
+                </div>
+                <button onClick={() => setShowImageModal(true)}>
+                  Change Image
+                </button>
               </div>
               <div className={styles.userInfo}>
                 <div className={styles.userName}>
@@ -186,6 +208,29 @@ export function UserSettingsPage() {
             </div>
           )}
         </div>
+        {showImageModal && (
+          <div className={styles.imageModal}>
+            <div className={styles.modalContent}>
+              <button
+                className={styles.closeModalBtn}
+                onClick={() => setShowImageModal(false)}
+              >
+                X
+              </button>
+              <div className={styles.imageList}>
+                {images.map((image) => (
+                  <div
+                    key={image.id}
+                    className={styles.imageItem}
+                    onClick={() => handleImageChange(image)}
+                  >
+                    <span>{image.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className={styles.userContent}>
           {posts.length > 0 && (
@@ -193,7 +238,7 @@ export function UserSettingsPage() {
               <strong>Posts:</strong>
               <div className={styles.scrollContainer}>
                 {posts.map((post) => (
-                  <div className={styles.media}>
+                  <div className={styles.media} key={post.id}>
                     <span>{post.title}</span>
                   </div>
                 ))}
@@ -205,11 +250,11 @@ export function UserSettingsPage() {
               <strong>Images:</strong>
               <div className={styles.scrollContainer}>
                 {images.map((image) => (
-                  <div className={styles.media}>
+                  <div className={styles.media} key={image.id}>
                     <div className={styles.imageContainer}>
                       {image.name}
                       <div className={styles.imageMedia}>
-                        <img src={image.path} />
+                        <img src={image.path} alt={image.name} />
                       </div>
                     </div>
                   </div>

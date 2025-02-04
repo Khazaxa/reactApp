@@ -1,6 +1,7 @@
 using Core.Cqrs;
 using Core.Exceptions;
-using Domain.Users.Dtos;
+using Domain.Images.Repositories;
+using Domain.Users.Dto;
 using Domain.Users.Enums;
 using Domain.Users.Repositories;
 using Domain.Users.Services;
@@ -13,6 +14,7 @@ public record UserUpdateCommand(UserParams UserParams) : ICommand<Unit>;
 
 internal class UserUpdateCommandHandler(
     IUserRepository userRepository,
+    IImageRepository imageRepository,
     IUserContextService userContext,
     SocialMediaDbContext dbContext
 ) : ICommandHandler<UserUpdateCommand, Unit>
@@ -30,10 +32,13 @@ internal class UserUpdateCommandHandler(
             dbContext.Attach(user);
         }
         dbContext.Entry(user).State = EntityState.Modified;
-
+        
+        var avatar = await imageRepository.FindAsync(command.UserParams.AvatarId.Value, cancellationToken);
+        
         user.Update(
             command.UserParams.Name,
-            command.UserParams.Age
+            command.UserParams.Age,
+            avatar
         );
 
         await dbContext.SaveChangesAsync(cancellationToken);

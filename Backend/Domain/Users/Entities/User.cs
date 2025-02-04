@@ -18,9 +18,9 @@ public class User : EntityBase
     {
     }
 
-    public User(string name, string email, int? age, byte[] passwordHash, byte[] passwordSalt, UserRole role)
+    public User(string name, string email, int? age, Image? avatar, byte[] passwordHash, byte[] passwordSalt, UserRole role)
     {
-        Update(name, age);
+        Update(name, age, avatar);
         Email = email;
         PasswordHash = passwordHash;
         PasswordSalt = passwordSalt;
@@ -35,11 +35,18 @@ public class User : EntityBase
     public UserRole Role { get; private set; }
     public List<Post> Posts { get; private set; } = new();
     public List<Comment> Comments { get; private set; } = new();
+    public int? AvatarImageId { get; private set; }
+    public Image? AvatarImage { get; private set; }
 
-    public void Update(string name, int? age)
+    public void Update(string name, int? age, Image? avatar)
     {
         Name = name;
         Age = age;
+        if (avatar != null)
+        {
+            AvatarImageId = avatar.Id;
+            AvatarImage = avatar;
+        }
     }
 
     public static void OnModelCreating(ModelBuilder builder)
@@ -51,9 +58,9 @@ public class User : EntityBase
             .HasIndex(x => x.Name)
             .IsUnique();
         builder.Entity<User>()
-            .HasMany<Image>()
-            .WithOne()
-            .HasForeignKey(x => x.UserId);
+            .HasOne(x => x.AvatarImage)
+            .WithMany()
+            .HasForeignKey(x => x.AvatarImageId);
 
         using var hmac = new HMACSHA512();
         var user = new User
@@ -63,7 +70,8 @@ public class User : EntityBase
             Email = "user@example.com",
             Role = UserRole.Admin,
             PasswordHash = hmac.ComputeHash("Password123$d"u8.ToArray()),
-            PasswordSalt = hmac.Key
+            PasswordSalt = hmac.Key,
+            AvatarImage = null
         };
 
         builder.Entity<User>().HasData(user);

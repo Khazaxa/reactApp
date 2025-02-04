@@ -1,4 +1,5 @@
 using Domain.Users.Commands;
+using Domain.Users.Dto;
 using Domain.Users.Dtos;
 using Domain.Users.Queries;
 using MediatR;
