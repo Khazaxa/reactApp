@@ -16,7 +16,7 @@ interface Post {
   title: string;
   content: string;
   authorId: number;
-  author: string;
+  author: Image;
 }
 
 interface Image {
@@ -32,6 +32,8 @@ export function UserSettingsPage() {
   const userIdLocal = localStorage.getItem("userId");
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [logos, setLogos] = useState<Image[]>([]);
+  const [logoId, setLogoId] = useState<number | null>(null);
   const [images, setImages] = useState<Image[]>([]);
   const [editUser, setEditUser] = useState<boolean>(false);
   const [editUserName, setEditUserName] = useState<string>("");
@@ -40,11 +42,18 @@ export function UserSettingsPage() {
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);
+  const [showImageModal, setShowImageModal] = useState<boolean>(false);
+
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
       setMessageType(null);
     }, 3000);
+  };
+
+  const fetchLogos = async () => {
+    const response = await api.get("/images");
+    setLogos(response.data);
   };
 
   const fetchUser = useCallback(async () => {
@@ -77,6 +86,7 @@ export function UserSettingsPage() {
     fetchUser();
     fetchPosts();
     fetchImages();
+    fetchLogos();
   }, [fetchUser, fetchPosts, fetchImages]);
 
   useEffect(() => {
@@ -118,6 +128,27 @@ export function UserSettingsPage() {
     }
   };
 
+  const handleImageChange = async (e: React.FormEvent) => {
+    try {
+      e.preventDefault();
+      await api.put("/user", { avatarId: logoId });
+
+      navigate("/settings", {
+        state: { showUserEditForm: false },
+      });
+      setEditUser(false);
+      fetchUser();
+
+      setMessage("Image edited successfully!");
+      setMessageType("success");
+      notificationDelay();
+    } catch (error) {
+      setMessage("Error edit image: " + error);
+      setMessageType("error");
+      notificationDelay();
+    }
+  };
+
   return (
     <div className={styles.settingsPage}>
       <Notifications messageType={messageType} message={message} />
@@ -134,7 +165,7 @@ export function UserSettingsPage() {
           <button
             className={styles.closeFormBtn}
             type="button"
-            onClick={() => handleShowForm()}
+            onClick={handleShowForm}
           >
             X
           </button>
@@ -163,8 +194,28 @@ export function UserSettingsPage() {
         <div className={styles.userCard}>
           {user && (
             <div className={styles.userContainer}>
-              <div className={styles.userAvatar}>
-                <img src={user.avatar} alt={`avatar`} />
+              <div className={styles.userImage}>
+                <div className={styles.userAvatar}>
+                  <img src={user.avatar} alt={`avatar`} />
+                </div>
+                <form onSubmit={handleImageChange}>
+                  <select
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setLogoId(value === 0 ? null : value);
+                    }}
+                  >
+                    {logos.map((logo) => (
+                      <option key={logo.id} value={logo.id}>
+                        {logo.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button className={styles.submitFormBtn} type="submit">
+                    Change Avatar
+                  </button>
+                </form>
               </div>
               <div className={styles.userInfo}>
                 <div className={styles.userName}>
@@ -186,6 +237,29 @@ export function UserSettingsPage() {
             </div>
           )}
         </div>
+        {showImageModal && (
+          <div className={styles.imageModal}>
+            <div className={styles.modalContent}>
+              <button
+                className={styles.closeModalBtn}
+                onClick={() => setShowImageModal(false)}
+              >
+                X
+              </button>
+              <div className={styles.imageList}>
+                {images.map((image) => (
+                  <div
+                    key={image.id}
+                    className={styles.imageItem}
+                    onClick={handleImageChange}
+                  >
+                    <span>{image.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className={styles.userContent}>
           {posts.length > 0 && (
@@ -193,7 +267,7 @@ export function UserSettingsPage() {
               <strong>Posts:</strong>
               <div className={styles.scrollContainer}>
                 {posts.map((post) => (
-                  <div className={styles.media}>
+                  <div className={styles.media} key={post.id}>
                     <span>{post.title}</span>
                   </div>
                 ))}
@@ -205,11 +279,11 @@ export function UserSettingsPage() {
               <strong>Images:</strong>
               <div className={styles.scrollContainer}>
                 {images.map((image) => (
-                  <div className={styles.media}>
+                  <div className={styles.media} key={image.id}>
                     <div className={styles.imageContainer}>
                       {image.name}
                       <div className={styles.imageMedia}>
-                        <img src={image.path} />
+                        <img src={image.path} alt={image.name} />
                       </div>
                     </div>
                   </div>
