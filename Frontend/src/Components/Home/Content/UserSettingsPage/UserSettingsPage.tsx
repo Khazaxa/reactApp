@@ -3,12 +3,11 @@ import styles from "./UserSettingsPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
 import { useNavigate, useLocation } from "react-router-dom";
 import Notifications from "../../../Notifications/Notifications";
-
 interface User {
   name: string;
   age: number;
   email: string;
-  avatar: string;
+  avatar: number;
 }
 
 interface Post {
@@ -32,28 +31,23 @@ export function UserSettingsPage() {
   const userIdLocal = localStorage.getItem("userId");
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [logos, setLogos] = useState<Image[]>([]);
-  const [logoId, setLogoId] = useState<number | null>(null);
   const [images, setImages] = useState<Image[]>([]);
+  const [userImages, setUserImages] = useState<Image[]>([]);
+
   const [editUser, setEditUser] = useState<boolean>(false);
   const [editUserName, setEditUserName] = useState<string>("");
   const [editUserAge, setEditUserAge] = useState<number | null>(null);
+  const [editUserAvatar, setEditUserAvatar] = useState<number | null>(null);
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);
-  const [showImageModal, setShowImageModal] = useState<boolean>(false);
 
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
       setMessageType(null);
     }, 3000);
-  };
-
-  const fetchLogos = async () => {
-    const response = await api.get("/images");
-    setLogos(response.data);
   };
 
   const fetchUser = useCallback(async () => {
@@ -75,7 +69,8 @@ export function UserSettingsPage() {
 
   const fetchImages = useCallback(async () => {
     const response = await api.get("/images");
-    setImages(
+    setImages(response.data);
+    setUserImages(
       response.data.filter(
         (image: Image) => image.userId === Number(userIdLocal)
       )
@@ -86,7 +81,6 @@ export function UserSettingsPage() {
     fetchUser();
     fetchPosts();
     fetchImages();
-    fetchLogos();
   }, [fetchUser, fetchPosts, fetchImages]);
 
   useEffect(() => {
@@ -94,6 +88,7 @@ export function UserSettingsPage() {
       if (user) {
         setEditUserName(user.name);
         setEditUserAge(user.age);
+        setEditUserAvatar(user.avatar);
       }
     }
   }, [editUser, user]);
@@ -108,9 +103,14 @@ export function UserSettingsPage() {
   const handleEditUser = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
-      await api.put("/user", { name: editUserName, age: editUserAge });
+      await api.put("/user", {
+        name: editUserName,
+        age: editUserAge,
+        avatarId: editUserAvatar,
+      });
       setEditUserName("");
       setEditUserAge(null);
+      setEditUserAvatar(null);
 
       navigate("/settings", {
         state: { showUserEditForm: false },
@@ -128,25 +128,9 @@ export function UserSettingsPage() {
     }
   };
 
-  const handleImageChange = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault();
-      await api.put("/user", { avatarId: logoId });
-
-      navigate("/settings", {
-        state: { showUserEditForm: false },
-      });
-      setEditUser(false);
-      fetchUser();
-
-      setMessage("Image edited successfully!");
-      setMessageType("success");
-      notificationDelay();
-    } catch (error) {
-      setMessage("Error edit image: " + error);
-      setMessageType("error");
-      notificationDelay();
-    }
+  const getImagePathById = (avatarId: number) => {
+    const image = images.find((i) => i.id === avatarId);
+    return image ? image.path : "";
   };
 
   return (
@@ -169,6 +153,19 @@ export function UserSettingsPage() {
           >
             X
           </button>
+          <select
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setEditUserAvatar(value === 0 ? null : value);
+            }}
+          >
+            <option value={0}>avatar</option>
+            {images.map((image) => (
+              <option key={image.id} value={image.id}>
+                {image.name}
+              </option>
+            ))}
+          </select>
           <input
             className={styles.editUserNameInput}
             type="text"
@@ -196,26 +193,12 @@ export function UserSettingsPage() {
             <div className={styles.userContainer}>
               <div className={styles.userImage}>
                 <div className={styles.userAvatar}>
-                  <img src={user.avatar} alt={`avatar`} />
+                  {user.avatar !== null ? (
+                    <>avatar</>
+                  ) : (
+                    <img src={getImagePathById(user.avatar)} />
+                  )}
                 </div>
-                <form onSubmit={handleImageChange}>
-                  <select
-                    onChange={(e) => {
-                      const value = Number(e.target.value);
-                      setLogoId(value === 0 ? null : value);
-                    }}
-                  >
-                    {logos.map((logo) => (
-                      <option key={logo.id} value={logo.id}>
-                        {logo.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button className={styles.submitFormBtn} type="submit">
-                    Change Avatar
-                  </button>
-                </form>
               </div>
               <div className={styles.userInfo}>
                 <div className={styles.userName}>
@@ -237,34 +220,11 @@ export function UserSettingsPage() {
             </div>
           )}
         </div>
-        {showImageModal && (
-          <div className={styles.imageModal}>
-            <div className={styles.modalContent}>
-              <button
-                className={styles.closeModalBtn}
-                onClick={() => setShowImageModal(false)}
-              >
-                X
-              </button>
-              <div className={styles.imageList}>
-                {images.map((image) => (
-                  <div
-                    key={image.id}
-                    className={styles.imageItem}
-                    onClick={handleImageChange}
-                  >
-                    <span>{image.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className={styles.userContent}>
           {posts.length > 0 && (
             <div className={styles.userMedia}>
-              <strong>Posts:</strong>
+              <strong>User posts:</strong>
               <div className={styles.scrollContainer}>
                 {posts.map((post) => (
                   <div className={styles.media} key={post.id}>
@@ -274,11 +234,11 @@ export function UserSettingsPage() {
               </div>
             </div>
           )}
-          {images.length > 0 && (
+          {userImages.length > 0 && (
             <div className={styles.userMedia}>
-              <strong>Images:</strong>
+              <strong>User images:</strong>
               <div className={styles.scrollContainer}>
-                {images.map((image) => (
+                {userImages.map((image) => (
                   <div className={styles.media} key={image.id}>
                     <div className={styles.imageContainer}>
                       {image.name}

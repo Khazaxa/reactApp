@@ -7,15 +7,26 @@ import { UsersPage } from "./UsersPage/UsersPage";
 import { UserSettingsPage } from "./UserSettingsPage/UserSettingsPage";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-const Content = () => {
+const Content = ({ isNavBarActive }: { isNavBarActive: boolean }) => {
   const location = useLocation();
   const addFolderFormView = location.state?.addFolderFormView || false;
   const addPostFormView = location.state?.addPostFormView || false;
   const showUserEditForm = location.state?.showUserEditForm || false;
+  const showNavBar = location.state?.showNavBar || false;
 
   return (
     <div id={styles.content}>
-      <div className={(addFolderFormView || addPostFormView || showUserEditForm ) ?  styles.blackBackground : styles.hiddenBlackBackground}></div>
+      <div
+        className={
+          addFolderFormView ||
+          addPostFormView ||
+          showUserEditForm ||
+          showNavBar ||
+          isNavBarActive
+            ? styles.blackBackground
+            : styles.hiddenBlackBackground
+        }
+      ></div>
       <>
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
