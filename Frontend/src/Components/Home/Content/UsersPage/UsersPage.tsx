@@ -12,6 +12,7 @@ interface User {
 
 export function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
+  const [originalUsers, setOriginalUsers] = useState([]);
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
@@ -21,7 +22,8 @@ export function UsersPage() {
     const fetchUsers = async () => {
       try {
         const response = await api.get("/users");
-        setUsers(response.data);
+        setUsers(originalUsers);
+        setOriginalUsers(response.data);
       } catch (error) {
         setMessage("Error fetching users: " + error);
         setMessageType("error");
@@ -33,12 +35,28 @@ export function UsersPage() {
     };
 
     fetchUsers();
-  }, []);
+  }, [originalUsers]);
 
   return (
     <div className={styles.usersPage}>
       <Notifications messageType={messageType} message={message} />
+
       <div className={styles.usersList}>
+        <input
+          type="text"
+          placeholder="Search users"
+          className={styles.searchInput}
+          onChange={(e) => {
+            if (e.target.value.length === 0) {
+              setUsers(originalUsers);
+              return;
+            }
+            const filteredUsers = users.filter((user) =>
+              user.name.toLowerCase().includes(e.target.value.toLowerCase())
+            );
+            setUsers(filteredUsers);
+          }}
+        />
         {users.map((user) => (
           <div className={styles.userCard}>
             <div className={styles.userAvatar}>

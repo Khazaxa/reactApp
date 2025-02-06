@@ -34,11 +34,12 @@
 }
 
 .foldersPage ul {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  width: 50vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
   justify-content: center;
-  gap: 10px;
 }
 
 .foldersPage ul li {
@@ -46,7 +47,6 @@
   list-style: none;
   font-size: 30px;
   display: flex;
-  flex-direction: row;
   cursor: pointer;
   font-weight: bold;
   align-items: center;

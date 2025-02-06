@@ -9,11 +9,12 @@
 }
 
 .galleryPage ul {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  width: 50vw;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
 }
 
 .galleryPage ul li {

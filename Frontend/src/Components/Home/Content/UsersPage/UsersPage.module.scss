@@ -5,6 +5,11 @@
   align-items: normal;
 }
 
+.searchInput {
+  @include inputStyle;
+  width: clamp(200px, 60vw, 300px);
+}
+
 .usersList {
   display: flex;
   flex-direction: column;
