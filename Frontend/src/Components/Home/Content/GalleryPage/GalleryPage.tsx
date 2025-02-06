@@ -15,12 +15,12 @@ export function GalleryPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const userIdLocal = localStorage.getItem("userId");
   const [images, setImages] = useState<Image[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const removeCheckboxesGallery =
     location.state?.removeCheckboxesGallery || false;
   const [message, setMessage] = useState<string>("");
-  const userIdLocal = localStorage.getItem("userId");
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);

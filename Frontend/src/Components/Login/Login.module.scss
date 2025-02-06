@@ -21,11 +21,33 @@
     color: #e1d4c2;
   }
 
-  input {
+  .inputGroup {
     @include inputStyle;
     margin: 5px;
     width: 20vw;
     text-align: center;
+  }
+
+  .showPassword {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    color: #e1d4c2;
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    input {
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
   }
 }
 

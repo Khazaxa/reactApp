@@ -13,6 +13,9 @@ export function Login({
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string>("");
+  const [passwordVisibility, setPasswordVisibility] = useState<
+    "password" | "text"
+  >("password");
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);
@@ -53,12 +56,19 @@ export function Login({
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(
+      passwordVisibility === "password" ? "text" : "password"
+    );
+  };
+
   return (
     <div id={styles.loginPage}>
       <Notifications messageType={messageType} message={message} />
       <form id={styles.loginForm} onSubmit={handleSubmit}>
         <h1>Login</h1>
         <input
+          className={styles.inputGroup}
           type="text"
           placeholder="Email"
           onChange={(event) => {
@@ -66,12 +76,24 @@ export function Login({
           }}
         />
         <input
-          type="password"
+          className={styles.inputGroup}
+          type={passwordVisibility}
           placeholder="Password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}
         />
+        <div
+          className={styles.showPassword}
+          onClick={() => togglePasswordVisibility()}
+        >
+          <input
+            type="checkbox"
+            className={styles.inputShowPassword}
+            checked={passwordVisibility === "text"}
+          />
+          <p>Show password</p>
+        </div>
         <div id={styles.buttons}>
           <button id={styles.btnLogin} type="submit">
             Login
