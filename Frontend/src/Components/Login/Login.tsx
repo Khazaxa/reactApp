@@ -95,7 +95,7 @@ export function Login({
           <p>Show password</p>
         </div>
         <div id={styles.buttons}>
-          <button id={styles.btnLogin} type="submit">
+          <button id={styles.btnSubmit} type="submit">
             Login
           </button>
           <div>
