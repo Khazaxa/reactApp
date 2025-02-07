@@ -153,6 +153,7 @@ export function GalleryPage() {
               true
             )}
             <img src={image.path} alt={image.name} />
+            <p>{image.name}</p>
           </li>
         ))}
       </ul>

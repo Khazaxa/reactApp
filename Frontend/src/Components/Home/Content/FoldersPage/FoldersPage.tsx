@@ -209,7 +209,7 @@ export function FoldersPage() {
             ) : (
               true
             )}
-            {folder.name}
+            <p>{folder.name}</p>
           </li>
         ))}
       </ul>

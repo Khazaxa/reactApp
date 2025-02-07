@@ -21,7 +21,7 @@
   position: relative;
   list-style: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -32,6 +32,15 @@
   background-color: #808080;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   user-select: none;
+
+  p{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+  }
 }
 
 .galleryPage ul li img {
