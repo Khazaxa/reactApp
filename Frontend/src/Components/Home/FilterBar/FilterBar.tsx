@@ -19,6 +19,10 @@ const FilterBar = () => {
       setPlaceholder("Search folders");
     } else if (location.pathname === "/users") {
       setPlaceholder("Search users");
+    } else if (location.pathname === "/home") {
+      setPlaceholder("");
+    } else if (location.pathname === "/settings") {
+      setPlaceholder("");
     }
   }, [location.pathname]);
 
@@ -50,6 +54,9 @@ const FilterBar = () => {
       <h1>Explore</h1>
       <div id={styles.search}>
         <input
+          disabled={
+            location.pathname === "/home" || location.pathname === "/settings"
+          }
           type="text"
           placeholder={placeholder}
           className={styles.searchInput}
