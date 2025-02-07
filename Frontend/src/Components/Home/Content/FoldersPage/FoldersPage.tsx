@@ -1,7 +1,7 @@
 import api from "../../../../ApiConfig/ApiConfig";
 import styles from "./FoldersPage.module.scss";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import folderDefaultLogo from "../../../../assets/folder.png";
 import Notifications from "../../../Notifications/Notifications";
 
@@ -41,6 +41,9 @@ export function FoldersPage() {
       setMessageType(null);
     }, 3000);
   };
+
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
 
   const fetchFolders = async () => {
     const response = await api.get("/folders");
@@ -118,6 +121,10 @@ export function FoldersPage() {
     }
   };
 
+  const filteredFolders = folders.filter((folder) =>
+    folder.name.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className={styles.foldersPage}>
       <Notifications messageType={messageType} message={message} />
@@ -135,7 +142,10 @@ export function FoldersPage() {
       )}
 
       <div id={styles.formContainer}>
-        <form className={addFolderFormView ? styles.showForm : styles.hideForm} onSubmit={handleAddFolder}>
+        <form
+          className={addFolderFormView ? styles.showForm : styles.hideForm}
+          onSubmit={handleAddFolder}
+        >
           <button
             className={styles.closeFormBtn}
             type="button"
@@ -175,7 +185,7 @@ export function FoldersPage() {
       </div>
 
       <ul>
-        {folders.map((folder) => (
+        {filteredFolders.map((folder) => (
           <li
             className="folders"
             key={folder.id}

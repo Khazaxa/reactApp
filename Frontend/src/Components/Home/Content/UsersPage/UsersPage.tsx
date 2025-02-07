@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import styles from "./UsersPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
 import Notifications from "../../../Notifications/Notifications";
@@ -17,6 +18,9 @@ export function UsersPage() {
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);
+
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,27 +41,16 @@ export function UsersPage() {
     fetchUsers();
   }, [originalUsers]);
 
+  const filteredUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className={styles.usersPage}>
       <Notifications messageType={messageType} message={message} />
 
       <div className={styles.usersList}>
-        <input
-          type="text"
-          placeholder="Search users"
-          className={styles.searchInput}
-          onChange={(e) => {
-            if (e.target.value.length === 0) {
-              setUsers(originalUsers);
-              return;
-            }
-            const filteredUsers = users.filter((user) =>
-              user.name.toLowerCase().includes(e.target.value.toLowerCase())
-            );
-            setUsers(filteredUsers);
-          }}
-        />
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <div className={styles.userCard}>
             <div className={styles.userAvatar}>
               <img src={user.avatar} alt={`avatar`} />

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
 import Notifications from "../../../Notifications/Notifications";
@@ -30,6 +30,9 @@ export function GalleryPage() {
       setMessageType(null);
     }, 3000);
   };
+
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
 
   useEffect(() => {
     fetchImages();
@@ -109,6 +112,10 @@ export function GalleryPage() {
     location.state.triggerAddGallery = false;
   }
 
+  const filteredGallery = images.filter((image) =>
+    image.name.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className={styles.galleryPage}>
       <Notifications messageType={messageType} message={message} />
@@ -126,7 +133,7 @@ export function GalleryPage() {
       )}
 
       <ul>
-        {images.map((image) => (
+        {filteredGallery.map((image) => (
           <li
             key={image.id}
             onClick={

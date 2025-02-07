@@ -1,3 +1,5 @@
+@use "../../../App.module.scss" as *;
+
 #filterBar {
   display: flex;
   justify-content: space-between;
@@ -16,13 +18,19 @@
 #search {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: center;
+
+  input {
+    @include inputStyle;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 #loupe {
   width: 5%;
   height: 5%;
-  background-color: aqua;
   border-radius: 50px;
   padding: 1%;
 }

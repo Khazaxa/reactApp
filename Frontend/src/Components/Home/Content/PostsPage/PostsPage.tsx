@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./PostsPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Notifications from "../../../Notifications/Notifications";
 
 interface Post {
@@ -50,6 +50,9 @@ export function PostsPage() {
       setMessageType(null);
     }, 3000);
   };
+
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
 
   const [visibleCommentMenu, setVisibleCommentMenu] = useState<number | null>(
     null
@@ -188,6 +191,10 @@ export function PostsPage() {
     }));
   };
 
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className={styles.postsPage}>
       <Notifications messageType={messageType} message={message} />
@@ -247,7 +254,7 @@ export function PostsPage() {
       </div>
 
       <div className={styles.postsList}>
-        {posts.map((post) => (
+        {filteredPosts.map((post) => (
           <div
             className={styles.postCard}
             key={post.id}
@@ -259,6 +266,7 @@ export function PostsPage() {
           >
             {removeCheckboxesPosts && post.authorId === Number(userIdLocal) ? (
               <input
+                key={post.id}
                 type="checkbox"
                 className={styles.checkboxes}
                 checked={checkedItems.includes(post.id)}
