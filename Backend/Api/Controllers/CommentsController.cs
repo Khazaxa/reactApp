@@ -19,4 +19,9 @@ public class CommentsController(IMediator mediator) : ControllerBase
     [Route("comments")]
     public async Task<IEnumerable<CommentDto>> GetComments(CancellationToken cancellationToken)
         => await mediator.Send(new GetCommentsQuery(), cancellationToken);
+    
+    [HttpDelete]
+    [Route("comment/{id}")]
+    public async Task<Unit> DeleteComment(int id, CancellationToken cancellationToken)
+        => await mediator.Send(new DeleteCommentCommand(id), cancellationToken);
 }
