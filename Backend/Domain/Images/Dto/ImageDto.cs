@@ -6,4 +6,6 @@ public record ImageDto(
     string Extension,
     decimal Size,
     string Path,
-    int UserId);
+    int UserId,
+    string UserName
+    );

@@ -2,16 +2,12 @@
 
 #filterBar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   height: 6vh;
   background-color: #724c4c;
   user-select: none;
   padding: 0px 10px;
-
-  h1 {
-    font-size: clamp(1.2rem, 1.5vw, 5rem);
-  }
 }
 
 #search {
@@ -21,7 +17,8 @@
   padding: 2px 0px;
   margin-left: 10px;
 
-  input {
+  input,
+  select {
     border: none;
     outline: none;
     box-shadow: none;
@@ -29,6 +26,10 @@
     margin-right: 3px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  select {
+    padding: clamp(0.3rem, 0.3vw, 1rem);
   }
 
   #loupe {

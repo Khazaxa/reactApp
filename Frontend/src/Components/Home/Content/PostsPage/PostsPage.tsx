@@ -38,6 +38,9 @@ export function PostsPage() {
   const [postContent, setPostContent] = useState<string>("");
   const [postId, setPostId] = useState<number | null>(null);
   const [commentContent, setCommentContent] = useState<string>("");
+  const [visibleCommentMenu, setVisibleCommentMenu] = useState<number | null>(
+    null
+  );
   const addPostFormView = location.state?.addPostFormView || false;
   const removeCheckboxesPosts = location.state?.removeCheckboxesPosts || false;
   const [commentFormView, setCommentFormView] = useState<{
@@ -58,10 +61,18 @@ export function PostsPage() {
 
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
 
-  const [visibleCommentMenu, setVisibleCommentMenu] = useState<number | null>(
-    null
-  );
+  const filteredPosts = posts.filter((post) => {
+    if (filterOption === "name") {
+      return post.title.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "user") {
+      return post.author.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return post.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   const toggleCommentMenu = (commentId: number) => {
     setVisibleCommentMenu((prev) => (prev === commentId ? null : commentId));
@@ -218,10 +229,6 @@ export function PostsPage() {
       [postId]: !prevState[postId],
     }));
   };
-
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(searchTerm)
-  );
 
   return (
     <div className={styles.postsPage}>

@@ -5,6 +5,7 @@ import api from "../../../../ApiConfig/ApiConfig";
 import Notifications from "../../../Notifications/Notifications";
 
 interface User {
+  id: number
   name: string;
   age: number;
   email: string;
@@ -21,6 +22,16 @@ export function UsersPage() {
 
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
+
+  const filteredUsers = users.filter((user) => {
+    if (filterOption === "name") {
+      return user.name.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return user.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -40,10 +51,6 @@ export function UsersPage() {
 
     fetchUsers();
   }, [originalUsers]);
-
-  const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchTerm)
-  );
 
   return (
     <div className={styles.usersPage}>

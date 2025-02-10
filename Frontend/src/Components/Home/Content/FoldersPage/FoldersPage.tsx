@@ -9,6 +9,7 @@ interface Folder {
   id: number;
   name: string;
   userId: number;
+  userName: string;
   logo: Logo;
 }
 
@@ -44,6 +45,18 @@ export function FoldersPage() {
 
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
+
+  const filteredFolders = folders.filter((folder) => {
+    if (filterOption === "name") {
+      return folder.name.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "user") {
+      return folder.userName.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return folder.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   const fetchFolders = async () => {
     const response = await api.get("/folders");
@@ -120,10 +133,6 @@ export function FoldersPage() {
       notificationDelay();
     }
   };
-
-  const filteredFolders = folders.filter((folder) =>
-    folder.name.toLowerCase().includes(searchTerm)
-  );
 
   return (
     <div className={styles.foldersPage}>

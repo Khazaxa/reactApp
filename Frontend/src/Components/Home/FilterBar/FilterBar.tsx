@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import styles from "./FilterBar.module.scss";
-import search from "../../../Assets/search.png";
+//import search from "../../../Assets/search.png";
 
 const FilterBar = () => {
   const location = useLocation();
   const [placeholder, setPlaceholder] = useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterOption, setFilterOption] = useState("name");
 
   useEffect(() => {
     if (location.pathname === "/posts") {
@@ -43,15 +44,20 @@ const FilterBar = () => {
     setSearchTerm(value);
 
     if (value) {
-      setSearchParams({ search: value });
+      setSearchParams({ search: value, filter: filterOption });
     } else {
-      setSearchParams({});
+      setSearchParams({ filter: filterOption });
     }
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setFilterOption(value);
+    setSearchParams({ search: searchTerm, filter: value });
   };
 
   return (
     <div id={styles.filterBar}>
-      <h1>Explore</h1>
       <div id={styles.search}>
         <input
           disabled={
@@ -63,7 +69,21 @@ const FilterBar = () => {
           value={searchTerm}
           onChange={(e) => handleSearch(e)}
         />
-        <img src={search} id={styles.loupe} />
+        <div id={styles.filterOptions}>
+          <select
+            value={filterOption}
+            onChange={handleFilterChange}
+            disabled={
+              location.pathname === "/home" || location.pathname === "/settings"
+            }
+          >
+            <option value="name">by name</option>
+            <option value="user" disabled={location.pathname === "/users"}>
+              by user
+            </option>
+            <option value="id">by id</option>
+          </select>
+        </div>
       </div>
     </div>
   );

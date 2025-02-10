@@ -8,6 +8,7 @@ interface Image {
   id: number;
   name: string;
   userId: number;
+  userName: string;
   path: string;
 }
 
@@ -33,6 +34,18 @@ export function GalleryPage() {
 
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
+
+  const filteredGallery = images.filter((image) => {
+    if (filterOption === "name") {
+      return image.name.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "user") {
+      return image.userName.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return image.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   useEffect(() => {
     fetchImages();
@@ -111,10 +124,6 @@ export function GalleryPage() {
     handleImageAdd();
     location.state.triggerAddGallery = false;
   }
-
-  const filteredGallery = images.filter((image) =>
-    image.name.toLowerCase().includes(searchTerm)
-  );
 
   return (
     <div className={styles.galleryPage}>
