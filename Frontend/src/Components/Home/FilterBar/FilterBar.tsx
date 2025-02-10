@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import styles from "./FilterBar.module.scss";
-//import search from "../../../Assets/search.png";
 
 const FilterBar = () => {
   const location = useLocation();
