@@ -5,10 +5,9 @@
   justify-content: space-between;
   align-items: center;
   height: 6vh;
-  padding: 0 1rem;
-  padding-left: 5vw;
   background-color: #724c4c;
   user-select: none;
+  padding: 0px 10px;
 
   h1 {
     font-size: clamp(1.2rem, 1.5vw, 5rem);
@@ -20,19 +19,20 @@
   align-items: center;
   justify-content: flex-end;
   padding: 2px 0px;
+  margin-left: 10px;
 
   input {
-    @include inputStyle;
     border: none;
     outline: none;
     box-shadow: none;
     padding: clamp(0.3rem, 0.5vw, 1rem);
-    margin-right: 5px;
+    margin-right: 3px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 
   #loupe {
     width: clamp(1.5rem, 1vw, 3rem);
-    height: auto;
     border-radius: 10px;
   }
 }

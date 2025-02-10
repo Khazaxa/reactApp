@@ -33,13 +33,16 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   user-select: none;
 
-  p{
+  p {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 90%;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
+    padding: 0px 10px;
     text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
   }
 }
 

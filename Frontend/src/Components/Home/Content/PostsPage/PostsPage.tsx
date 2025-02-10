@@ -25,7 +25,12 @@ export function PostsPage() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [readMore, setReadMore] = useState<{ [key: number]: boolean }>({});
+  const [postReadMore, setPostReadMore] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const [commentReadMore, setCommentReadMore] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [visibleComments, setVisibleComments] = useState<{
     [key: number]: boolean;
   }>({});
@@ -152,7 +157,14 @@ export function PostsPage() {
   };
 
   const readMorePost = (id: number) => {
-    setReadMore((prevState) => ({
+    setPostReadMore((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
+  const readMoreComment = (id: number) => {
+    setCommentReadMore((prevState) => ({
       ...prevState,
       [id]: !prevState[id],
     }));
@@ -179,6 +191,22 @@ export function PostsPage() {
       setPostId(null);
       setMessage("Comment added successfully!");
       setMessageType("success");
+      notificationDelay();
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      await api.delete(`/comment/${commentId}`);
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.id !== commentId)
+      );
+      setMessage("Comment deleted successfully!");
+      setMessageType("success");
+      notificationDelay();
+    } catch (error) {
+      setMessage("Error deleting comment: " + error);
+      setMessageType("error");
       notificationDelay();
     }
   };
@@ -284,7 +312,7 @@ export function PostsPage() {
             </div>
             <hr />
             <div className={styles.postContent}>
-              {!readMore[post.id] ? (
+              {!postReadMore[post.id] ? (
                 post.content.length > 200 ? (
                   <span>
                     {post.content.slice(0, 200)} ...
@@ -363,9 +391,36 @@ export function PostsPage() {
                         .slice(0, 2)
                         .map((comment) => (
                           <li key={comment.content} className={styles.comment}>
-                            <strong>{comment.author}:</strong>
-                            <span>{comment.content}</span>
-
+                            <div className={styles.commentContent}>
+                              <strong>{comment.author}: </strong>
+                              {!commentReadMore[comment.id] ? (
+                                comment.content.length > 200 ? (
+                                  <span>
+                                    {comment.content.slice(0, 200)} ...
+                                    <span
+                                      className={styles.readMoreBtn}
+                                      onClick={() =>
+                                        readMoreComment(comment.id)
+                                      }
+                                    >
+                                      Show more
+                                    </span>
+                                  </span>
+                                ) : (
+                                  comment.content
+                                )
+                              ) : (
+                                <span>
+                                  {comment.content}
+                                  <span
+                                    className={styles.readMoreBtn}
+                                    onClick={() => readMoreComment(comment.id)}
+                                  >
+                                    Show less
+                                  </span>
+                                </span>
+                              )}
+                            </div>
                             {comment.authorId === Number(userIdLocal) ? (
                               <div className={styles.commentMenu}>
                                 <button
@@ -376,7 +431,13 @@ export function PostsPage() {
                                 </button>
                                 {visibleCommentMenu === comment.id && (
                                   <div className={styles.menuOptions}>
-                                    <button>Delete</button>
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteComment(comment.id)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
                                   </div>
                                 )}
                               </div>
@@ -392,8 +453,36 @@ export function PostsPage() {
                         .filter((comment) => comment.postId === post.id)
                         .map((comment) => (
                           <li key={comment.content} className={styles.comment}>
-                            <strong>{comment.author}:</strong>
-                            <span>{comment.content}</span>
+                            <div className={styles.commentContent}>
+                              <strong>{comment.author}: </strong>
+                              {!commentReadMore[comment.id] ? (
+                                comment.content.length > 200 ? (
+                                  <span>
+                                    {comment.content.slice(0, 200)} ...
+                                    <span
+                                      className={styles.readMoreBtn}
+                                      onClick={() =>
+                                        readMoreComment(comment.id)
+                                      }
+                                    >
+                                      Show more
+                                    </span>
+                                  </span>
+                                ) : (
+                                  comment.content
+                                )
+                              ) : (
+                                <span>
+                                  {comment.content}
+                                  <span
+                                    className={styles.readMoreBtn}
+                                    onClick={() => readMoreComment(comment.id)}
+                                  >
+                                    Show less
+                                  </span>
+                                </span>
+                              )}
+                            </div>
 
                             {comment.authorId === Number(userIdLocal) ? (
                               <div className={styles.commentMenu}>
@@ -405,7 +494,13 @@ export function PostsPage() {
                                 </button>
                                 {visibleCommentMenu === comment.id && (
                                   <div className={styles.menuOptions}>
-                                    <button>Delete</button>
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteComment(comment.id)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
                                   </div>
                                 )}
                               </div>

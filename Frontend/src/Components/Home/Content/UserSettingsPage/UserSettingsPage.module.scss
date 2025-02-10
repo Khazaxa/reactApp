@@ -2,6 +2,7 @@
 
 .settingsPage {
   @include page;
+  align-items: normal;
 }
 
 #formContainer {
@@ -9,19 +10,16 @@
 
   select {
     @include inputStyle;
+    width: 150px;
   }
 
-  .editUserNameInput,
-  .editUserAgeInput {
+  .editUserNameInput {
     @include inputStyle;
-    width: 200px;
-    height: 15px;
   }
 
   .editUserAgeInput {
     @include inputStyle;
     width: 50px;
-    align-items: center;
     justify-content: center;
     text-align: center;
   }

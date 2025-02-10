@@ -173,7 +173,8 @@ export function FoldersPage() {
 
           <p>Type folder name:</p>
 
-          <textarea
+          <input
+            type="text"
             value={folderName}
             onChange={(e) => setFolderName(e.target.value)}
             required
