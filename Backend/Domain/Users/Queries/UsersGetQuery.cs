@@ -16,7 +16,8 @@ internal class UsersGetQueryHandler(IUserRepository userRepository) : IQueryHand
                 x.Name,
                 x.Email,
                 x.Age,
-                x.Role
+                x.Role,
+                x.AvatarImageId
             ));
 
         return await Task.FromResult(users);
