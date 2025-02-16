@@ -19,7 +19,8 @@ internal class UserGetQueryHandler(IUserRepository userRepository) : IQueryHandl
             user.Name,
             user.Email,
             user.Age,
-            user.Role
+            user.Role,
+            user.AvatarImageId
             );
     }
 }
