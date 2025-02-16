@@ -6,4 +6,5 @@ public record UserDto(
     string? Name,
     string Email,
     int? Age,
-    UserRole Role);
+    UserRole Role,
+    int? AvatarId);
