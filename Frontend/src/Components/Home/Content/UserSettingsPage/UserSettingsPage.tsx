@@ -7,7 +7,7 @@ interface User {
   name: string;
   age: number;
   email: string;
-  avatar: number;
+  avatarId: number;
 }
 
 interface Post {
@@ -88,7 +88,7 @@ export function UserSettingsPage() {
       if (user) {
         setEditUserName(user.name);
         setEditUserAge(user.age);
-        setEditUserAvatar(user.avatar);
+        setEditUserAvatar(user.avatarId);
       }
     }
   }, [editUser, user]);
@@ -153,19 +153,31 @@ export function UserSettingsPage() {
           >
             X
           </button>
+
+          <div className={styles.editUserAvatar}>
+            {editUserAvatar === null ? (
+              <>avatar</>
+            ) : (
+              <img src={getImagePathById(editUserAvatar)} />
+            )}
+          </div>
+
           <select
+            value={editUserAvatar === null ? 0 : editUserAvatar}
             onChange={(e) => {
-              const value = Number(e.target.value);
-              setEditUserAvatar(value === 0 ? null : value);
+              const imageId =
+                Number(e.target.value) === 0 ? null : Number(e.target.value);
+              setEditUserAvatar(imageId);
             }}
           >
-            <option value={0}>avatar</option>
+            <option value={0}>default</option>
             {images.map((image) => (
               <option key={image.id} value={image.id}>
                 {image.name}
               </option>
             ))}
           </select>
+
           <input
             className={styles.editUserNameInput}
             type="text"
@@ -193,10 +205,10 @@ export function UserSettingsPage() {
             <div className={styles.userContainer}>
               <div className={styles.userImage}>
                 <div className={styles.userAvatar}>
-                  {user.avatar !== null ? (
+                  {user.avatarId === null ? (
                     <>avatar</>
                   ) : (
-                    <img src={getImagePathById(user.avatar)} />
+                    <img src={getImagePathById(user.avatarId)} />
                   )}
                 </div>
               </div>
