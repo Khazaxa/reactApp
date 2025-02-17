@@ -1,24 +1,75 @@
-@mixin button {
-  width: 100px;
-  background-color: #a88c7c;
-  color: #fff;
-  border-radius: 10px;
-  padding: 10px 20px;
-  border: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-
-  &:hover {
-    cursor: pointer;
-    background-color: #beb5a9;
-    color: #6e473b;
-    transition: all 0.3s;
-  }
-}
-
 .errorMessage {
   font-size: x-large;
   color: #e02a1d;
+}
+
+@mixin authForm {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border-radius: 10px;
+    border: solid #291c0e;
+    background-color: #6e473b;
+    position: relative;
+
+    h1 {
+      font-size: large;
+    }
+
+    p {
+      color: #e1d4c2;
+    }
+
+    .inputGroup {
+      @include inputStyle;
+      width: clamp(200px, 60vw, 300px);
+      text-align: center;
+    }
+
+    .showPassword {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      color: #e1d4c2;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      input {
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    #btnSubmit {
+      width: 100px;
+      background-color: #a88c7c;
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 20px;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+      &:hover {
+        cursor: pointer;
+        background-color: #beb5a9;
+        color: #6e473b;
+        transition: all 0.3s;
+      }
+    }
+  }
 }
 
 @mixin page {
@@ -28,7 +79,7 @@
   align-items: center;
   margin-bottom: 10px;
   position: relative;
-  padding: 10px clamp(6px, 2.5vw, 800px);
+  padding: 10px clamp(6px, 4vw, 800px);
 }
 
 @mixin removeBtn {
@@ -66,8 +117,9 @@
     border-radius: 10px;
     padding: 10px 50px;
     position: absolute;
+    top: 0;
     transition: transform 0.3s ease-out;
-    transform: translateY(100%);
+    transform: translateY(50px);
     z-index: 1;
   }
 
@@ -129,11 +181,11 @@
   border: none;
   text-align: left;
   font-weight: 500;
-  border-width: 2px;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 10px 5px;
+  border-radius: 10px;
   font-family: "Roboto", sans-serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  width: 200px;
 }
 
 @mixin topBarBtn {

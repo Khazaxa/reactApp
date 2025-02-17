@@ -2,22 +2,44 @@
 
 .settingsPage {
   @include page;
+  align-items: normal;
 }
 
 #formContainer {
   @include formCointainer;
 
-  .editUserNameInput,
-  .editUserAgeInput {
+  .editUserAvatar {
+    background-color: #fff;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    border: 6px solid #666;
+    border-radius: 10px;
+
+    img {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  select {
     @include inputStyle;
-    width: 200px;
-    height: 15px;
+    width: 150px;
+  }
+
+  .editUserNameInput {
+    @include inputStyle;
   }
 
   .editUserAgeInput {
     @include inputStyle;
     width: 50px;
-    align-items: center;
     justify-content: center;
     text-align: center;
   }
@@ -52,70 +74,21 @@
   background-color: #fff;
   height: 100px;
   width: 100px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   margin-right: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 1vh;
-}
-
-.userImage {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1/1;
-  object-fit: contain;
-  margin-right: 2vw;
-
-  form {
-    select {
-      width: 14vw;
-      text-align: center;
-    }
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  button {
-    @include button;
-    background-color: #616161;
-    width: 14vw;
-
-    &:hover {
-      background-color: #4d4d4d;
-      color: #fff;
-    }
-  }
-}
-
-.imageModal {
-  background-color: #a8a8a8;
+  border: 6px solid #666;
   border-radius: 10px;
-  padding: 3vh;
 
-  button {
-    margin-bottom: vh;
-    @include button;
-    background-color: #616161;
-
-    &:hover {
-      background-color: #4d4d4d;
-      color: #fff;
-    }
+  img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-}
-
-.userAvatar img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1/1;
-  object-fit: contain;
 }
 
 .userInfo {
@@ -220,7 +193,7 @@
         height: auto;
         border-radius: 10px;
         overflow: hidden;
-        background-color: #808080;
+        background-color: #fff;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         user-select: none;
 
@@ -238,6 +211,10 @@
 @media (max-width: 800px) {
   .userContent {
     flex-direction: column;
+  }
+
+  .userContainer {
+    width: 100%;
   }
 }
 

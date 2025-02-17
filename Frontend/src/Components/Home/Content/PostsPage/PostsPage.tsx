@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./PostsPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Notifications from "../../../Notifications/Notifications";
 
 interface Post {
@@ -25,7 +25,12 @@ export function PostsPage() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [readMore, setReadMore] = useState<{ [key: number]: boolean }>({});
+  const [postReadMore, setPostReadMore] = useState<{
+    [key: number]: boolean;
+  }>({});
+  const [commentReadMore, setCommentReadMore] = useState<{
+    [key: number]: boolean;
+  }>({});
   const [visibleComments, setVisibleComments] = useState<{
     [key: number]: boolean;
   }>({});
@@ -33,6 +38,9 @@ export function PostsPage() {
   const [postContent, setPostContent] = useState<string>("");
   const [postId, setPostId] = useState<number | null>(null);
   const [commentContent, setCommentContent] = useState<string>("");
+  const [visibleCommentMenu, setVisibleCommentMenu] = useState<number | null>(
+    null
+  );
   const addPostFormView = location.state?.addPostFormView || false;
   const removeCheckboxesPosts = location.state?.removeCheckboxesPosts || false;
   const [commentFormView, setCommentFormView] = useState<{
@@ -51,9 +59,20 @@ export function PostsPage() {
     }, 3000);
   };
 
-  const [visibleCommentMenu, setVisibleCommentMenu] = useState<number | null>(
-    null
-  );
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
+
+  const filteredPosts = posts.filter((post) => {
+    if (filterOption === "name") {
+      return post.title.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "user") {
+      return post.author.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return post.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   const toggleCommentMenu = (commentId: number) => {
     setVisibleCommentMenu((prev) => (prev === commentId ? null : commentId));
@@ -149,7 +168,14 @@ export function PostsPage() {
   };
 
   const readMorePost = (id: number) => {
-    setReadMore((prevState) => ({
+    setPostReadMore((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
+  const readMoreComment = (id: number) => {
+    setCommentReadMore((prevState) => ({
       ...prevState,
       [id]: !prevState[id],
     }));
@@ -176,6 +202,22 @@ export function PostsPage() {
       setPostId(null);
       setMessage("Comment added successfully!");
       setMessageType("success");
+      notificationDelay();
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      await api.delete(`/comment/${commentId}`);
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.id !== commentId)
+      );
+      setMessage("Comment deleted successfully!");
+      setMessageType("success");
+      notificationDelay();
+    } catch (error) {
+      setMessage("Error deleting comment: " + error);
+      setMessageType("error");
       notificationDelay();
     }
   };
@@ -247,7 +289,7 @@ export function PostsPage() {
       </div>
 
       <div className={styles.postsList}>
-        {posts.map((post) => (
+        {filteredPosts.map((post) => (
           <div
             className={styles.postCard}
             key={post.id}
@@ -259,6 +301,7 @@ export function PostsPage() {
           >
             {removeCheckboxesPosts && post.authorId === Number(userIdLocal) ? (
               <input
+                key={post.id}
                 type="checkbox"
                 className={styles.checkboxes}
                 checked={checkedItems.includes(post.id)}
@@ -276,7 +319,7 @@ export function PostsPage() {
             </div>
             <hr />
             <div className={styles.postContent}>
-              {!readMore[post.id] ? (
+              {!postReadMore[post.id] ? (
                 post.content.length > 200 ? (
                   <span>
                     {post.content.slice(0, 200)} ...
@@ -355,9 +398,36 @@ export function PostsPage() {
                         .slice(0, 2)
                         .map((comment) => (
                           <li key={comment.content} className={styles.comment}>
-                            <strong>{comment.author}:</strong>
-                            <span>{comment.content}</span>
-
+                            <div className={styles.commentContent}>
+                              <strong>{comment.author}: </strong>
+                              {!commentReadMore[comment.id] ? (
+                                comment.content.length > 200 ? (
+                                  <span>
+                                    {comment.content.slice(0, 200)} ...
+                                    <span
+                                      className={styles.readMoreBtn}
+                                      onClick={() =>
+                                        readMoreComment(comment.id)
+                                      }
+                                    >
+                                      Show more
+                                    </span>
+                                  </span>
+                                ) : (
+                                  comment.content
+                                )
+                              ) : (
+                                <span>
+                                  {comment.content}
+                                  <span
+                                    className={styles.readMoreBtn}
+                                    onClick={() => readMoreComment(comment.id)}
+                                  >
+                                    Show less
+                                  </span>
+                                </span>
+                              )}
+                            </div>
                             {comment.authorId === Number(userIdLocal) ? (
                               <div className={styles.commentMenu}>
                                 <button
@@ -368,7 +438,13 @@ export function PostsPage() {
                                 </button>
                                 {visibleCommentMenu === comment.id && (
                                   <div className={styles.menuOptions}>
-                                    <button>Delete</button>
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteComment(comment.id)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
                                   </div>
                                 )}
                               </div>
@@ -384,8 +460,36 @@ export function PostsPage() {
                         .filter((comment) => comment.postId === post.id)
                         .map((comment) => (
                           <li key={comment.content} className={styles.comment}>
-                            <strong>{comment.author}:</strong>
-                            <span>{comment.content}</span>
+                            <div className={styles.commentContent}>
+                              <strong>{comment.author}: </strong>
+                              {!commentReadMore[comment.id] ? (
+                                comment.content.length > 200 ? (
+                                  <span>
+                                    {comment.content.slice(0, 200)} ...
+                                    <span
+                                      className={styles.readMoreBtn}
+                                      onClick={() =>
+                                        readMoreComment(comment.id)
+                                      }
+                                    >
+                                      Show more
+                                    </span>
+                                  </span>
+                                ) : (
+                                  comment.content
+                                )
+                              ) : (
+                                <span>
+                                  {comment.content}
+                                  <span
+                                    className={styles.readMoreBtn}
+                                    onClick={() => readMoreComment(comment.id)}
+                                  >
+                                    Show less
+                                  </span>
+                                </span>
+                              )}
+                            </div>
 
                             {comment.authorId === Number(userIdLocal) ? (
                               <div className={styles.commentMenu}>
@@ -397,7 +501,13 @@ export function PostsPage() {
                                 </button>
                                 {visibleCommentMenu === comment.id && (
                                   <div className={styles.menuOptions}>
-                                    <button>Delete</button>
+                                    <button
+                                      onClick={() =>
+                                        handleDeleteComment(comment.id)
+                                      }
+                                    >
+                                      Delete
+                                    </button>
                                   </div>
                                 )}
                               </div>

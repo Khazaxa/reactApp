@@ -16,6 +16,7 @@ internal class UserGetIdQueryHandler(IUserRepository userRepository) : IQueryHan
                    ?? throw new DomainException("User not found", (int)UserErrorCode.UserNotFound);
 
         return new UserDto(
+            user.Id,
             user.Name,
             user.Email,
             user.Age,

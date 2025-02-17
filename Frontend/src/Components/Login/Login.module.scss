@@ -4,42 +4,17 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
 
-#loginForm {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  padding: 60px;
-  border-radius: 10px;
-  border: solid #291c0e;
-  background-color: #6e473b;
-
-  p {
-    color: #e1d4c2;
-  }
-
-  input {
-    @include inputStyle;
-    margin: 5px;
-    width: 20vw;
-    text-align: center;
-  }
+  @include authForm;
 }
 
 #buttons {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   width: 100%;
   justify-content: center;
   align-items: center;
-}
-
-#btnLogin {
-  @include button;
 }
 
 #btnRegister {
@@ -52,27 +27,5 @@
   &:hover {
     cursor: pointer;
     text-decoration: underline;
-  }
-}
-
-@media (max-width: 600px) {
-  #loginForm {
-    width: 10vw;
-
-    input {
-      width: 50vw;
-      font-size: large;
-    }
-  }
-}
-
-@media (max-width: 1100px) {
-  #loginForm {
-    width: 50vw;
-
-    input {
-      width: 50vw;
-      font-size: large;
-    }
   }
 }

@@ -8,24 +8,12 @@
   @include formCointainer;
 
   select {
-    width: 60%;
-    height: 30px;
-    border-radius: 5px;
-    border: none;
-    margin: 0px;
-    font-size: 16px;
-    text-align: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    @include inputStyle;
   }
 
-  textarea {
+  input {
     @include inputStyle;
-    width: 60%;
     text-align: left;
-    height: 15px;
-    resize: none;
-    scrollbar-width: none;
   }
 }
 
@@ -34,33 +22,45 @@
 }
 
 .foldersPage ul {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  width: 50vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   align-items: center;
   justify-content: center;
-  gap: 10px;
 }
 
 .foldersPage ul li {
   position: relative;
   list-style: none;
-  font-size: 30px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   cursor: pointer;
-  font-weight: bold;
   align-items: center;
   justify-content: center;
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #808080;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  user-select: none;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 150px;
-  height: 150px;
-  background-color: #808080;
-  color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  user-select: none;
+
+  p {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0px 10px;
+    text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
 
 .checkboxes {

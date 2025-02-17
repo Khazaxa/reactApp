@@ -1,7 +1,7 @@
 import api from "../../../../ApiConfig/ApiConfig";
 import styles from "./FoldersPage.module.scss";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import folderDefaultLogo from "../../../../assets/folder.png";
 import Notifications from "../../../Notifications/Notifications";
 
@@ -9,6 +9,7 @@ interface Folder {
   id: number;
   name: string;
   userId: number;
+  userName: string;
   logo: Logo;
 }
 
@@ -41,6 +42,21 @@ export function FoldersPage() {
       setMessageType(null);
     }, 3000);
   };
+
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
+
+  const filteredFolders = folders.filter((folder) => {
+    if (filterOption === "name") {
+      return folder.name.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "user") {
+      return folder.userName.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return folder.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   const fetchFolders = async () => {
     const response = await api.get("/folders");
@@ -135,7 +151,10 @@ export function FoldersPage() {
       )}
 
       <div id={styles.formContainer}>
-        <form className={addFolderFormView ? styles.showForm : styles.hideForm} onSubmit={handleAddFolder}>
+        <form
+          className={addFolderFormView ? styles.showForm : styles.hideForm}
+          onSubmit={handleAddFolder}
+        >
           <button
             className={styles.closeFormBtn}
             type="button"
@@ -163,7 +182,8 @@ export function FoldersPage() {
 
           <p>Type folder name:</p>
 
-          <textarea
+          <input
+            type="text"
             value={folderName}
             onChange={(e) => setFolderName(e.target.value)}
             required
@@ -175,7 +195,7 @@ export function FoldersPage() {
       </div>
 
       <ul>
-        {folders.map((folder) => (
+        {filteredFolders.map((folder) => (
           <li
             className="folders"
             key={folder.id}
@@ -199,7 +219,7 @@ export function FoldersPage() {
             ) : (
               true
             )}
-            {folder.name}
+            <p>{folder.name}</p>
           </li>
         ))}
       </ul>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "./GalleryPage.module.scss";
 import api from "../../../../ApiConfig/ApiConfig";
 import Notifications from "../../../Notifications/Notifications";
@@ -8,6 +8,7 @@ interface Image {
   id: number;
   name: string;
   userId: number;
+  userName: string;
   path: string;
 }
 
@@ -15,12 +16,12 @@ export function GalleryPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const userIdLocal = localStorage.getItem("userId");
   const [images, setImages] = useState<Image[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
   const removeCheckboxesGallery =
     location.state?.removeCheckboxesGallery || false;
   const [message, setMessage] = useState<string>("");
-  const userIdLocal = localStorage.getItem("userId");
   const [messageType, setMessageType] = useState<
     "success" | "error" | "warning" | null
   >(null);
@@ -30,6 +31,21 @@ export function GalleryPage() {
       setMessageType(null);
     }, 3000);
   };
+
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const filterOption = searchParams.get("filter") || "name";
+
+  const filteredGallery = images.filter((image) => {
+    if (filterOption === "name") {
+      return image.name.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "user") {
+      return image.userName.toLowerCase().includes(searchTerm);
+    } else if (filterOption === "id") {
+      return image.id.toString().includes(searchTerm);
+    }
+    return false;
+  });
 
   useEffect(() => {
     fetchImages();
@@ -126,7 +142,7 @@ export function GalleryPage() {
       )}
 
       <ul>
-        {images.map((image) => (
+        {filteredGallery.map((image) => (
           <li
             key={image.id}
             onClick={
@@ -146,6 +162,7 @@ export function GalleryPage() {
               true
             )}
             <img src={image.path} alt={image.name} />
+            <p>{image.name}</p>
           </li>
         ))}
       </ul>

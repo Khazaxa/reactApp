@@ -9,18 +9,19 @@
 }
 
 .galleryPage ul {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  width: 50vw;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
 }
 
 .galleryPage ul li {
   position: relative;
   list-style: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -31,6 +32,18 @@
   background-color: #808080;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   user-select: none;
+
+  p {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0px 10px;
+    text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
 
 .galleryPage ul li img {
