@@ -8,7 +8,7 @@ internal class ImageRepository(
     SocialMediaDbContext dbContext) : EntityRepositoryBase<Image>(unitOfWork), IImageRepository
 {
     public IQueryable<Image> Query()
-        => dbContext.Images.AsQueryable();
+        => dbContext.Images;
     
     protected override IQueryable<Image> GetQuery()
     {
