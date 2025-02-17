@@ -87,7 +87,7 @@ public class Program
     app.UseSwagger();
     app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social Media API v1"); });
 
-    app.UseCors("AllowAll"); // Ensure CORS policy is applied here
+    app.UseCors("AllowAll");
     app.UseAuthentication();
     app.UseHttpsRedirection();
     app.UseAuthorization();

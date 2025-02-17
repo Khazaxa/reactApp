@@ -23,12 +23,6 @@ public class Folder : EntityBase
     public List<Image> Images { get; private set; }
     public int UserId { get; private set; }
     public User User { get; private set; }
-
-
-    public void AssignImagesToFolder(List<Image> images)
-    {
-        Images = images;
-    }
     
     
     public static void OnModelCreating(ModelBuilder builder)
