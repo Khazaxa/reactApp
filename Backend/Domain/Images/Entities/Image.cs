@@ -26,6 +26,11 @@ public class Image : EntityBase
     public Folder? Folder { get; private set; }
     public int UserId { get; private set; }
     public User User { get; private set; }
+
+    public void UpdateFolderId(int folderId)
+    {
+        FolderId = folderId;
+    }
     
     
     public static void OnModelCreating(ModelBuilder builder)
