@@ -34,5 +34,11 @@ public class ImagesController(IMediator mediator) : ControllerBase
     [Route("imageByFolder/{folderId}")]
     public async Task<IEnumerable<ImageDto>> GetImagesByFolder(int folderId, CancellationToken cancellationToken)
         => await mediator.Send(new ImagesGetByFolderQuery(folderId), cancellationToken);
+
+    [HttpPut]
+    [Route("assignToFolder")]
+    public async Task<Unit> AssignImagesToFolder(List<int> imageIds, int folderId,
+        CancellationToken cancellationToken)
+        => await mediator.Send(new ImagesAssignCommand(imageIds, folderId), cancellationToken);
 }
 

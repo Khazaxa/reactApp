@@ -24,6 +24,13 @@ public class Folder : EntityBase
     public int UserId { get; private set; }
     public User User { get; private set; }
 
+
+    public void AssignImagesToFolder(List<Image> images)
+    {
+        Images = images;
+    }
+    
+    
     public static void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Folder>().HasIndex(x => x.Name).IsUnique();
