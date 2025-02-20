@@ -7,15 +7,26 @@ import { useState } from "react";
 
 export function NavBar({
   setIsLogged,
+  setIsNavBarActive,
 }: {
   setIsLogged: (isLogged: boolean) => void;
+  setIsNavBarActive: (isActive: boolean) => void;
 }) {
-
   const [showNavBar, setShowNavBar] = useState<boolean>(false);
 
+  if (!showNavBar) {
+    setIsNavBarActive(showNavBar);
+  }
+
   return (
-    <div id={(showNavBar ? styles.navBarHidden : styles.navBar )} >
-      <button className={styles.navBarBtn} onClick={() => setShowNavBar(!showNavBar)}>
+    <div id={showNavBar ? styles.navBarHidden : styles.navBar}>
+      <button
+        className={styles.navBarBtn}
+        onClick={() => {
+          setShowNavBar(!showNavBar);
+          setIsNavBarActive(!showNavBar);
+        }}
+      >
         <img src={navArrow} />
       </button>
       <div>
@@ -24,7 +35,7 @@ export function NavBar({
         </div>
       </div>
       <div className={styles.navBarContainer}>
-        <NavLinks setShowNavBar={setShowNavBar}/>
+        <NavLinks setShowNavBar={setShowNavBar} />
         <LogOut setIsLogged={setIsLogged} />
       </div>
     </div>

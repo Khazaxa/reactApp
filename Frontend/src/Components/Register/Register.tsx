@@ -1,9 +1,8 @@
 import { useState } from "react";
-import appStyles from "../../App.module.scss";
 import styles from "./Register.module.scss";
 import api from "../../ApiConfig/ApiConfig";
 import { Login } from "../Login/Login";
-import Notifications from '../Notifications/Notifications';
+import Notifications from "../Notifications/Notifications";
 
 export function Register({
   setIsLogged,
@@ -14,7 +13,6 @@ export function Register({
   isRegister: boolean;
   setIsRegister: (isRegister: boolean) => void;
 }) {
-  const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("");
   const [age, setAge] = useState(0);
   const [email, setEmail] = useState("");
@@ -26,13 +24,15 @@ export function Register({
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<"success" | "error" | "warning" | null>(null);
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | null
+  >(null);
   const notificationDelay = () => {
     setTimeout(() => {
       setMessage("");
       setMessageType(null);
     }, 3000);
-  }
+  };
 
   const validatePassword = (password: string) => {
     return passwordRegex.test(password);
@@ -46,11 +46,13 @@ export function Register({
       setMessageType("error");
       notificationDelay();
     } else if (validatePassword(password) === false) {
-      setMessage("Password must contain at least 6 characters, including uppercase, lowercase, number and special character");
+      setMessage(
+        "Password must contain at least 6 characters, including uppercase, lowercase, number and special character"
+      );
       setMessageType("error");
       notificationDelay();
     } else if (password !== password2) {
-      setErrorMessage("Passwords do not match");
+      setMessage("Passwords do not match");
       setMessageType("error");
       notificationDelay();
     } else {
@@ -65,6 +67,9 @@ export function Register({
 
         if (response.status === 200) {
           setIsRegister(true);
+          setMessage("Registration succesfull.");
+          setMessageType("success");
+          notificationDelay();
         } else {
           setMessage("Registration failed. Please try again.");
           setMessageType("error");
@@ -87,38 +92,51 @@ export function Register({
         <Login setIsLogged={setIsLogged} setIsRegister={setIsRegister} />
       ) : (
         <form id={styles.registerForm} onSubmit={handleSubmit}>
-          <button id={styles.closeFormBtn} onClick={() => setIsRegister(true)}>X</button>
+          <button id={styles.closeFormBtn} onClick={() => setIsRegister(true)}>
+            X
+          </button>
           <h1>Register</h1>
 
           <input
             id="email"
-            placeholder="Enter your email"
+            placeholder="Email"
+            className={styles.inputGroup}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             id="name"
-            placeholder="Enter name"
+            placeholder="Name"
+            className={styles.inputGroup}
             onChange={(e) => setName(e.target.value)}
+            required
           />
           <input
             id="age"
-            placeholder="Enter your age"
+            placeholder="Age"
+            className={styles.inputGroup}
             onChange={(e) => setAge(Number(e.target.value))}
+            required
           />
           <input
             type="password"
             id="password"
-            placeholder="Enter password"
+            placeholder="Password"
+            className={styles.inputGroup}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <input
             type="password"
             id="password2"
-            placeholder="Enter password again"
+            placeholder="Password again"
+            className={styles.inputGroup}
             onChange={(e) => setPassword2(e.target.value)}
+            required
           />
-          <button id={styles.btnSubmit} type="submit">Submit</button>
-          <strong className={appStyles.errorMessage}>{errorMessage}</strong>
+          <button id={styles.btnSubmit} type="submit">
+            Register
+          </button>
         </form>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "./Home.module.scss";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
@@ -9,13 +10,15 @@ export function Home({
 }: {
   setIsLogged: (isLogged: boolean) => void;
 }) {
+  const [isNavBarActive, setIsNavBarActive] = useState(false);
+
   return (
     <div id={styles.mainWindow}>
-      <NavBar setIsLogged={setIsLogged} />
+      <NavBar setIsLogged={setIsLogged} setIsNavBarActive={setIsNavBarActive} />
       <div id={styles.content}>
         <TopBar />
         <FilterBar />
-        <Content />
+        <Content isNavBarActive={isNavBarActive} />
       </div>
     </div>
   );

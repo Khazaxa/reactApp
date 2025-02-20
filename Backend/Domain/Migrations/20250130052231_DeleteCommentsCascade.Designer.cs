@@ -4,6 +4,7 @@ using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(SocialMediaDbContext))]
-    partial class SocialMediaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250130052231_DeleteCommentsCascade")]
+    partial class DeleteCommentsCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,15 +174,13 @@ namespace Domain.Migrations
                     b.Property<int?>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AvatarImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
 
@@ -196,8 +197,6 @@ namespace Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AvatarImageId");
-
                     b.HasIndex("Email")
                         .IsUnique();
 
@@ -212,8 +211,8 @@ namespace Domain.Migrations
                             Id = 1,
                             Email = "user@example.com",
                             Name = "User",
-                            PasswordHash = new byte[] { 4, 253, 138, 76, 225, 167, 161, 133, 39, 219, 101, 6, 185, 211, 243, 40, 103, 232, 207, 138, 75, 49, 213, 132, 24, 52, 17, 66, 148, 44, 124, 118, 117, 0, 249, 176, 41, 90, 162, 90, 248, 16, 126, 39, 106, 58, 183, 72, 44, 50, 137, 243, 68, 73, 179, 158, 138, 158, 254, 252, 96, 152, 138, 237 },
-                            PasswordSalt = new byte[] { 154, 71, 162, 72, 94, 9, 102, 111, 159, 7, 51, 224, 80, 120, 51, 65, 201, 114, 219, 15, 178, 234, 249, 251, 45, 109, 18, 231, 207, 144, 87, 186, 166, 153, 131, 27, 230, 104, 152, 208, 251, 160, 250, 196, 159, 99, 56, 83, 76, 86, 144, 132, 134, 119, 85, 211, 196, 207, 54, 117, 195, 84, 114, 128, 116, 189, 165, 14, 73, 247, 177, 125, 195, 120, 166, 57, 60, 64, 154, 197, 144, 227, 1, 179, 145, 92, 165, 105, 48, 17, 156, 107, 200, 149, 217, 239, 18, 108, 42, 59, 32, 38, 35, 220, 219, 202, 100, 74, 31, 146, 136, 32, 54, 251, 82, 160, 69, 152, 236, 155, 26, 143, 95, 226, 140, 5, 207, 251 },
+                            PasswordHash = new byte[] { 116, 124, 127, 251, 218, 227, 204, 211, 247, 49, 245, 252, 168, 190, 28, 223, 166, 181, 107, 99, 6, 16, 115, 23, 46, 98, 90, 72, 168, 211, 109, 133, 100, 214, 115, 143, 35, 111, 141, 46, 167, 223, 181, 246, 246, 122, 96, 237, 250, 85, 210, 74, 235, 192, 93, 35, 12, 93, 237, 38, 205, 183, 239, 167 },
+                            PasswordSalt = new byte[] { 199, 253, 53, 174, 60, 219, 174, 193, 192, 232, 18, 225, 89, 103, 11, 242, 6, 81, 213, 196, 121, 243, 52, 74, 147, 232, 205, 169, 239, 233, 43, 245, 87, 250, 131, 141, 69, 147, 122, 249, 177, 180, 131, 115, 113, 60, 207, 13, 178, 204, 139, 227, 163, 179, 209, 246, 35, 22, 226, 230, 253, 218, 233, 225, 167, 252, 213, 198, 244, 231, 214, 121, 42, 207, 116, 133, 118, 222, 252, 120, 246, 106, 14, 127, 214, 136, 224, 86, 54, 130, 69, 12, 34, 67, 226, 147, 164, 137, 210, 107, 99, 202, 155, 221, 150, 84, 97, 165, 155, 36, 240, 188, 171, 136, 235, 62, 50, 30, 49, 54, 93, 208, 97, 151, 243, 3, 231, 252 },
                             Role = 1
                         });
                 });
@@ -281,15 +280,6 @@ namespace Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("Domain.Users.Entities.User", b =>
-                {
-                    b.HasOne("Domain.Images.Entities.Image", "AvatarImage")
-                        .WithMany()
-                        .HasForeignKey("AvatarImageId");
-
-                    b.Navigation("AvatarImage");
                 });
 
             modelBuilder.Entity("Domain.Folders.Entities.Folder", b =>

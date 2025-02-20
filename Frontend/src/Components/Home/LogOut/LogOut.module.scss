@@ -2,26 +2,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  font-size: 1.5rem;
+  font-size: clamp(0.8rem, 2vw, 1.3rem);
   font-weight: bold;
-  background-color: #A78D78;
+  background-color: #a78d78;
   border-radius: 10px;
   color: #9c1b1b;
-  padding: 10px;
+  padding: 15px 60px;
   margin: 10px;
-  cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   bottom: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-
+  user-select: none;
 
   img {
-    width: 20px;
+    width: clamp(0.8rem, 2vw, 1.3rem);
     border-radius: 20px;
+    margin-right: 5px;
   }
-}
 
-#logOut:hover {
-  background-color: #BEB5A9;
+  &:hover {
+    background-color: #beb5a9;
+    cursor: pointer;
+  }
 }

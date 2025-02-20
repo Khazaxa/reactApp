@@ -33,6 +33,7 @@ internal class RegisterCommandHandler(
             input.Name,
             input.Email,
             input.Age,
+            null,
             hmac.ComputeHash(Encoding.UTF8.GetBytes(input.Password)),
             hmac.Key,
             UserRole.Admin

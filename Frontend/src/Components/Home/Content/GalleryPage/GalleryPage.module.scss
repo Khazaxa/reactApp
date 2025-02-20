@@ -1,43 +1,27 @@
+@use "../../../../App.module.scss" as *;
+
 .galleryPage {
-  padding: 10px 0px;
-  margin-bottom: 10px;
-  width: auto;
+  @include page;
 }
 
-.removeImageBtn {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  background-color: #e02a1d;
-  color: #E1D4C2;
-  font-size: 20px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.removeImageBtn:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
-.galleryPage h1 {
-  color: yellow;
-  margin-bottom: 10px;
+.removeBtn {
+  @include removeBtn;
 }
 
 .galleryPage ul {
+  width: 50vw;
   display: flex;
-  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
 }
 
 .galleryPage ul li {
   position: relative;
   list-style: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -47,12 +31,26 @@
   overflow: hidden;
   background-color: #808080;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  user-select: none;
+
+  p {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0px 10px;
+    text-align: center;
+    word-wrap: break-word;
+    white-space: normal;
+  }
 }
 
 .galleryPage ul li img {
   width: 100%;
   height: auto;
-  object-fit: cover;;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 
 .checkboxes {

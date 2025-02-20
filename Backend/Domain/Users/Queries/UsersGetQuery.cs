@@ -12,10 +12,12 @@ internal class UsersGetQueryHandler(IUserRepository userRepository) : IQueryHand
     {
         var users = userRepository.Query()
             .Select(x => new UserDto(
+                x.Id,
                 x.Name,
                 x.Email,
                 x.Age,
-                x.Role
+                x.Role,
+                x.AvatarImageId
             ));
 
         return await Task.FromResult(users);

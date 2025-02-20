@@ -1,7 +1,8 @@
 #navLinks {
   display: flex;
   flex-direction: column;
-  background-color: #6E473B;
+  background-color: #6e473b;
+  user-select: none;
 }
 
 #navLinks ul {
@@ -9,8 +10,8 @@
   flex-direction: column;
   gap: 10px;
   list-style: none;
-  padding: 20px 10px;
-  border-top: 2px solid #A78D78;
+  padding: 20px clamp(0.5rem, 2vw, 1.2rem);
+  border-top: 2px solid #a78d78;
 }
 
 .navItem {
@@ -20,34 +21,21 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 10px;
-  background-color: #A78D78;
-  height: 50px;
-  padding: 10px;
+  background-color: #a78d78;
+  padding: 15px 50px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  
+
   &:hover {
-    background-color: #BEB5A9;
+    background-color: #beb5a9;
   }
 }
-
 
 .navLink {
   text-decoration: none;
-  color: #E1D4C2;
-  font-size: 1.2rem;
-  
+  color: #e1d4c2;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+
   &:hover {
-    color: #6E473B;
-  }
-}
-
-
-@media (max-width: 768px) {
-  #navBar {
-    width: 250px;
-  }
-  .navBarBtn {
-    padding: 8px 16px;
-    font-size: medium;
+    color: #6e473b;
   }
 }

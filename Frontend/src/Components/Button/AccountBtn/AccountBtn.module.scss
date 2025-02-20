@@ -1,12 +1,5 @@
-#account {
-  background-color: azure;
+@use "../../../App.module.scss" as *;
 
-  img {
-    width: 40px;
-    height: 30px;;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-  }
+#account {
+  @include topBarBtn;
 }

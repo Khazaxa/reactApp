@@ -19,6 +19,7 @@ internal class ImagesGetByFolderQueryHandler(
             image.Extension,
             image.Size,
             image.Path,
-            image.UserId));
+            image.UserId,
+            image.User.Name));
     }
 }
