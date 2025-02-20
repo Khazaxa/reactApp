@@ -3,7 +3,7 @@
 .galleryPage {
   @include page;
 
-  h1{
+  h1 {
     color: #fff;
   }
 }
@@ -26,7 +26,6 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   align-items: center;
   justify-content: center;
   width: 150px;

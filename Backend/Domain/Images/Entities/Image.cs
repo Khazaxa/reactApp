@@ -25,7 +25,6 @@ public class Image : EntityBase
     public int? FolderId { get; private set; }
     public Folder? Folder { get; private set; }
     public int UserId { get; private set; }
-    public User User { get; private set; }
 
     public void UpdateFolderId(int folderId)
     {
@@ -36,10 +35,6 @@ public class Image : EntityBase
     public static void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Image>().HasIndex(x => x.Name).IsUnique();
-        builder.Entity<Image>()
-            .HasOne(x => x.User)
-            .WithMany()
-            .HasForeignKey(x => x.UserId);
         builder.Entity<Image>()
             .HasOne(x => x.Folder)
             .WithMany(x => x.Images)

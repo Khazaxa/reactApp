@@ -17,7 +17,6 @@ internal class ImageGetQueryHandler(IImageRepository imageRepository) : IQueryHa
             image.Extension,
             image.Size,
             image.Path,
-            image.User.Name,
             image.UserId,
             image.FolderId
             );
