@@ -5,6 +5,12 @@
 
   h2 {
     color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: #808080;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -78,6 +84,18 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    p {
+      position: absolute;
+      bottom: 0;
+      width: 90%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 0px 10px;
+      text-align: center;
+      word-wrap: break-word;
+      white-space: normal;
+    }
 
     img {
       width: 100%;

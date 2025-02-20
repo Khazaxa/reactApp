@@ -73,7 +73,9 @@ const FilterBar = () => {
               by user
             </option>
             <option value="id">by id</option>
-            <option value="album">by album</option>
+            <option value="album" disabled={location.pathname !== "/gallery"}>
+              by album
+            </option>
           </select>
         </div>
       </div>

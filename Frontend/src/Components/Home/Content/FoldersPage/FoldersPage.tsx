@@ -149,7 +149,7 @@ export function FoldersPage() {
       <Notifications messageType={messageType} message={message} />
 
       {loading ? (
-        <h1>Loading images...</h1>
+        <h1>Loading folders...</h1>
       ) : (
         <>
           {removeCheckboxesFolders ? (
@@ -210,36 +210,40 @@ export function FoldersPage() {
 
           <ul>
             {filteredFolders.map((folder) => (
-              <NavLink to={`/folder/${folder.id}`}>
-                <li
-                  className="folders"
-                  key={folder.id}
-                  onClick={
-                    removeCheckboxesFolders &&
-                    folder.userId === Number(userIdLocal)
-                      ? () => handleRemoveItemClick(folder.id)
-                      : undefined
-                  }
-                  style={{
-                    backgroundImage: `url(${
-                      folder.logo?.path || folderDefaultLogo
-                    })`,
-                  }}
-                >
-                  {removeCheckboxesFolders &&
-                  folder.userId === Number(userIdLocal) ? (
+              <li
+                className="folders"
+                key={folder.id}
+                onClick={
+                  removeCheckboxesFolders &&
+                  folder.userId === Number(userIdLocal)
+                    ? () => handleRemoveItemClick(folder.id)
+                    : undefined
+                }
+                style={{
+                  backgroundImage: `url(${
+                    folder.logo?.path || folderDefaultLogo
+                  })`,
+                }}
+              >
+                {removeCheckboxesFolders &&
+                folder.userId === Number(userIdLocal) ? (
+                  <>
                     <input
                       className={styles.checkboxes}
                       type="checkbox"
                       checked={checkedItems.includes(folder.id)}
                       readOnly
                     />
-                  ) : (
-                    true
-                  )}
-                  <p>{folder.name}</p>
-                </li>
-              </NavLink>
+                    <p>{folder.name}</p>
+                  </>
+                ) : (
+                  <NavLink to={`/folder/${folder.id}`} key={folder.id}>
+                    <div className={styles.folderNavContainer}>
+                      <p>{folder.name}</p>
+                    </div>
+                  </NavLink>
+                )}
+              </li>
             ))}
           </ul>
         </>

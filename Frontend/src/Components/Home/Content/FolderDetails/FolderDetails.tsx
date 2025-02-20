@@ -54,7 +54,7 @@ export function FolderDetails() {
       return image.name.toLowerCase().includes(searchTerm);
     } else if (filterOption === "id") {
       return image.id.toString().includes(searchTerm);
-    } 
+    }
     return false;
   });
 
@@ -164,6 +164,7 @@ export function FolderDetails() {
             {filteredImages?.map((image) => (
               <li key={image.id}>
                 <img src={image.path} />
+                <p>{image.name}</p>
               </li>
             ))}
           </ul>
