@@ -1,5 +1,5 @@
 using Core.Cqrs;
-using Domain.Images.Dtos;
+using Domain.Images.Dto;
 using Domain.Images.Repositories;
 
 namespace Domain.Images.Queries;
@@ -11,6 +11,15 @@ internal class ImageGetQueryHandler(IImageRepository imageRepository) : IQueryHa
     public async Task<ImageDto> Handle(ImageGetQuery request, CancellationToken cancellationToken)
     {
         var image = await imageRepository.FindAsync(request.Id, cancellationToken);
-        return new ImageDto(image.Id, image.Name, image.Extension, image.Size, image.Path, image.UserId);
+        return new ImageDto(
+            image.Id,
+            image.Name,
+            image.Extension,
+            image.Size,
+            image.Path,
+            image.User.Name,
+            image.UserId,
+            image.FolderId
+            );
     }
 }

@@ -1,5 +1,5 @@
 using Domain.Images.Commands;
-using Domain.Images.Dtos;
+using Domain.Images.Dto;
 using Domain.Images.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

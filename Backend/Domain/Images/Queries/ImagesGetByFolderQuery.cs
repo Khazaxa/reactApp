@@ -1,5 +1,5 @@
 using Core.Cqrs;
-using Domain.Images.Dtos;
+using Domain.Images.Dto;
 using Domain.Images.Repositories;
 
 namespace Domain.Images.Queries;
@@ -19,6 +19,8 @@ internal class ImagesGetByFolderQueryHandler(
             image.Extension,
             image.Size,
             image.Path,
-            image.UserId));
+            image.User.Name,
+            image.UserId,
+            image.FolderId));
     }
 }

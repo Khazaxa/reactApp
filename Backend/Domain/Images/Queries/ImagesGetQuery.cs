@@ -1,5 +1,5 @@
 using Core.Cqrs;
-using Domain.Images.Dtos;
+using Domain.Images.Dto;
 using Domain.Images.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +14,7 @@ internal class ImagesGetQueryHandler(IImageRepository imgRepository) : IQueryHan
     {
         var images = imgRepository.Query()
             .Include(x => x.User)
-            .Select((i) => new ImageDto(i.Id, i.Name, i.Extension, i.Size, i.Path, i.UserId))
+            .Select((i) => new ImageDto(i.Id, i.Name, i.Extension, i.Size, i.Path, i.User.Name!, i.UserId, i.FolderId))
             .ToListAsync(cancellationToken);
         return await images;
     }

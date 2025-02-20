@@ -1,4 +1,4 @@
-namespace Domain.Images.Dtos;
+namespace Domain.Images.Dto;
 
 public record ImageDto(
     int Id,
@@ -6,5 +6,6 @@ public record ImageDto(
     string Extension,
     decimal Size,
     string Path,
-    int UserId
-    );
+    string UserName,
+    int UserId,
+    int? FolderId);
