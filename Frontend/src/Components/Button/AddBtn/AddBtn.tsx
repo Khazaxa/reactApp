@@ -8,11 +8,13 @@ export function AddBtn() {
   
   const AddClick = () => {
     if (location.pathname === '/posts') {
-      navigate("/posts", { state: { addPostFormView: location.state?.addPostFormView !== true } });
+      navigate("/posts", { state: { showAddForm: location.state?.showAddForm !== true } });
     } else if (location.pathname === '/gallery') {
       navigate("/gallery", { state: { triggerAddGallery: true } });
     } else if (location.pathname === '/folders') {
-      navigate("/folders", { state: { addFolderFormView: location.state?.addFolderFormView !== true } });
+      navigate("/folders", { state: { showAddForm: location.state?.showAddForm !== true } });
+    } else if (/^\/folder\/\d+$/.test(location.pathname)) {
+      navigate(location.pathname, { state: { showAddForm: location.state?.showAddForm !== true } });
     }
   };
 

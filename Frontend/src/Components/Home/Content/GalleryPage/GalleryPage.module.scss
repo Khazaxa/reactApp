@@ -2,6 +2,10 @@
 
 .galleryPage {
   @include page;
+
+  h1{
+    color: #fff;
+  }
 }
 
 .removeBtn {

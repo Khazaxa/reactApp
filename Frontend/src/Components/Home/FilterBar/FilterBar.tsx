@@ -11,6 +11,8 @@ const FilterBar = () => {
   const [filterOption, setFilterOption] = useState("name");
 
   useEffect(() => {
+    setSearchTerm(searchParams.get("search") || "");
+
     if (location.pathname === "/posts") {
       setPlaceholder("Search posts");
     } else if (location.pathname === "/gallery") {
@@ -19,22 +21,12 @@ const FilterBar = () => {
       setPlaceholder("Search folders");
     } else if (location.pathname === "/users") {
       setPlaceholder("Search users");
+    } else if (/^\/folder\/\d+$/.test(location.pathname)) {
+      setPlaceholder("Search images");
     } else if (location.pathname === "/home") {
       setPlaceholder("");
     } else if (location.pathname === "/settings") {
       setPlaceholder("");
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (location.pathname === "/folders") {
-      setSearchTerm(searchParams.get("search") || "");
-    } else if (location.pathname === "/gallery") {
-      setSearchTerm(searchParams.get("search") || "");
-    } else if (location.pathname === "/posts") {
-      setSearchTerm(searchParams.get("search") || "");
-    } else if (location.pathname === "/users") {
-      setSearchTerm(searchParams.get("search") || "");
     }
   }, [location.pathname, searchParams]);
 
@@ -81,6 +73,7 @@ const FilterBar = () => {
               by user
             </option>
             <option value="id">by id</option>
+            <option value="album">by album</option>
           </select>
         </div>
       </div>

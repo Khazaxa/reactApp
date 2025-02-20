@@ -14,7 +14,7 @@ internal class ImagesGetQueryHandler(IImageRepository imgRepository) : IQueryHan
     {
         var images = imgRepository.Query()
             .Include(x => x.User)
-            .Select((i) => new ImageDto(i.Id, i.Name, i.Extension, i.Size, i.Path, i.UserId, i.User.Name))
+            .Select((i) => new ImageDto(i.Id, i.Name, i.Extension, i.Size, i.Path, i.UserId))
             .ToListAsync(cancellationToken);
         return await images;
     }

@@ -11,6 +11,6 @@ internal class ImageGetQueryHandler(IImageRepository imageRepository) : IQueryHa
     public async Task<ImageDto> Handle(ImageGetQuery request, CancellationToken cancellationToken)
     {
         var image = await imageRepository.FindAsync(request.Id, cancellationToken);
-        return new ImageDto(image.Id, image.Name, image.Extension, image.Size, image.Path, image.UserId, image.User.Name);
+        return new ImageDto(image.Id, image.Name, image.Extension, image.Size, image.Path, image.UserId);
     }
 }
