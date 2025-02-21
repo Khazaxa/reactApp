@@ -1,5 +1,5 @@
 import styles from "./FilterBar.module.scss";
-import search from "../../../Assets/search.png";
+import search from "../../../assets/search.png";
 import homeStyles from "../Home.module.scss";
 
 const FilterBar = () => {
