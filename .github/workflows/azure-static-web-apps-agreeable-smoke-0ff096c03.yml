@@ -27,6 +27,8 @@ jobs:
           node-version: 20
       - name: Install Dependencies
         run: cd Frontend && npm install
+      - name: Build Frontend
+        run: cd Frontend && npm run build
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
