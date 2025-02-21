@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     permissions:
-       id-token: write
        contents: read
     steps:
       - uses: actions/checkout@v3
@@ -35,5 +34,4 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AGREEABLE_SMOKE_0FF096C03 }}
           action: "upload"
           app_location: "./Frontend"
-          api_location: "./Backend"
           output_location: "build"
