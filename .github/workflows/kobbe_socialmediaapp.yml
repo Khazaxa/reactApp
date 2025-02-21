@@ -57,4 +57,4 @@ jobs:
           app-name: 'SocialMediaApp'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_07FD002CF02042E48821AB51CDC0804E }}
-          package: ./Frontend/dist
+          package: ./Frontend
