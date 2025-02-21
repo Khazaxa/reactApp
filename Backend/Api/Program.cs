@@ -119,7 +119,7 @@ public class Program
             options.AddPolicy("AllowAll",
                 builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    builder.WithOrigins("https://socialmediaapp-dma8c7hkacdzhgfh.polandcentral-01.azurewebsites.net")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
