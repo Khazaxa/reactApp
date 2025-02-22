@@ -23,8 +23,14 @@ jobs:
       - name: Build with dotnet
         run: dotnet build ./Backend --configuration Release
 
+      - name: List files in the current directory before publishing
+        run: ls -R
+      
       - name: dotnet publish
-        run: dotnet publish ./Backend -c Release -o ./myapp
+        run: dotnet publish ./Backend -c Release -o $GITHUB_WORKSPACE/myapp
+      
+      - name: List files after publish
+        run: ls -R
 
       - name: List files after publish for debugging
         run: |
@@ -34,7 +40,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./myapp
+          path: $GITHUB_WORKSPACE/myapp/*
+
+      - name: List directory structure before deployment
+        run: |
+          ls -R $GITHUB_WORKSPACE
 
   deploy:
     runs-on: ubuntu-latest
@@ -68,5 +78,5 @@ jobs:
         with:
           app-name: 'SocialMediaAppAPI'
           slot-name: 'Production'
-          package: ./myapp
+          package: $GITHUB_WORKSPACE/myapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A3766E772D449D2BAA805AA37872B3D }}
