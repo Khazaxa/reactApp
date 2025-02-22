@@ -31,7 +31,6 @@ jobs:
         with:
           name: .net-app
           path: ./myapp
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -47,7 +46,7 @@ jobs:
 
       - name: List files after publish for debugging
         run: |
-          ls -R ./myapp
+          ls -R ./myapp  # Sprawdzamy, czy katalog istnieje
 
       - name: Replace secrets in appsettings.json
         run: |
@@ -64,5 +63,5 @@ jobs:
         with:
           app-name: 'SocialMediaAppAPI'
           slot-name: 'Production'
-          package: ./myapp  # Ensure the path points to the artifact
+          package: ./myapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A3766E772D449D2BAA805AA37872B3D }}
