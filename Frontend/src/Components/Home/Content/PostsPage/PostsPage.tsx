@@ -41,7 +41,7 @@ export function PostsPage() {
   const [visibleCommentMenu, setVisibleCommentMenu] = useState<number | null>(
     null
   );
-  const addPostFormView = location.state?.addPostFormView || false;
+  const showAddForm = location.state?.showAddForm || false;
   const removeCheckboxesPosts = location.state?.removeCheckboxesPosts || false;
   const [commentFormView, setCommentFormView] = useState<{
     [key: number]: boolean;
@@ -94,11 +94,11 @@ export function PostsPage() {
   }, []);
 
   useEffect(() => {
-    if (!addPostFormView) {
+    if (!showAddForm) {
       setPostTitle("");
       setPostContent("");
     }
-  }, [addPostFormView]);
+  }, [showAddForm]);
 
   useEffect(() => {
     if (!removeCheckboxesPosts) {
@@ -248,14 +248,14 @@ export function PostsPage() {
 
       <div id={styles.formContainer}>
         <form
-          className={addPostFormView ? styles.showForm : styles.hideForm}
+          className={showAddForm ? styles.showForm : styles.hideForm}
           onSubmit={handleAddPost}
         >
           <button
             className={styles.closeFormBtn}
             type="button"
             onClick={() =>
-              navigate("/posts", { state: { addPostFormView: false } })
+              navigate("/posts", { state: { showAddForm: false } })
             }
           >
             X

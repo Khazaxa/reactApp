@@ -5,12 +5,12 @@ import Content from "./Content/Content";
 import FilterBar from "./FilterBar/FilterBar";
 import TopBar from "./TopBar/TopBar";
 
-export function Home({
-  setIsLogged,
-}: {
+interface HomeProps {
   setIsLogged: (isLogged: boolean) => void;
-}) {
-  const [isNavBarActive, setIsNavBarActive] = useState(false);
+}
+
+export function Home({ setIsLogged }: HomeProps) {
+  const [isNavBarActive, setIsNavBarActive] = useState<boolean>(false);
 
   return (
     <div id={styles.mainWindow}>

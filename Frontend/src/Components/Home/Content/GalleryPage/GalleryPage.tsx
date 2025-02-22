@@ -10,6 +10,12 @@ interface Image {
   userId: number;
   userName: string;
   path: string;
+  folderId: number | null;
+}
+
+interface User {
+  id: number;
+  name: string;
 }
 
 export function GalleryPage() {
@@ -18,7 +24,9 @@ export function GalleryPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const userIdLocal = localStorage.getItem("userId");
   const [images, setImages] = useState<Image[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const removeCheckboxesGallery =
     location.state?.removeCheckboxesGallery || false;
   const [message, setMessage] = useState<string>("");
@@ -40,16 +48,16 @@ export function GalleryPage() {
     if (filterOption === "name") {
       return image.name.toLowerCase().includes(searchTerm);
     } else if (filterOption === "user") {
-      return image.userName.toLowerCase().includes(searchTerm);
+      const user = users.find((user) => user.id === image.userId);
+      return user ? user.name.toLowerCase().includes(searchTerm) : false;
     } else if (filterOption === "id") {
       return image.id.toString().includes(searchTerm);
+    } else if (filterOption === "album") {
+      return image.folderId?.toString().includes(searchTerm) ?? false;
     }
+
     return false;
   });
-
-  useEffect(() => {
-    fetchImages();
-  }, []);
 
   useEffect(() => {
     if (!removeCheckboxesGallery) {
@@ -57,12 +65,20 @@ export function GalleryPage() {
     }
   }, [removeCheckboxesGallery]);
 
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
   const fetchImages = async () => {
+    setLoading(true);
     try {
       const response = await api.get("/images");
       setImages(response.data);
-    } catch (error) {
-      console.error("Error fetching images:", error);
+
+      const usersResponse = await api.get("/users");
+      setUsers(usersResponse.data);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -129,49 +145,57 @@ export function GalleryPage() {
     <div className={styles.galleryPage}>
       <Notifications messageType={messageType} message={message} />
 
-      {removeCheckboxesGallery ? (
-        <button
-          className={styles.removeBtn}
-          onClick={removeImage}
-          disabled={checkedItems.length === 0}
-        >
-          Remove
-        </button>
+      {loading ? (
+        <h1>Loading images...</h1>
       ) : (
-        true
-      )}
+        <>
+          {removeCheckboxesGallery ? (
+            <button
+              className={styles.removeBtn}
+              onClick={removeImage}
+              disabled={checkedItems.length === 0}
+            >
+              Remove
+            </button>
+          ) : (
+            true
+          )}
 
-      <ul>
-        {filteredGallery.map((image) => (
-          <li
-            key={image.id}
-            onClick={
-              removeCheckboxesGallery && image.userId === Number(userIdLocal)
-                ? () => handleRemoveItemClick(image.id)
-                : undefined
-            }
-          >
-            {removeCheckboxesGallery && image.userId === Number(userIdLocal) ? (
-              <input
-                className={styles.checkboxes}
-                type="checkbox"
-                checked={checkedItems.includes(image.id)}
-                readOnly
-              />
-            ) : (
-              true
-            )}
-            <img src={image.path} alt={image.name} />
-            <p>{image.name}</p>
-          </li>
-        ))}
-      </ul>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleImageAdd}
-        style={{ display: "none" }}
-      />
+          <ul>
+            {filteredGallery.map((image) => (
+              <li
+                key={image.id}
+                onClick={
+                  removeCheckboxesGallery &&
+                  image.userId === Number(userIdLocal)
+                    ? () => handleRemoveItemClick(image.id)
+                    : undefined
+                }
+              >
+                {removeCheckboxesGallery &&
+                image.userId === Number(userIdLocal) ? (
+                  <input
+                    className={styles.checkboxes}
+                    type="checkbox"
+                    checked={checkedItems.includes(image.id)}
+                    readOnly
+                  />
+                ) : (
+                  true
+                )}
+                <img src={image.path} alt={image.name} />
+                <p>{image.name}</p>
+              </li>
+            ))}
+          </ul>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleImageAdd}
+            style={{ display: "none" }}
+          />
+        </>
+      )}
     </div>
   );
 }

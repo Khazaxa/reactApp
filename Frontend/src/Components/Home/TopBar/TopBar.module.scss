@@ -18,10 +18,15 @@
     color: #e1d4c2;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
+    cursor: pointer;
 
     &:hover {
       background-color: #beb5a9;
-      cursor: pointer;
+    }
+
+    &:disabled {
+      background-color: #535352;
+      cursor: not-allowed;
     }
   }
 }

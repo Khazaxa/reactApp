@@ -91,6 +91,7 @@ export function Login({
             type="checkbox"
             className={styles.inputShowPassword}
             checked={passwordVisibility === "text"}
+            readOnly
           />
           <p>Show password</p>
         </div>

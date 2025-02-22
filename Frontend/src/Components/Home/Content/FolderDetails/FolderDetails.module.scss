@@ -1,0 +1,107 @@
+@use "../../../../App.module.scss" as *;
+
+.folderDetails {
+  @include page;
+
+  h2 {
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background-color: #808080;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+#formContainer {
+  @include formCointainer;
+}
+
+.listContainer {
+  padding: 5px 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  max-height: 200px;
+  border-radius: 10px;
+
+  .imagesToAddList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    input {
+      margin-right: 5px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    li {
+      font-size: large;
+      position: relative;
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      cursor: pointer;
+      overflow: hidden;
+      user-select: none;
+      padding: 5px;
+      background-color: #808080;
+      border-radius: 10px;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.imagesList {
+  width: 50vw;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  li {
+    position: relative;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #808080;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    user-select: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    p {
+      position: absolute;
+      bottom: 0;
+      width: 90%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 0px 10px;
+      text-align: center;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1/1;
+      object-fit: contain;
+    }
+  }
+}
