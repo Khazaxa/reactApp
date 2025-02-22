@@ -28,7 +28,7 @@ jobs:
 
       - name: List files after publish for debugging
         run: |
-          ls -R ./myapp  # Sprawdzenie zawartości katalogu myapp po publikacji
+          ls -R $GITHUB_WORKSPACE/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -51,7 +51,7 @@ jobs:
 
       - name: List files after artifact download for debugging
         run: |
-          ls -R ./myapp  # Upewnienie się, że artifact został poprawnie pobrany
+          ls -R $GITHUB_WORKSPACE/myapp
 
       - name: Replace secrets in appsettings.json
         run: |
