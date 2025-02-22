@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import folderDefaultLogo from "../../../../assets/folder.png";
 import Notifications from "../../../Notifications/Notifications";
+import { NavLink } from "react-router-dom";
 
 interface Folder {
   id: number;
@@ -28,9 +29,10 @@ export function FoldersPage() {
   const [folderName, setFolderName] = useState("");
   const [logoId, setLogoId] = useState<number | null>(null);
   const [checkedItems, setCheckedItems] = useState<number[]>([]);
-  const addFolderFormView = location.state?.addFolderFormView || false;
+  const showAddForm = location.state?.showAddForm || false;
   const removeCheckboxesFolders =
     location.state?.removeCheckboxesFolders || false;
+  const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const userIdLocal = localStorage.getItem("userId");
   const [messageType, setMessageType] = useState<
@@ -69,15 +71,23 @@ export function FoldersPage() {
   };
 
   useEffect(() => {
-    fetchFolders();
-    fetchLogos();
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([fetchFolders(), fetchLogos()]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
-    if (!addFolderFormView) {
+    if (!showAddForm) {
       setFolderName("");
     }
-  }, [addFolderFormView]);
+  }, [showAddForm]);
 
   useEffect(() => {
     if (!removeCheckboxesFolders) {
@@ -138,91 +148,106 @@ export function FoldersPage() {
     <div className={styles.foldersPage}>
       <Notifications messageType={messageType} message={message} />
 
-      {removeCheckboxesFolders ? (
-        <button
-          className={styles.removeBtn}
-          onClick={removeFolder}
-          disabled={checkedItems.length === 0}
-        >
-          Remove
-        </button>
+      {loading ? (
+        <h1>Loading folders...</h1>
       ) : (
-        true
-      )}
+        <>
+          {removeCheckboxesFolders ? (
+            <button
+              className={styles.removeBtn}
+              onClick={removeFolder}
+              disabled={checkedItems.length === 0}
+            >
+              Remove
+            </button>
+          ) : (
+            true
+          )}
 
-      <div id={styles.formContainer}>
-        <form
-          className={addFolderFormView ? styles.showForm : styles.hideForm}
-          onSubmit={handleAddFolder}
-        >
-          <button
-            className={styles.closeFormBtn}
-            type="button"
-            onClick={() =>
-              navigate("/folders", { state: { addFolderFormView: false } })
-            }
-          >
-            X
-          </button>
+          <div id={styles.formContainer}>
+            <form
+              className={showAddForm ? styles.showForm : styles.hideForm}
+              onSubmit={handleAddFolder}
+            >
+              <button
+                className={styles.closeFormBtn}
+                type="button"
+                onClick={() =>
+                  navigate("/folders", { state: { showAddForm: false } })
+                }
+              >
+                X
+              </button>
 
-          <p>Select folder logo:</p>
-          <select
-            onChange={(e) => {
-              const value = Number(e.target.value);
-              setLogoId(value === 0 ? null : value);
-            }}
-          >
-            <option value={0}>default</option>
-            {logos.map((logo) => (
-              <option key={logo.id} value={logo.id}>
-                {logo.name}
-              </option>
-            ))}
-          </select>
+              <p>Select folder logo:</p>
+              <select
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  setLogoId(value === 0 ? null : value);
+                }}
+              >
+                <option value={0}>default</option>
+                {logos.map((logo) => (
+                  <option key={logo.id} value={logo.id}>
+                    {logo.name}
+                  </option>
+                ))}
+              </select>
 
-          <p>Type folder name:</p>
+              <p>Type folder name:</p>
 
-          <input
-            type="text"
-            value={folderName}
-            onChange={(e) => setFolderName(e.target.value)}
-            required
-          />
-          <button className={styles.submitFormBtn} type="submit">
-            Add Folder
-          </button>
-        </form>
-      </div>
-
-      <ul>
-        {filteredFolders.map((folder) => (
-          <li
-            className="folders"
-            key={folder.id}
-            onClick={
-              removeCheckboxesFolders && folder.userId === Number(userIdLocal)
-                ? () => handleRemoveItemClick(folder.id)
-                : undefined
-            }
-            style={{
-              backgroundImage: `url(${folder.logo?.path || folderDefaultLogo})`,
-            }}
-          >
-            {removeCheckboxesFolders &&
-            folder.userId === Number(userIdLocal) ? (
               <input
-                className={styles.checkboxes}
-                type="checkbox"
-                checked={checkedItems.includes(folder.id)}
-                readOnly
+                type="text"
+                value={folderName}
+                onChange={(e) => setFolderName(e.target.value)}
+                required
               />
-            ) : (
-              true
-            )}
-            <p>{folder.name}</p>
-          </li>
-        ))}
-      </ul>
+              <button className={styles.submitFormBtn} type="submit">
+                Add Folder
+              </button>
+            </form>
+          </div>
+
+          <ul>
+            {filteredFolders.map((folder) => (
+              <li
+                className="folders"
+                key={folder.id}
+                onClick={
+                  removeCheckboxesFolders &&
+                  folder.userId === Number(userIdLocal)
+                    ? () => handleRemoveItemClick(folder.id)
+                    : undefined
+                }
+                style={{
+                  backgroundImage: `url(${
+                    folder.logo?.path || folderDefaultLogo
+                  })`,
+                }}
+              >
+                {removeCheckboxesFolders &&
+                folder.userId === Number(userIdLocal) ? (
+                  <>
+                    <input
+                      className={styles.checkboxes}
+                      type="checkbox"
+                      checked={checkedItems.includes(folder.id)}
+                      readOnly
+                    />
+                    <p>{folder.name}</p>
+                  </>
+                ) : (
+                  <NavLink to={`/folder/${folder.id}`} key={folder.id}>
+                    <div className={styles.folderNavContainer}>
+                      <p>{folder.name}</p>
+                    </div>
+                  </NavLink>
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

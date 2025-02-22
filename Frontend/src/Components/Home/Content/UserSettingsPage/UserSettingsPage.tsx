@@ -95,7 +95,7 @@ export function UserSettingsPage() {
 
   const handleShowForm = () => {
     navigate("/settings", {
-      state: { showUserEditForm: location.state?.showUserEditForm !== true },
+      state: { showAddForm: location.state?.showAddForm !== true },
     });
     setEditUser(!editUser);
   };
@@ -141,7 +141,7 @@ export function UserSettingsPage() {
         <form
           onSubmit={handleEditUser}
           className={
-            location.state?.showUserEditForm === true
+            location.state?.showAddForm === true
               ? styles.showForm
               : styles.hideForm
           }

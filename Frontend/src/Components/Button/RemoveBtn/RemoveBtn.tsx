@@ -34,7 +34,17 @@ export function RemoveBtn() {
   };
 
   return (
-    <button id={styles.removeBtn} onClick={RemoveClick}>
+    <button
+      id={styles.removeBtn}
+      onClick={RemoveClick}
+      disabled={
+        location.pathname === "/settings" ||
+        location.pathname === "/home" ||
+        location.pathname === "/" ||
+        location.pathname === "/users" ||
+        /^\/folder\/\d+$/.test(location.pathname)
+      }
+    >
       <img src={remove} alt="Remove Button" />
     </button>
   );

@@ -28,7 +28,7 @@ public class User : EntityBase
         Role = role;
     }
 
-    [MaxLength(NameMaxLength)] public string? Name { get; private set; }
+    [MaxLength(NameMaxLength)] public string Name { get; private set; }
     [MaxLength(EmailMaxLength)] public string Email { get; private set; }
     public int? Age { get; private set; }
     public byte[] PasswordHash { get; private set; } = null!;
