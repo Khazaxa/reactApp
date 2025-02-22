@@ -5,7 +5,6 @@ import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
 import FilterBar from "./FilterBar/FilterBar";
 import TopBar from "./TopBar/TopBar";
-import { FormProvider } from "./Context/FormContext";
 
 interface HomeProps {
   setIsLogged: (isLogged: boolean) => void;
@@ -15,7 +14,6 @@ export function Home({ setIsLogged }: HomeProps) {
   const [isNavBarActive, setIsNavBarActive] = useState<boolean>(false);
 
   return (
-    <FormProvider>
     <div id={styles.mainWindow}>
       <NavBar setIsLogged={setIsLogged} setIsNavBarActive={setIsNavBarActive} />
       <div id={styles.content}>
@@ -24,7 +22,6 @@ export function Home({ setIsLogged }: HomeProps) {
         <Content isNavBarActive={isNavBarActive} />
       </div>
     </div>
-    </FormProvider>
   );
 }
 
