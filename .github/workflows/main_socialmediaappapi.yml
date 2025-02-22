@@ -27,11 +27,10 @@ jobs:
         run: dotnet publish ./Backend -c Release -o ./myapp
 
       - name: Upload artifact for deployment job
-         uses: actions/upload-artifact@v4
-         with:
-           name: .net-app
-           path: ./myapp
-
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ./myapp
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,7 +49,6 @@ jobs:
         run: |
           ls -R ./myapp
 
-
       - name: Replace secrets in appsettings.json
         run: |
           sed -i 's|UseGitHubSecret:SMA_DB_CONNECTION_STRING|${{ secrets.SMA_DB_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.json
@@ -66,5 +64,5 @@ jobs:
         with:
           app-name: 'SocialMediaAppAPI'
           slot-name: 'Production'
-          package: .
+          package: ./myapp  # Ensure the path points to the artifact
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A3766E772D449D2BAA805AA37872B3D }}
