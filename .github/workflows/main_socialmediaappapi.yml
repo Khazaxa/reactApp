@@ -26,10 +26,6 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ./Backend -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: List files after publish
-        run: ls -l ${{env.DOTNET_ROOT}}/myapp
-
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -51,12 +47,12 @@ jobs:
 
       - name: Replace secrets in appsettings.json
         run: |
-          sed -i 's|UseGitHubSecret:SMA_DB_CONNECTION_STRING|${{ secrets.SMA_DB_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.Development.json
-          sed -i 's|UseGitHubSecret:JWT_KEY|${{ secrets.JWT_KEY }}|g' ./Backend/Api/appsettings.Development.json
-          sed -i 's|UseGitHubSecret:JWT_EXPIRE_DAYS|${{ secrets.JWT_EXPIRE_DAYS }}|g' ./Backend/Api/appsettings.Development.json
-          sed -i 's|UseGitHubSecret:JWT_ISSUER|${{ secrets.JWT_ISSUER }}|g' ./Backend/Api/appsettings.Development.json
-          sed -i 's|UseGitHubSecret:SMA_STORAGE_CONNECTION_STRING|${{ secrets.SMA_STORAGE_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.Development.json
-          sed -i 's|UseGitHubSecret:SMA_BLOB_NAME|${{ secrets.SMA_BLOB_NAME }}|g' ./Backend/Api/appsettings.Development.json
+          sed -i 's|UseGitHubSecret:SMA_DB_CONNECTION_STRING|${{ secrets.SMA_DB_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.json
+          sed -i 's|UseGitHubSecret:JWT_KEY|${{ secrets.JWT_KEY }}|g' ./Backend/Api/appsettings.json
+          sed -i 's|UseGitHubSecret:JWT_EXPIRE_DAYS|${{ secrets.JWT_EXPIRE_DAYS }}|g' ./Backend/Api/appsettings.json
+          sed -i 's|UseGitHubSecret:JWT_ISSUER|${{ secrets.JWT_ISSUER }}|g' ./Backend/Api/appsettings.json
+          sed -i 's|UseGitHubSecret:SMA_STORAGE_CONNECTION_STRING|${{ secrets.SMA_STORAGE_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.json
+          sed -i 's|UseGitHubSecret:SMA_BLOB_NAME|${{ secrets.SMA_BLOB_NAME }}|g' ./Backend/Api/appsettings.json
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
