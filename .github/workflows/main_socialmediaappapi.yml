@@ -24,7 +24,7 @@ jobs:
         run: dotnet build ./Backend --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./Backend -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish ./Backend -c Release -o ./myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -45,9 +45,10 @@ jobs:
         with:
           name: .net-app
 
-      - name: List files for debugging
+      - name: List files after publish for debugging
         run: |
-          ls -R ${{env.DOTNET_ROOT}}/myapp
+          ls -R ./myapp
+
 
       - name: Replace secrets in appsettings.json
         run: |
