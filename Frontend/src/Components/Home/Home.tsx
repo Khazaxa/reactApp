@@ -1,18 +1,21 @@
+// Home.tsx
 import { useState } from "react";
 import styles from "./Home.module.scss";
 import NavBar from "./NavBar/NavBar";
 import Content from "./Content/Content";
 import FilterBar from "./FilterBar/FilterBar";
 import TopBar from "./TopBar/TopBar";
+import { FormProvider } from "./Context/FormContext";
 
-export function Home({
-  setIsLogged,
-}: {
+interface HomeProps {
   setIsLogged: (isLogged: boolean) => void;
-}) {
-  const [isNavBarActive, setIsNavBarActive] = useState(false);
+}
+
+export function Home({ setIsLogged }: HomeProps) {
+  const [isNavBarActive, setIsNavBarActive] = useState<boolean>(false);
 
   return (
+    <FormProvider>
     <div id={styles.mainWindow}>
       <NavBar setIsLogged={setIsLogged} setIsNavBarActive={setIsNavBarActive} />
       <div id={styles.content}>
@@ -21,6 +24,7 @@ export function Home({
         <Content isNavBarActive={isNavBarActive} />
       </div>
     </div>
+    </FormProvider>
   );
 }
 
