@@ -44,6 +44,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          
+      - name: List files in Backend/Api
+        run: ls ./Backend/Api
 
       - name: Replace secrets in appsettings.json
         run: |
