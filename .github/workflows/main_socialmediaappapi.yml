@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy ASP.Net Core app to Azure Web App - SocialMediaAppAPI
 
 on:
@@ -10,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read  # This is required for actions/checkout
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -23,28 +26,14 @@ jobs:
       - name: Build with dotnet
         run: dotnet build ./Backend --configuration Release
 
-      - name: List files in the current directory before publishing
-        run: ls -R
-      
       - name: dotnet publish
-        run: dotnet publish ./Backend -c Release -o $GITHUB_WORKSPACE/myapp
-      
-      - name: List files after publish
-        run: ls -R
-
-      - name: List files after publish for debugging
-        run: |
-          ls -R $GITHUB_WORKSPACE/myapp
+        run: dotnet publish ./Backend -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: $GITHUB_WORKSPACE/myapp/*
-
-      - name: List directory structure before deployment
-        run: |
-          ls -R $GITHUB_WORKSPACE
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: ubuntu-latest
@@ -58,25 +47,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-
-      - name: List files after artifact download for debugging
-        run: |
-          ls -R $GITHUB_WORKSPACE/myapp
-
-      - name: Replace secrets in appsettings.json
-        run: |
-          sed -i 's|UseGitHubSecret:SMA_DB_CONNECTION_STRING|${{ secrets.SMA_DB_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.json
-          sed -i 's|UseGitHubSecret:JWT_KEY|${{ secrets.JWT_KEY }}|g' ./Backend/Api/appsettings.json
-          sed -i 's|UseGitHubSecret:JWT_EXPIRE_DAYS|${{ secrets.JWT_EXPIRE_DAYS }}|g' ./Backend/Api/appsettings.json
-          sed -i 's|UseGitHubSecret:JWT_ISSUER|${{ secrets.JWT_ISSUER }}|g' ./Backend/Api/appsettings.json
-          sed -i 's|UseGitHubSecret:SMA_STORAGE_CONNECTION_STRING|${{ secrets.SMA_STORAGE_CONNECTION_STRING }}|g' ./Backend/Api/appsettings.json
-          sed -i 's|UseGitHubSecret:SMA_BLOB_NAME|${{ secrets.SMA_BLOB_NAME }}|g' ./Backend/Api/appsettings.json
-
+      
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'SocialMediaAppAPI'
           slot-name: 'Production'
-          package: $GITHUB_WORKSPACE/myapp
+          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3A3766E772D449D2BAA805AA37872B3D }}
